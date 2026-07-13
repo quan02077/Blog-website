@@ -1,1 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist+Pixel&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Oswald:wght@200..700&family=Playwrite+AT:ital,wght@0,100..400;1,100..400&family=Playwrite+GB+S+Guides:ital@0;1&family=Potta+One&display=swap');
 @import "tailwindcss";
+
+@theme {
+    --font-pixel: 'Geist Pixel', sans-serif;
+}
