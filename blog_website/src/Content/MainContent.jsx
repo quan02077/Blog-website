@@ -6,7 +6,7 @@ import Archives from "../pages/Archives"
 
 function MainContent() {
     return (
-        <div className="col-span-2 overflow-y-auto">
+        <div className="col-span-2 overflow-y-auto group [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-transparent hover:[&::-webkit-scrollbar-thumb]:bg-gray-400">
             <Routes>
                 <Route path="/posts" element={<Posts />} />
                 <Route path="/categories" element={<Categories />} />
