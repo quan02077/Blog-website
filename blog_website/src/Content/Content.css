@@ -14,6 +14,6 @@
     }
 
     .hoverButton {
-        @apply hover:bg-blue-100 text-gray-600 hover:text-blue-700 hover:translate-y-2 hover:shadow-md px-3 py-2 rounded transition;
+        @apply hover:bg-blue-100 text-gray-600 hover:text-blue-700 hover:translate-y-2 hover:shadow-md px-3 py-2 rounded duration-200 hover:;
     }
 }

@@ -2,12 +2,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFire, faComments, faTrophy } from '@fortawesome/free-solid-svg-icons'
 
 const trendingTags = [
-    { name: "ReactJS", posts: 1240 },
-    { name: "JavaScript", posts: 980 },
-    { name: "TailwindCSS", posts: 756 },
-    { name: "NodeJS", posts: 632 },
-    { name: "TypeScript", posts: 589 },
-    { name: "NextJS", posts: 421 },
+    { name: "ReactJS" },
+    { name: "JavaScript" },
+    { name: "TailwindCSS" },
+    { name: "NodeJS" },
+    { name: "TypeScript" },
+    { name: "NextJS" },
 ]
 
 const hotDiscussions = [
@@ -41,79 +41,64 @@ const topCreators = [
 
 function Trending() {
     return (
-        <div className="col-span-1 rounded-xl overflow-y-auto flex flex-col gap-4">
-            {/* TRENDING TAGS */}
-            <div className="bg-white border border-gray-200 rounded-xl p-4">
-                <h3 className="flex items-center gap-2 font-bold text-gray-800 mb-3">
+        <div className='col-span-1 overflow-y-auto group [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full  [&::-webkit-scrollbar-thumb]:bg-transparent hover:[&::-webkit-scrollbar-thumb]:bg-gray-400'>
+            <div className='bg-white rounded-3xl p-4'>
+                <h3 className='font-bold text-gray-800 flex items-center gap-2'>
                     <FontAwesomeIcon icon={faFire} className="text-orange-500" />
-                    Trending Tags
+                    Trending Posts
                 </h3>
-                <div className="flex flex-wrap gap-2">
-                    {trendingTags.map((tag) => (
-                        <button
-                            key={tag.name}
-                            className="flex items-center gap-1 bg-gray-100 hover:bg-blue-100 hover:text-blue-700 text-gray-600 text-xs font-medium px-3 py-1.5 rounded-full transition-colors cursor-pointer"
-                        >
-                            <span>#</span>
-                            <span>{tag.name}</span>
-                            <span className="text-gray-400 ml-1">{tag.posts}</span>
-                        </button>
+                <hr className='border-gray-200 mt-2' />
+                <div className='flex flex-wrap gap-4 mt-2'>
+                    {trendingTags.map((tag, index) => (
+                        <div key={index} className='flex items-center gap-2 hover:cursor-pointer hover:-translate-y-1.5 duration-200 hover:transition-all'>
+                            <span className='font-bold'>#{index + 1}</span>
+                            <span className='text-sm text-gray-600'>{tag.name}</span>
+                        </div>
                     ))}
                 </div>
             </div>
-
-            {/* HOT DISCUSSIONS */}
-            <div className="bg-white border border-gray-200 rounded-xl p-4">
-                <h3 className="flex items-center gap-2 font-bold text-gray-800 mb-3">
+            <div className='bg-white rounded-3xl p-4 mt-5'>
+                <h3 className='font-bold text-gray-800 flex items-center gap-2'>
                     <FontAwesomeIcon icon={faComments} className="text-blue-500" />
                     Hot Discussions
                 </h3>
-                <div className="flex flex-col gap-3">
-                    {hotDiscussions.map((disc, index) => (
-                        <div
-                            key={index}
-                            className="flex flex-col gap-1 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer border-b border-gray-100 last:border-b-0"
-                        >
-                            <p className="text-sm font-semibold text-gray-800 line-clamp-2 hover:text-blue-600 transition-colors">
-                                {disc.title}
-                            </p>
-                            <div className="flex items-center justify-between">
-                                <span className="text-xs text-gray-400">by {disc.author}</span>
-                                <span className="flex items-center gap-1 text-xs text-gray-400">
-                                    <FontAwesomeIcon icon={faComments} className="text-[10px]" />
-                                    {disc.comments}
-                                </span>
+                <hr className='border-gray-200 mt-2' />
+                <div className='flex flex-col gap-2 mt-2'>
+                    {hotDiscussions.map((discussion, index) => (
+                        <>
+                            <div key={index} className='flex flex-col p-4 hover:cursor-pointer hover:bg-gray-100 hover:rounded-2xl hover:-translate-y-1.5 duration-200 hover:transition-all'>
+                                <h4 className='font-bold '>{discussion.title}</h4>
+                                <div className='flex justify-between items-center mt-2'>
+                                    <p className='text-xs text-gray-400'><span>by </span>{discussion.author}</p>
+                                    <p className='text-xs text-gray-400'><FontAwesomeIcon icon={faComments} className='mr-1' />{discussion.comments} comments</p>
+                                </div>
                             </div>
-                        </div>
+                            {index !== hotDiscussions.length - 1 && <hr className='border-gray-200' />}
+                        </>
                     ))}
                 </div>
             </div>
-
-            {/* TOP CREATORS */}
-            <div className="bg-white border border-gray-200 rounded-xl p-4">
-                <h3 className="flex items-center gap-2 font-bold text-gray-800 mb-3">
+            <div className='bg-white rounded-3xl p-4 mt-5'>
+                <h3 className='font-bold text-gray-800 flex items-center gap-2'>
                     <FontAwesomeIcon icon={faTrophy} className="text-yellow-500" />
                     Top Creators
                 </h3>
-                <div className="flex flex-col gap-3">
+                <hr className='border-gray-200 mt-2' />
+                <div className='flex flex-col gap-2 mt-2'>
                     {topCreators.map((creator, index) => (
-                        <div
-                            key={index}
-                            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-                        >
-                            <img
-                                src={creator.avatar}
-                                alt={creator.name}
-                                className="w-9 h-9 rounded-full"
-                            />
-                            <div className="flex-1">
-                                <p className="text-sm font-semibold text-gray-800">{creator.name}</p>
-                                <p className="text-xs text-gray-400">{creator.followers} followers</p>
+                        <>
+                            <div key={index} className='flex flex-col p-4 hover:cursor-pointer hover:bg-gray-100 hover:rounded-2xl hover:-translate-y-1.5 duration-200 hover:transition-all'>
+                                <div className='flex justify-between items-center mt-2 gap-3'>
+                                    <img className='w-10 h-10 rounded-full object-cover' src={creator.avatar} alt={creator.name} />
+                                    <div className='flex flex-col flex-1'>
+                                        <p className='text-md font-medium text-gray-800 leading-tight'>{creator.name}</p>
+                                        <p className='text-xs text-gray-400'>{creator.followers} followers</p>
+                                    </div>
+                                    <button className='text-xs text-white bg-blue-500 px-3 py-2 rounded-full hover:bg-blue-600 hover:-translate-y-1.5 duration-200 hover:transition-all'>Follow</button>
+                                </div>
                             </div>
-                            <button className="text-xs font-medium text-blue-500 hover:text-blue-700 border border-blue-200 hover:border-blue-400 px-3 py-1 rounded-full transition-colors">
-                                Follow
-                            </button>
-                        </div>
+                            {index !== topCreators.length - 1 && <hr className='border-gray-200' />}
+                        </>
                     ))}
                 </div>
             </div>
