@@ -3,6 +3,8 @@ import Posts from "./Posts"
 import Categories from "./Categories"
 import PopularPosts from "./PopularPosts"
 import Archives from "./Archives"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFacebook, faInstagram, faGithub, faYoutube, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import './Content.css'
 function Content() {
     return (
@@ -30,18 +32,21 @@ function Content() {
                     {/* INFO SECTION */}
                     <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-4 mb-1 px-2">Info</div>
                     <div className="flex gap-3">
-                        <button className="bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 px-3 py-2 rounded transition">
-                            <i className="fa-brands fa-facebook"></i>
-                        </button>
-                        <button className="bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 px-3 py-2 rounded transition">
-                            <i className="fa-brands fa-instagram"></i>
-                        </button>
-                        <button className="bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 px-3 py-2 rounded transition">
-                            <i className="fa-brands fa-twitter"></i>
-                        </button>
-                        <button className="bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 px-3 py-2 rounded transition">
-                            <i className="fa-brands fa-youtube"></i>
-                        </button>
+                        <a href="https://www.facebook.com/nguyen.quan.930371/" target="_blank" rel="noopener noreferrer" className="hoverButton">
+                            <FontAwesomeIcon icon={faFacebook} />
+                        </a>
+                        <a href="https://www.instagram.com/1quononly?igsh=MWF1MGg5Mmp1cXZjag%3D%3D" target="_blank" rel="noopener noreferrer" className="hoverButton">
+                            <FontAwesomeIcon icon={faInstagram} />
+                        </a>
+                        <a href="https://github.com/quan02077" target="_blank" rel="noopener noreferrer" className="hoverButton">
+                            <FontAwesomeIcon icon={faGithub} />
+                        </a>
+                        <a href="https://www.youtube.com/@QuanNguyen-hi1rq" target="_blank" rel="noopener noreferrer" className="hoverButton">
+                            <FontAwesomeIcon icon={faYoutube} />
+                        </a>
+                        <a href="https://www.linkedin.com/in/nguy%E1%BB%85n-nh%E1%BA%ADt-minh-qu%C3%A2n-b47500413/" target="_blank" rel="noopener noreferrer" className="hoverButton">
+                            <FontAwesomeIcon icon={faLinkedin} />
+                        </a>
                     </div>
                 </nav>
             </div>

@@ -12,4 +12,8 @@
     .isNoActive {
         @apply text-gray-600 hover:bg-gray-100;
     }
+
+    .hoverButton {
+        @apply hover:bg-blue-100 text-gray-600 hover:text-blue-700 hover:translate-y-2 hover:shadow-md px-3 py-2 rounded transition;
+    }
 }
