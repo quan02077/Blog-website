@@ -1,0 +1,15 @@
+@reference "tailwindcss";
+
+@layer components {
+    .sideBar {
+        @apply px-4 py-3 rounded-lg font-medium transition-colors;
+    }
+
+    .isActive {
+        @apply bg-blue-500 text-white;
+    }
+
+    .isNoActive {
+        @apply text-gray-600 hover:bg-gray-100;
+    }
+}
