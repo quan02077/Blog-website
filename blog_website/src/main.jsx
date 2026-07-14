@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <div className='bg-slate-200 h-screen'>
+      <div className='bg-slate-200 h-screen flex flex-col overflow-hidden'>
         <App />
       </div>
     </BrowserRouter>

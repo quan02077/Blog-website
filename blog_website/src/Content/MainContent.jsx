@@ -6,7 +6,7 @@ import Archives from "../pages/Archives"
 
 function MainContent() {
     return (
-        <div className="col-span-2 bg-green-500">
+        <div className="col-span-2 overflow-y-auto">
             <Routes>
                 <Route path="/posts" element={<Posts />} />
                 <Route path="/categories" element={<Categories />} />

@@ -1,6 +1,6 @@
 function Header() {
     return (
-        <header className="grid grid-cols-3 gap-4 p-4 border-b border-gray-300 shadow-md sticky top-0 bg-white">
+        <header className="grid grid-cols-3 gap-4 p-4 border-b border-gray-300 shadow-md sticky top-0 bg-white z-10 shrink-0">
             <div className="col-span-1">
                 <h1 className="font-pixel font-bold text-2xl">My Blog</h1>
                 <p className="text-gray-500">Nơi chia sẻ kiến thức và kinh nghiệm</p>
