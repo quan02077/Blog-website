@@ -4,7 +4,7 @@ import { faFacebook, faInstagram, faGithub, faYoutube, faLinkedin } from '@forta
 
 function Sidebar() {
     return (
-        <div className="col-span-1 w-full h-full bg-white border border-gray-200 rounded-xl p-4 overflow-y-auto">
+        <div className="w-full h-full bg-white border border-gray-200 rounded-xl p-4 overflow-y-auto">
             <nav className="flex flex-col gap-1">
                 {/* DISCOVER SECTION */}
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 px-2">Discover</div>
@@ -35,7 +35,7 @@ function Sidebar() {
 
                 {/* INFO SECTION */}
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-4 mb-1 px-2">Info</div>
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-3">
                     <a href="https://www.facebook.com/nguyen.quan.930371/" target="_blank" rel="noopener noreferrer" className="hoverButton">
                         <FontAwesomeIcon icon={faFacebook} />
                     </a>

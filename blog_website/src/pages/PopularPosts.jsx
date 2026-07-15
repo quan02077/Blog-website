@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons"
+import Popular from '../components/Popular'
 
 const samplePosts = [
     {
@@ -48,14 +49,11 @@ function PopularPosts() {
         <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h2 className="text-2xl font-bold mb-4"><FontAwesomeIcon icon={faArrowUp} />Popular Posts</h2>
             <div className='grid grid-cols-2'>
-                <div className='border-r-2'>
-                    <div className='flex gap-1.5'>
-
-                    </div>
-                </div>
-                <div className='ml-3'>
-
-                </div>
+                {
+                    samplePosts.map((post) => (
+                        <Popular key={post.id} post={post} />
+                    ))
+                }
             </div>
         </div>
     )
