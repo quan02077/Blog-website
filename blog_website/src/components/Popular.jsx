@@ -26,7 +26,7 @@ export function FeaturedPopularPost({ post }) {
 
                 {/* Featured Info (Bottom over image) */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-                    <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-3 line-clamp-2 group-hover:text-blue-300 transition-colors">
+                    <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-3 line-clamp-2 ">
                         {post.title}
                     </h2>
                     <p className="text-gray-300 line-clamp-2 mb-5 max-w-3xl text-sm sm:text-base">
@@ -56,7 +56,7 @@ export function CompactPopularPost({ post }) {
     return (
         <div className="flex items-center sm:items-start gap-4 sm:gap-6 p-4 rounded-xl group cursor-pointer hover:bg-gray-50 transition-colors">
             {/* Rank Number Large */}
-            <div className="text-3xl sm:text-5xl font-black text-gray-100 group-hover:text-blue-100 transition-colors shrink-0 w-8 sm:w-16 text-center">
+            <div className="text-3xl sm:text-5xl font-black text-gray-300 group-hover:text-blue-300 transition-colors shrink-0 w-8 sm:w-16 text-center">
                 {post.rank}
             </div>
 
