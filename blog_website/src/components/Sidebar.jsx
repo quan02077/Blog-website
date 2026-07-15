@@ -24,6 +24,15 @@ function Sidebar() {
                     📁 Archives
                 </NavLink>
 
+                {/* AUTHOR SECTION */}
+                <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-4 mb-1 px-2">AUTHOR</div>
+                <NavLink to="/write" className={({ isActive }) => `sideBar ${isActive ? 'isActive' : 'isNoActive'}`}>
+                    ✍️ Write a New Post
+                </NavLink>
+                <NavLink to="/drafts" className={({ isActive }) => `sideBar ${isActive ? 'isActive' : 'isNoActive'}`}>
+                    📋 Drafts
+                </NavLink>
+
                 {/* INFO SECTION */}
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-4 mb-1 px-2">Info</div>
                 <div className="flex gap-3">
