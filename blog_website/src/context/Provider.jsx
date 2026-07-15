@@ -2,7 +2,7 @@ import { useReducer } from 'react'
 import Blog_context from './Blog_Context'
 import reducer, { initialState } from './Reducer'
 
-function AppProvider({ children }) {
+function Provider({ children }) {
     const [state, dispatch] = useReducer(reducer, initialState)
     return (
         <Blog_context.Provider value={[state, dispatch]}>
@@ -11,4 +11,4 @@ function AppProvider({ children }) {
     )
 }
 
-export default AppProvider
+export default Provider
