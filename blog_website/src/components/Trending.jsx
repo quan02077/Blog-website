@@ -41,7 +41,7 @@ const topCreators = [
 
 function Trending() {
     return (
-        <div className='overflow-y-auto group [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full  [&::-webkit-scrollbar-thumb]:bg-transparent hover:[&::-webkit-scrollbar-thumb]:bg-gray-400'>
+        <div className='custom-scrollbar group'>
             <div className='bg-white rounded-3xl p-4'>
                 <h3 className='font-bold text-gray-800 flex items-center gap-2'>
                     <FontAwesomeIcon icon={faFire} className="text-orange-500" />

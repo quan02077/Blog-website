@@ -4,7 +4,7 @@ import { faFacebook, faInstagram, faGithub, faYoutube, faLinkedin } from '@forta
 
 function Sidebar() {
     return (
-        <div className="w-full h-full bg-white border border-gray-200 rounded-xl p-4 overflow-y-auto">
+        <div className="w-full h-full bg-white border border-gray-200 rounded-xl p-4 custom-scrollbar">
             <nav className="flex flex-col gap-1">
                 {/* DISCOVER SECTION */}
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 px-2">Discover</div>

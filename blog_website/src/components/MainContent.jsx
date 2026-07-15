@@ -8,7 +8,7 @@ import Drafts from "../pages/Drafts"
 
 function MainContent() {
     return (
-        <div className="overflow-y-auto group [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-transparent hover:[&::-webkit-scrollbar-thumb]:bg-gray-400">
+        <div className="custom-scrollbar group">
             <Routes>
                 <Route path="/" element={<Navigate to="/posts" replace />} />
                 <Route path="/posts" element={<Posts />} />
