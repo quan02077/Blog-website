@@ -3,33 +3,34 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faGithub, faYoutube, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 
 function Sidebar() {
+    const activeBtn = ({ isActive }) => isActive ? 'isActive' : 'isNoActive'
     return (
         <div className="w-full h-full bg-white dark:bg-dark-surface border border-gray-200 dark:border-gray-800 rounded-xl p-4 custom-scrollbar">
             <nav className="flex flex-col gap-1">
                 {/* DISCOVER SECTION */}
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 px-2">Discover</div>
-                <NavLink to="/posts" className={({ isActive }) => `sideBar ${isActive ? 'isActive' : 'isNoActive'}`}>
+                <NavLink to="/posts" className={({ isActive }) => `sideBar ${activeBtn({ isActive })}`}>
                     📝 All Posts
                 </NavLink>
-                <NavLink to="/popular" className={({ isActive }) => `sideBar ${isActive ? 'isActive' : 'isNoActive'}`}>
+                <NavLink to="/popular" className={({ isActive }) => `sideBar ${activeBtn({ isActive })}`}>
                     🔥 Popular Posts
                 </NavLink>
 
                 {/* ORGANIZE SECTION */}
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-4 mb-1 px-2">Organize</div>
-                <NavLink to="/categories" className={({ isActive }) => `sideBar ${isActive ? 'isActive' : 'isNoActive'}`}>
+                <NavLink to="/categories" className={({ isActive }) => `sideBar ${activeBtn({ isActive })}`}>
                     🏷️ Categories
                 </NavLink>
-                <NavLink to="/archives" className={({ isActive }) => `sideBar ${isActive ? 'isActive' : 'isNoActive'}`}>
+                <NavLink to="/archives" className={({ isActive }) => `sideBar ${activeBtn({ isActive })}`}>
                     📁 Archives
                 </NavLink>
 
                 {/* AUTHOR SECTION */}
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-4 mb-1 px-2">AUTHOR</div>
-                <NavLink to="/write" className={({ isActive }) => `sideBar ${isActive ? 'isActive' : 'isNoActive'}`}>
+                <NavLink to="/write" className={({ isActive }) => `sideBar ${activeBtn({ isActive })}`}>
                     ✍️ Write a New Post
                 </NavLink>
-                <NavLink to="/drafts" className={({ isActive }) => `sideBar ${isActive ? 'isActive' : 'isNoActive'}`}>
+                <NavLink to="/drafts" className={({ isActive }) => `sideBar ${activeBtn({ isActive })}`}>
                     📋 Drafts
                 </NavLink>
 

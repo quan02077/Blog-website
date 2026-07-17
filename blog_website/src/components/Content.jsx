@@ -1,7 +1,6 @@
 import Sidebar from "./Sidebar"
 import MainContent from "./MainContent"
 import Trending from "./Trending"
-import './Content.css'
 
 function Content() {
     return (
