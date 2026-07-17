@@ -3,7 +3,7 @@ import { faHeart, faComment } from "@fortawesome/free-solid-svg-icons"
 
 export function FeaturedPopularPost({ post }) {
     return (
-        <article className="bg-white dark:bg-[#1a1d27] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden group cursor-pointer hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300">
+        <article className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden group cursor-pointer hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300">
             <div className="relative overflow-hidden h-72 sm:h-[400px]">
                 <img
                     src={post.image}
@@ -14,7 +14,7 @@ export function FeaturedPopularPost({ post }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
                 {/* Rank Badge */}
-                <div className="absolute top-4 left-4 bg-white/95 dark:bg-[#1a1d27]/95 backdrop-blur text-gray-900 dark:text-gray-100 px-4 py-1.5 rounded-full font-bold text-sm shadow-lg flex items-center gap-2">
+                <div className="absolute top-4 left-4 bg-white/95 dark:bg-dark-surface/95 backdrop-blur text-gray-900 dark:text-gray-100 px-4 py-1.5 rounded-full font-bold text-sm shadow-lg flex items-center gap-2">
                     <span className="text-blue-600 dark:text-blue-400">#{post.rank}</span>
                     <span>Đọc nhiều nhất</span>
                 </div>

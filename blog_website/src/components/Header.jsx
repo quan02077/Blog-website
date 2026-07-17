@@ -8,13 +8,13 @@ function Header() {
     const [state, dispatch] = useContext(Blog_context)
 
     return (
-        <header className="grid grid-cols-3 gap-4 p-4 border-b border-gray-300 dark:border-gray-800 shadow-md sticky top-0 bg-white dark:bg-[#1a1d27] z-10 shrink-0">
+        <header className="grid grid-cols-3 gap-4 p-4 border-b border-gray-300 dark:border-gray-800 shadow-md sticky top-0 bg-white dark:bg-dark-surface z-10 shrink-0">
             <div className="col-span-1">
                 <h1 className="font-pixel font-bold text-2xl text-gray-900 dark:text-white">My Blog</h1>
                 <p className="text-gray-500 dark:text-gray-400">Nơi chia sẻ kiến thức và kinh nghiệm</p>
             </div>
             <div className="col-span-1">
-                <input className="w-full h-full rounded-full border border-gray-300 dark:border-gray-700 px-4 py-2 bg-white dark:bg-[#0f1117] text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5" type="text" placeholder="Tìm kiếm..." />
+                <input className="w-full h-full rounded-full border border-gray-300 dark:border-gray-700 px-4 py-2 bg-white dark:bg-dark-bg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5" type="text" placeholder="Tìm kiếm..." />
             </div>
             <div className="col-span-1 flex justify-end items-center gap-4">
                 <button

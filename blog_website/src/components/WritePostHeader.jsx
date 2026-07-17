@@ -3,7 +3,7 @@ import { faPenToSquare, faFloppyDisk, faPaperPlane, faEye } from '@fortawesome/f
 
 function WritePostHeader() {
     return (
-        <div className="bg-white dark:bg-[#1a1d27] rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center justify-between">
+        <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-500 dark:text-blue-400">
                     <FontAwesomeIcon icon={faPenToSquare} />

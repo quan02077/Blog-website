@@ -43,7 +43,7 @@ const topCreators = [
 function Trending() {
     return (
         <div className='custom-scrollbar group'>
-            <div className='bg-white dark:bg-[#1a1d27] rounded-3xl p-4 border border-transparent dark:border-gray-800'>
+            <div className='bg-white dark:bg-dark-surface rounded-3xl p-4 border border-transparent dark:border-gray-800'>
                 <h3 className='font-bold text-gray-800 dark:text-gray-200 flex items-center gap-2'>
                     <FontAwesomeIcon icon={faFire} className="text-orange-500" />
                     Trending Posts
@@ -58,7 +58,7 @@ function Trending() {
                     ))}
                 </div>
             </div>
-            <div className='bg-white dark:bg-[#1a1d27] rounded-3xl p-4 mt-5 border border-transparent dark:border-gray-800'>
+            <div className='bg-white dark:bg-dark-surface rounded-3xl p-4 mt-5 border border-transparent dark:border-gray-800'>
                 <h3 className='font-bold text-gray-800 dark:text-gray-200 flex items-center gap-2'>
                     <FontAwesomeIcon icon={faComments} className="text-blue-500" />
                     Hot Discussions
@@ -79,7 +79,7 @@ function Trending() {
                     ))}
                 </div>
             </div>
-            <div className='bg-white dark:bg-[#1a1d27] rounded-3xl p-4 mt-5 border border-transparent dark:border-gray-800'>
+            <div className='bg-white dark:bg-dark-surface rounded-3xl p-4 mt-5 border border-transparent dark:border-gray-800'>
                 <h3 className='font-bold text-gray-800 dark:text-gray-200 flex items-center gap-2'>
                     <FontAwesomeIcon icon={faTrophy} className="text-yellow-500" />
                     Top Creators

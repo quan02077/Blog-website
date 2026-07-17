@@ -10,7 +10,7 @@ const catColors = {
 
 function DraftCard({ draft }) {
     return (
-        <article className="bg-white dark:bg-[#1a1d27] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden flex flex-col sm:flex-row hover:shadow-lg hover:shadow-gray-100 dark:hover:shadow-[#0f1117]/50 transition-all duration-300 group">
+        <article className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden flex flex-col sm:flex-row hover:shadow-lg hover:shadow-gray-100 dark:hover:shadow-dark-bg/50 transition-all duration-300 group">
             {/* Cover Image */}
             <div className="sm:w-52 sm:shrink-0 overflow-hidden">
                 <img

@@ -81,7 +81,7 @@ function PopularPosts() {
     return (
         <div className="flex flex-col gap-6 pb-8">
             {/* Page Header */}
-            <div className="bg-white dark:bg-[#1a1d27] rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center gap-3">
+            <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-500 dark:text-blue-400">
                     <FontAwesomeIcon icon={faArrowTrendUp} className="text-xl" />
                 </div>
@@ -98,7 +98,7 @@ function PopularPosts() {
                 <FeaturedPopularPost post={featured} />
 
                 {/* Compact List (Rank 2-5) */}
-                <div className="bg-white dark:bg-[#1a1d27] rounded-2xl border border-gray-200 dark:border-gray-800 p-2 sm:p-4">
+                <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-2 sm:p-4">
                     {rest.map((post, index) => (
                         <div key={post.id} className="relative">
                             <CompactPopularPost post={post} />

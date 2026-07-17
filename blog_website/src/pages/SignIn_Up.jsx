@@ -10,10 +10,31 @@ function SignIn_Up() {
     if (!state.btnSignInUp) return null
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => dispatch(action.btnSignInUpAction(false))}>
-            <div>
-
+            <div className='grid grid-cols-2 bg-light-bg dark:bg-dark-bg rounded-lg p-8 shadow-xl w-full max-w-md mx-auto relative'>
+                <button
+                    onClick={() => dispatch(action.btnSignInUpAction(false))}
+                    className='absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                >
+                    <FontAwesomeIcon icon={faXmark} />
+                </button>
+                <div className='flex items-center gap-4 text-center mb-4'>
+                    <div>
+                        <button
+                            onClick={() => dispatch(action.btnSignInUpAction(true))}
+                            className='flex-1 py-3 border-b-2 font-semibold transition-colors'
+                        >
+                            Đăng nhập
+                        </button>
+                        <button
+                            onClick={() => dispatch(action.btnSignInUpAction(false))}
+                            className='flex-1 py-3 border-b-2 font-semibold transition-colors'
+                        >
+                            Đăng ký
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </div >
     )
 }
 

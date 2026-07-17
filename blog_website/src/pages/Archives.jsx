@@ -48,7 +48,7 @@ function Archives() {
         <div className="flex flex-col gap-6 pb-10">
 
             {/* Page Header */}
-            <div className="bg-white dark:bg-[#1a1d27] rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center gap-3">
+            <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-300">
                     <FontAwesomeIcon icon={faArchive} />
                 </div>
@@ -61,7 +61,7 @@ function Archives() {
             {/* Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {archiveStats.map((stat) => (
-                    <div key={stat.label} className="bg-white dark:bg-[#1a1d27] rounded-2xl border border-gray-200 dark:border-gray-800 p-4 text-center hover:shadow-md transition-shadow">
+                    <div key={stat.label} className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-4 text-center hover:shadow-md transition-shadow">
                         <p className="text-2xl font-black text-blue-500 dark:text-blue-400 mb-1">{stat.value}</p>
                         <p className="text-xs text-gray-400 dark:text-gray-500 font-medium">{stat.label}</p>
                     </div>
@@ -69,18 +69,18 @@ function Archives() {
             </div>
 
             {/* Filter Bar */}
-            <div className="bg-white dark:bg-[#1a1d27] rounded-2xl border border-gray-200 dark:border-gray-800 p-4 flex flex-wrap gap-3 items-center">
+            <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-4 flex flex-wrap gap-3 items-center">
                 <div className="relative flex-1 min-w-48">
                     <FontAwesomeIcon icon={faSearch} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
                     <input
                         type="text"
                         placeholder="Tìm kiếm bài viết..."
                         readOnly
-                        className="w-full pl-9 pr-4 py-2.5 text-sm bg-white dark:bg-[#0f1117] text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl outline-none placeholder-gray-300 dark:placeholder-gray-600"
+                        className="w-full pl-9 pr-4 py-2.5 text-sm bg-white dark:bg-dark-bg text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl outline-none placeholder-gray-300 dark:placeholder-gray-600"
                     />
                 </div>
                 <div className="relative">
-                    <select className="appearance-none text-sm text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 pr-8 outline-none bg-white dark:bg-[#0f1117] cursor-pointer">
+                    <select className="appearance-none text-sm text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 pr-8 outline-none bg-white dark:bg-dark-bg cursor-pointer">
                         <option>Tất cả năm</option>
                         <option>2026</option>
                         <option>2025</option>
@@ -89,7 +89,7 @@ function Archives() {
                     <FontAwesomeIcon icon={faChevronDown} className="absolute right-3 top-3 text-gray-400 text-xs pointer-events-none" />
                 </div>
                 <div className="relative">
-                    <select className="appearance-none text-sm text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 pr-8 outline-none bg-white dark:bg-[#0f1117] cursor-pointer">
+                    <select className="appearance-none text-sm text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 pr-8 outline-none bg-white dark:bg-dark-bg cursor-pointer">
                         <option>Tất cả tháng</option>
                         {Array.from({ length: 12 }, (_, i) => (
                             <option key={i}>Tháng {i + 1}</option>

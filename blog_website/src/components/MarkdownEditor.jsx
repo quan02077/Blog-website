@@ -2,7 +2,7 @@ const toolbarItems = ['B', 'I', 'S', '—', 'H1', 'H2', '"', '—', '<>', '⠿',
 
 function MarkdownEditor() {
     return (
-        <div className="bg-white dark:bg-[#1a1d27] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+        <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
             {/* Toolbar */}
             <div className="border-b border-gray-100 dark:border-gray-800 px-4 py-3 flex items-center gap-1 overflow-x-auto">
                 {toolbarItems.map((item, i) => (

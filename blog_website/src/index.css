@@ -3,6 +3,11 @@
 
 @theme {
     --font-pixel: 'Geist Pixel', sans-serif;
+    
+    --color-dark-bg: #0f1117;
+    --color-dark-surface: #1a1d27;
+    --color-dark-surface-elevated: #2d3148;
+    --color-light-bg: #ebf1f6;
 }
 
 /* Enable class-based dark mode in Tailwind v4 */

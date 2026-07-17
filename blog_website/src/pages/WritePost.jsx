@@ -14,7 +14,7 @@ function WritePost() {
             <CoverUpload />
 
             {/* Post Title */}
-            <div className="bg-white dark:bg-[#1a1d27] rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
+            <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Tiêu đề</label>
                 <input
                     type="text"
@@ -29,7 +29,7 @@ function WritePost() {
             </div>
 
             {/* Excerpt */}
-            <div className="bg-white dark:bg-[#1a1d27] rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
+            <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Mô tả ngắn</label>
                 <textarea
                     placeholder="Tóm tắt ngắn về bài viết của bạn..."

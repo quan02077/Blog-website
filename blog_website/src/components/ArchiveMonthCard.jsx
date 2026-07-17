@@ -11,9 +11,9 @@ const catColors = {
 
 function ArchiveMonthCard({ monthBlock }) {
     return (
-        <div className="bg-white dark:bg-[#1a1d27] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+        <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
             {/* Month Header */}
-            <div className="px-5 py-3 bg-gray-50 dark:bg-[#0f1117] border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
+            <div className="px-5 py-3 bg-gray-50 dark:bg-dark-bg border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
                 <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300">{monthBlock.month}</h3>
                 <span className="text-xs text-gray-400">{monthBlock.posts.length} bài</span>
             </div>

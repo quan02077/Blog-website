@@ -3,7 +3,7 @@ import { faHeart, faComment, faBookmark, faShareFromSquare } from '@fortawesome/
 
 function PostCard({ post }) {
     return (
-        <article className="bg-white dark:bg-[#1a1d27] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+        <article className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-lg transition-shadow duration-300">
             {/* Post Image */}
             <div className="relative overflow-hidden">
                 <img
