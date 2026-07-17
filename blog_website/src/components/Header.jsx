@@ -24,8 +24,9 @@ function Header() {
                 >
                     <FontAwesomeIcon icon={state.darkMode ? faSun : faMoon} className="text-xl" />
                 </button>
-                <button 
+                <button
                     className="w-fit h-fit rounded-full border border-gray-300 dark:border-blue-500 bg-blue-500 px-4 py-2 text-white font-medium hover:bg-blue-900 hover:transition-all duration-200 hover:-translate-y-1.5 hover:underline cursor-pointer hover:shadow-lg dark:shadow-blue-900/20"
+                    onClick={() => dispatch(action.btnSignInUpAction(true))}
                 >
                     Đăng nhập/Đăng ký
                 </button>
