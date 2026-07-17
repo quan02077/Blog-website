@@ -28,15 +28,6 @@ function SignIn_Up() {
             <div
                 className='bg-light-bg dark:bg-dark-bg rounded-2xl shadow-2xl w-full max-w-md mx-auto relative flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 border border-gray-200 dark:border-gray-800'
                 onClick={(e) => e.stopPropagation()}>
-
-                {/* Nút Đóng Modal */}
-                <button
-                    onClick={handleClose}
-                    className='absolute top-4 right-4 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800 w-8 h-8 flex items-center justify-center rounded-full transition-colors z-10'
-                >
-                    <FontAwesomeIcon icon={faXmark} />
-                </button>
-
                 {/* Phần Header (Tabs hoặc Tiêu đề) */}
                 {view === 'forgot' ? (
                     <div className="px-8 pt-8 pb-0">
