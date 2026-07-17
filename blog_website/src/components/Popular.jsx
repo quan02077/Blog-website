@@ -3,7 +3,7 @@ import { faHeart, faComment } from "@fortawesome/free-solid-svg-icons"
 
 export function FeaturedPopularPost({ post }) {
     return (
-        <article className="bg-white rounded-2xl border border-gray-200 overflow-hidden group cursor-pointer hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300">
+        <article className="bg-white dark:bg-[#1a1d27] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden group cursor-pointer hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300">
             <div className="relative overflow-hidden h-72 sm:h-[400px]">
                 <img
                     src={post.image}
@@ -14,8 +14,8 @@ export function FeaturedPopularPost({ post }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
                 {/* Rank Badge */}
-                <div className="absolute top-4 left-4 bg-white/95 backdrop-blur text-gray-900 px-4 py-1.5 rounded-full font-bold text-sm shadow-lg flex items-center gap-2">
-                    <span className="text-blue-600">#{post.rank}</span>
+                <div className="absolute top-4 left-4 bg-white/95 dark:bg-[#1a1d27]/95 backdrop-blur text-gray-900 dark:text-gray-100 px-4 py-1.5 rounded-full font-bold text-sm shadow-lg flex items-center gap-2">
+                    <span className="text-blue-600 dark:text-blue-400">#{post.rank}</span>
                     <span>Đọc nhiều nhất</span>
                 </div>
 
@@ -54,7 +54,7 @@ export function FeaturedPopularPost({ post }) {
 
 export function CompactPopularPost({ post }) {
     return (
-        <div className="flex items-center sm:items-start gap-4 sm:gap-6 p-4 rounded-xl group cursor-pointer hover:bg-gray-50 transition-colors">
+        <div className="flex items-center sm:items-start gap-4 sm:gap-6 p-4 rounded-xl group cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
             {/* Rank Number Large */}
             <div className="text-3xl sm:text-5xl font-black text-gray-300 group-hover:text-blue-300 transition-colors shrink-0 w-8 sm:w-16 text-center">
                 {post.rank}
@@ -63,15 +63,15 @@ export function CompactPopularPost({ post }) {
             {/* Content */}
             <div className="flex-1 min-w-0 py-1">
                 <div className="flex items-center gap-2 mb-1.5">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-blue-500 bg-blue-50 px-2 py-0.5 rounded">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-blue-500 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded">
                         {post.category}
                     </span>
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-gray-900 line-clamp-2 mb-1 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100 line-clamp-2 mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     {post.title}
                 </h3>
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs sm:text-sm text-gray-500">
-                    <span className="font-medium text-gray-700">{post.author}</span>
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                    <span className="font-medium text-gray-700 dark:text-gray-300">{post.author}</span>
                     <span>·</span>
                     <span>{post.readTime}</span>
                     <span className="hidden sm:inline">·</span>
@@ -81,7 +81,7 @@ export function CompactPopularPost({ post }) {
 
             {/* Optional: Small thumbnail for visual variety (only visible on sm and up) */}
             <div className="hidden sm:block shrink-0">
-                <img src={post.image} alt={post.title} className="w-24 h-24 rounded-lg object-cover group-hover:opacity-90 transition-opacity border border-gray-100" />
+                <img src={post.image} alt={post.title} className="w-24 h-24 rounded-lg object-cover group-hover:opacity-90 transition-opacity border border-gray-100 dark:border-gray-800" />
             </div>
         </div>
     )

@@ -48,8 +48,8 @@ const samplePosts = [
 function Posts() {
     return (
         <div className="flex flex-col gap-6">
-            <Link to="/write" className='bg-white rounded-2xl border border-gray-200 p-6 block'>
-                <div className='flex gap-4 border-b border-gray-200 p-3 transition-colors hover:border-black duration-200 cursor-text'>
+            <Link to="/write" className='bg-white dark:bg-[#1a1d27] rounded-2xl border border-gray-200 dark:border-gray-800 p-6 block'>
+                <div className='flex gap-4 border-b border-gray-200 dark:border-gray-800 p-3 transition-colors hover:border-black dark:hover:border-white duration-200 cursor-text'>
                     <img src="src/assets/mugshot.png" alt="avatar_account" className='w-10 h-10 rounded-full' />
                     <span className='flex-1 text-gray-400 leading-10'>Write something...</span>
                     <FontAwesomeIcon icon={faPenToSquare} className='mt-4' />
