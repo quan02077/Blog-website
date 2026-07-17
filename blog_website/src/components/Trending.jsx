@@ -1,3 +1,4 @@
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFire, faComments, faTrophy } from '@fortawesome/free-solid-svg-icons'
 
@@ -65,8 +66,8 @@ function Trending() {
                 <hr className='border-gray-200 dark:border-gray-800 mt-2' />
                 <div className='flex flex-col gap-2 mt-2'>
                     {hotDiscussions.map((discussion, index) => (
-                        <>
-                            <div key={index} className='flex flex-col p-4 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 hover:rounded-2xl hover:-translate-y-1.5 duration-200 hover:transition-all'>
+                        <React.Fragment key={index}>
+                            <div className='flex flex-col p-4 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 hover:rounded-2xl hover:-translate-y-1.5 duration-200 hover:transition-all'>
                                 <h4 className='font-bold text-gray-900 dark:text-gray-200'>{discussion.title}</h4>
                                 <div className='flex justify-between items-center mt-2'>
                                     <p className='text-xs text-gray-400'><span>by </span>{discussion.author}</p>
@@ -74,7 +75,7 @@ function Trending() {
                                 </div>
                             </div>
                             {index !== hotDiscussions.length - 1 && <hr className='border-gray-200 dark:border-gray-800' />}
-                        </>
+                        </React.Fragment>
                     ))}
                 </div>
             </div>
@@ -86,8 +87,8 @@ function Trending() {
                 <hr className='border-gray-200 dark:border-gray-800 mt-2' />
                 <div className='flex flex-col gap-2 mt-2'>
                     {topCreators.map((creator, index) => (
-                        <>
-                            <div key={index} className='flex flex-col p-4 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 hover:rounded-2xl hover:-translate-y-1.5 duration-200 hover:transition-all'>
+                        <React.Fragment key={index}>
+                            <div className='flex flex-col p-4 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 hover:rounded-2xl hover:-translate-y-1.5 duration-200 hover:transition-all'>
                                 <div className='flex justify-between items-center mt-2 gap-3'>
                                     <img className='w-10 h-10 rounded-full object-cover' src={creator.avatar} alt={creator.name} />
                                     <div className='flex flex-col flex-1'>
@@ -98,7 +99,7 @@ function Trending() {
                                 </div>
                             </div>
                             {index !== topCreators.length - 1 && <hr className='border-gray-200 dark:border-gray-800' />}
-                        </>
+                        </React.Fragment>
                     ))}
                 </div>
             </div>

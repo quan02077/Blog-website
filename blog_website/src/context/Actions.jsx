@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from "./Constant";
+import { LOGIN, LOGOUT, TOGGLE_DARK_MODE } from "./Constant";
 
 export const loginAction = (payload) => {
     return {
@@ -10,6 +10,13 @@ export const loginAction = (payload) => {
 export const logoutAction = (payload) => {
     return {
         type: LOGOUT,
+        payload
+    }
+}
+
+export const toggleDarkModeAction = (payload) => {
+    return {
+        type: TOGGLE_DARK_MODE,
         payload
     }
 }

@@ -5,8 +5,12 @@
     --font-pixel: 'Geist Pixel', sans-serif;
 }
 
+/* Enable class-based dark mode in Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
     body {
-        @apply dark:bg-[#0f1117] dark:text-slate-200;
+        margin: 0;
+        padding: 0;
     }
 }
