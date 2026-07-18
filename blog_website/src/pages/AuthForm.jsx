@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmark, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 import SignIn from '../components/SignIn'

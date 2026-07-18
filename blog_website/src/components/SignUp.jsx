@@ -1,8 +1,13 @@
+import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons'
 import { faGoogle, faGithub, faFacebook } from '@fortawesome/free-brands-svg-icons'
+import Blog_context from '../context/Blog_Context'
+import * as action from '../context/Actions'
 
 function SignUp() {
+    const [state, dispatch] = useContext(Blog_context)
+    const { username, email, password } = state
     return (
         <div className="p-8">
             <form className="space-y-4">
@@ -10,10 +15,12 @@ function SignUp() {
                     <label className="auth-label">Họ và Tên</label>
                     <div className="relative">
                         <FontAwesomeIcon icon={faUser} className="auth-icon" />
-                        <input 
-                            type="text" 
-                            placeholder="Nguyễn Văn A" 
+                        <input
+                            value={username}
+                            type="text"
+                            placeholder="Nguyễn Văn A"
                             className="auth-input"
+                            onChange={(e) => dispatch(action.inputUsernameAction(e.target.value))}
                         />
                     </div>
                 </div>
@@ -22,10 +29,12 @@ function SignUp() {
                     <label className="auth-label">Email</label>
                     <div className="relative">
                         <FontAwesomeIcon icon={faEnvelope} className="auth-icon" />
-                        <input 
-                            type="email" 
-                            placeholder="example@gmail.com" 
+                        <input
+                            value={email}
+                            type="email"
+                            placeholder="example@gmail.com"
                             className="auth-input"
+                            onChange={(e) => dispatch(action.inputEmailAction(e.target.value))}
                         />
                     </div>
                 </div>
@@ -34,16 +43,18 @@ function SignUp() {
                     <label className="auth-label">Mật khẩu</label>
                     <div className="relative">
                         <FontAwesomeIcon icon={faLock} className="auth-icon" />
-                        <input 
-                            type="password" 
-                            placeholder="••••••••" 
+                        <input
+                            value={password}
+                            type="password"
+                            placeholder="••••••••"
                             className="auth-input"
+                            onChange={(e) => dispatch(action.inputPasswordAction(e.target.value))}
                         />
                     </div>
                 </div>
 
-                <button 
-                    type="button" 
+                <button
+                    type="button"
                     className="auth-btn-main mt-4"
                 >
                     Tạo tài khoản
