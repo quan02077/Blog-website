@@ -1,30 +1,34 @@
 import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
 import { faGoogle, faGithub, faFacebook } from '@fortawesome/free-brands-svg-icons'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 
-function SignUp() {
+function Login({ setView }) {
     const [state, dispatch] = useContext(Blog_context)
-    const { username, email, password } = state
+    const { email, password, users } = state
+    const handleLogin = () => {
+        if (users.find(user => user.email === email && user.password === password)) {
+            dispatch(action.loginAction(true))
+            alert('Đăng nhập thành công')
+        }
+        else if (email && password) {
+            alert('Email hoặc mật khẩu không đúng')
+        }
+        else if (!email && !password) {
+            alert('Vui lòng nhập email và mật khẩu')
+        }
+        else if (!email) {
+            alert('Vui lòng nhập email')
+        }
+        else {
+            alert('Vui lòng nhập mật khẩu')
+        }
+    }
     return (
         <div className="p-8">
             <form className="space-y-4">
-                <div className="space-y-1.5 animate-in slide-in-from-right-4 duration-300">
-                    <label className="auth-label">Họ và Tên</label>
-                    <div className="relative">
-                        <FontAwesomeIcon icon={faUser} className="auth-icon" />
-                        <input
-                            value={username}
-                            type="text"
-                            placeholder="Nguyễn Văn A"
-                            className="auth-input"
-                            onChange={(e) => dispatch(action.inputUsernameAction(e.target.value))}
-                        />
-                    </div>
-                </div>
-
                 <div className="space-y-1.5">
                     <label className="auth-label">Email</label>
                     <div className="relative">
@@ -39,8 +43,17 @@ function SignUp() {
                     </div>
                 </div>
 
-                <div className="space-y-1.5 animate-in slide-in-from-right-4 duration-300">
-                    <label className="auth-label">Mật khẩu</label>
+                <div className="space-y-1.5">
+                    <div className="flex justify-between items-center">
+                        <label className="auth-label">Mật khẩu</label>
+                        <button
+                            type="button"
+                            onClick={() => setView('forgot')}
+                            className="text-xs font-semibold text-primary hover:text-primary-hover hover:underline"
+                        >
+                            Quên mật khẩu?
+                        </button>
+                    </div>
                     <div className="relative">
                         <FontAwesomeIcon icon={faLock} className="auth-icon" />
                         <input
@@ -56,8 +69,9 @@ function SignUp() {
                 <button
                     type="button"
                     className="auth-btn-main mt-4"
+                    onClick={handleLogin}
                 >
-                    Tạo tài khoản
+                    Đăng nhập
                 </button>
             </form>
 
@@ -85,4 +99,4 @@ function SignUp() {
     )
 }
 
-export default SignUp
+export default Login

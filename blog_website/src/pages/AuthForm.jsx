@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
-import SignIn from '../components/SignIn'
-import SignUp from '../components/SignUp'
+import Login from '../components/Login'
+import Register from '../components/Register'
 import ForgotPassword from '../components/ForgotPassword'
 
 function SignIn_Up() {
@@ -63,8 +63,8 @@ function SignIn_Up() {
 
                 {/* Render Component tương ứng */}
                 <div>
-                    {view === 'signIn' && <SignIn setView={setView} />}
-                    {view === 'signUp' && <SignUp setView={setView} />}
+                    {view === 'signIn' && <Login setView={setView} />}
+                    {view === 'signUp' && <Register setView={setView} />}
                     {view === 'forgot' && <ForgotPassword setView={setView} />}
                 </div>
             </div>

@@ -1,10 +1,11 @@
-import { INPUT_EMAIL, INPUT_PASSWORD, INPUT_USERNAME, TOGGLE_DARK_MODE, BTN_SIGN_IN_UP } from "./Constant";
+import { LOGIN, REGISTER, INPUT_EMAIL, INPUT_PASSWORD, INPUT_USERNAME, TOGGLE_DARK_MODE, BTN_SIGN_IN_UP } from "./Constant";
 
 export const initialState = {
     isSignIn: false,
-    username: ' ',
-    email: ' ',
-    password: ' ',
+    username: '',
+    email: '',
+    password: '',
+    users: JSON.parse(localStorage.getItem('users')) || [],
     darkMode: localStorage.getItem('darkMode') === 'true',
     btnSignInUp: false,
 }
@@ -36,6 +37,24 @@ function reducer(state, action) {
                 ...state,
                 username: action.payload
             }
+        case LOGIN:
+            return {
+                ...state,
+                isSignIn: action.payload
+            }
+        case REGISTER:
+            {
+                const newUsers = [...state.users, action.payload];
+                localStorage.setItem('users', JSON.stringify(newUsers));
+                return {
+                    ...state,
+                    users: newUsers,
+                    username: '',
+                    email: '',
+                    password: ''
+                }
+            }
+
         default:
             throw new Error('Invalid action')
     }
