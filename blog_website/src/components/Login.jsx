@@ -9,8 +9,9 @@ function Login({ setView }) {
     const [state, dispatch] = useContext(Blog_context)
     const { email, password, users } = state
     const handleLogin = () => {
-        if (users.find(user => user.email === email && user.password === password)) {
-            dispatch(action.loginAction(true))
+        const matchedUser = users.find(user => user.email === email && user.password === password);
+        if (matchedUser) {
+            dispatch(action.loginAction(matchedUser))
             alert('Đăng nhập thành công')
         }
         else if (email && password) {

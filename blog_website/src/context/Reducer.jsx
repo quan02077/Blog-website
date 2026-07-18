@@ -2,6 +2,7 @@ import { LOGIN, REGISTER, INPUT_EMAIL, INPUT_PASSWORD, INPUT_USERNAME, TOGGLE_DA
 
 export const initialState = {
     isSignIn: false,
+    currentUser: null,
     username: '',
     email: '',
     password: '',
@@ -12,11 +13,32 @@ export const initialState = {
 
 function reducer(state, action) {
     switch (action.type) {
-        case TOGGLE_DARK_MODE:
+        case TOGGLE_DARK_MODE: {
+            const newDarkMode = action.payload;
+            let newUsers = state.users;
+            let newCurrentUser = state.currentUser;
+
+            // Lưu chung vào trình duyệt
+            localStorage.setItem('darkMode', newDarkMode);
+
+            // Nếu đang đăng nhập, lưu luôn vào tài khoản của người đó
+            if (state.currentUser) {
+                newUsers = state.users.map(user => 
+                    user.email === state.currentUser.email 
+                        ? { ...user, darkMode: newDarkMode } 
+                        : user
+                );
+                localStorage.setItem('users', JSON.stringify(newUsers));
+                newCurrentUser = { ...state.currentUser, darkMode: newDarkMode };
+            }
+
             return {
                 ...state,
-                darkMode: action.payload
+                darkMode: newDarkMode,
+                users: newUsers,
+                currentUser: newCurrentUser
             }
+        }
         case BTN_SIGN_IN_UP:
             return {
                 ...state,
@@ -37,14 +59,40 @@ function reducer(state, action) {
                 ...state,
                 username: action.payload
             }
-        case LOGIN:
+        case LOGIN: {
+            if (action.payload === false) { // Trường hợp Đăng xuất
+                return {
+                    ...state,
+                    isSignIn: false,
+                    currentUser: null
+                }
+            }
+
+            // Trường hợp Đăng nhập
+            const loggedUser = action.payload;
+            const userDarkMode = loggedUser.darkMode !== undefined ? loggedUser.darkMode : state.darkMode;
+            
+            // Cập nhật lại giao diện theo cài đặt của user
+            localStorage.setItem('darkMode', userDarkMode);
+
             return {
                 ...state,
-                isSignIn: action.payload
+                isSignIn: true,
+                currentUser: loggedUser,
+                darkMode: userDarkMode,
+                email: '',
+                password: '',
+                btnSignInUp: false // Tắt modal form đi
             }
+        }
         case REGISTER:
             {
-                const newUsers = [...state.users, action.payload];
+                // Khi đăng ký, gán luôn cài đặt dark mode hiện tại cho user mới
+                const newUser = {
+                    ...action.payload,
+                    darkMode: state.darkMode 
+                };
+                const newUsers = [...state.users, newUser];
                 localStorage.setItem('users', JSON.stringify(newUsers));
                 return {
                     ...state,
