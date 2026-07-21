@@ -1,9 +1,6 @@
 import {
     LOGIN,
     REGISTER,
-    INPUT_EMAIL,
-    INPUT_PASSWORD,
-    INPUT_USERNAME,
     TOGGLE_DARK_MODE,
     BTN_SIGN_IN_UP,
     TOGGLE_ACCOUNT,
@@ -13,9 +10,6 @@ import {
 export const initialState = {
     isSignIn: localStorage.getItem('isSignIn') === 'true',
     currentUser: JSON.parse(localStorage.getItem('currentUser')) || null,
-    username: '',
-    email: '',
-    password: '',
     users: JSON.parse(localStorage.getItem('users')) || [],
     darkMode: localStorage.getItem('darkMode') === 'true',
     btnSignInUp: false,
@@ -55,21 +49,7 @@ function reducer(state, action) {
                 ...state,
                 btnSignInUp: action.payload
             }
-        case INPUT_EMAIL:
-            return {
-                ...state,
-                email: action.payload
-            }
-        case INPUT_PASSWORD:
-            return {
-                ...state,
-                password: action.payload
-            }
-        case INPUT_USERNAME:
-            return {
-                ...state,
-                username: action.payload
-            }
+
         case LOGIN: {
             if (action.payload === false) { // Trường hợp Đăng xuất cũ
                 localStorage.removeItem('currentUser');
@@ -95,8 +75,6 @@ function reducer(state, action) {
                 isSignIn: true,
                 currentUser: loggedUser,
                 darkMode: userDarkMode,
-                email: '',
-                password: '',
                 btnSignInUp: false // Tắt modal form đi
             }
         }
@@ -112,9 +90,7 @@ function reducer(state, action) {
                 return {
                     ...state,
                     users: newUsers,
-                    username: '',
-                    email: '',
-                    password: ''
+                    btnSignInUp: false // Đăng ký xong thì tắt modal đi (hoặc đổi qua tab login tùy bạn)
                 }
             }
         case TOGGLE_ACCOUNT:

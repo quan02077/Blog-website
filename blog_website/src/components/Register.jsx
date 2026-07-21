@@ -1,14 +1,18 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons'
 import { faGoogle, faGithub, faFacebook } from '@fortawesome/free-brands-svg-icons'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 import { showSuccessAlert } from '../utils/alert'
+import ShowHidePass from './ShowHidePass'
 
 function Register() {
-    const [state, dispatch] = useContext(Blog_context)
-    const { username, email, password } = state
+    const [dispatch] = useContext(Blog_context)
+    const [show, setShow] = useState(false)
+    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     return (
         <div className="p-8">
             <form className="space-y-4">
@@ -21,7 +25,7 @@ function Register() {
                             type="text"
                             placeholder="Nguyễn Văn A"
                             className="auth-input"
-                            onChange={(e) => dispatch(action.inputUsernameAction(e.target.value))}
+                            onChange={(e) => setUsername(e.target.value)}
                         />
                     </div>
                 </div>
@@ -35,7 +39,7 @@ function Register() {
                             type="email"
                             placeholder="example@gmail.com"
                             className="auth-input"
-                            onChange={(e) => dispatch(action.inputEmailAction(e.target.value))}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
                 </div>
@@ -46,11 +50,12 @@ function Register() {
                         <FontAwesomeIcon icon={faLock} className="auth-icon" />
                         <input
                             value={password}
-                            type="password"
-                            placeholder="••••••••"
-                            className="auth-input"
-                            onChange={(e) => dispatch(action.inputPasswordAction(e.target.value))}
+                            type={show ? "text" : "password"}
+                            placeholder={show ? "Mật khẩu" : "••••••••"}
+                            className="auth-input pr-12"
+                            onChange={(e) => setPassword(e.target.value)}
                         />
+                        <ShowHidePass show={show} setShow={setShow} />
                     </div>
                 </div>
 

@@ -1,14 +1,18 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
 import { faGoogle, faGithub, faFacebook } from '@fortawesome/free-brands-svg-icons'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 import { showErrorAlert, showSuccessAlert } from '../utils/alert'
+import ShowHidePass from './ShowHidePass'
 
 function Login({ setView }) {
     const [state, dispatch] = useContext(Blog_context)
-    const { email, password, users } = state
+    const [show, setShow] = useState(false)
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const { users } = state
     const handleLogin = () => {
         const matchedUser = users.find(user => user.email === email && user.password === password);
         if (matchedUser) {
@@ -40,7 +44,7 @@ function Login({ setView }) {
                             type="email"
                             placeholder="example@gmail.com"
                             className="auth-input"
-                            onChange={(e) => dispatch(action.inputEmailAction(e.target.value))}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
                 </div>
@@ -60,11 +64,12 @@ function Login({ setView }) {
                         <FontAwesomeIcon icon={faLock} className="auth-icon" />
                         <input
                             value={password}
-                            type="password"
-                            placeholder="••••••••"
-                            className="auth-input"
-                            onChange={(e) => dispatch(action.inputPasswordAction(e.target.value))}
+                            type={show ? "text" : "password"}
+                            placeholder={show ? "Mật khẩu" : "••••••••"}
+                            className="auth-input pr-12"
+                            onChange={(e) => setPassword(e.target.value)}
                         />
+                        <ShowHidePass show={show} setShow={setShow} />
                     </div>
                 </div>
 
