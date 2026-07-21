@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import Blog_context from '../context/Blog_Context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
+import { faMoon, faSun, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import * as action from '../context/Actions'
 
 function Header() {
@@ -24,12 +24,18 @@ function Header() {
                 >
                     <FontAwesomeIcon icon={state.darkMode ? faSun : faMoon} className="text-xl" />
                 </button>
-                <button
+                {state.isSignIn && <button
+                    className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 hover:transition-all duration-200 hover:-translate-y-1.5 hover:shadow-lg cursor-pointer text-gray-700 dark:text-gray-300"
+                    title="Tài khoản"
+                >
+                    <FontAwesomeIcon icon={faUserCircle} className="text-2xl" />
+                </button>}
+                {!state.isSignIn && <button
                     className="w-fit h-fit rounded-full border border-gray-300 dark:border-blue-500 bg-blue-500 px-4 py-2 text-white font-medium hover:bg-blue-900 hover:transition-all duration-200 hover:-translate-y-1.5 hover:underline cursor-pointer hover:shadow-lg dark:shadow-blue-900/20"
                     onClick={() => dispatch(action.btnSignInUpAction(true))}
                 >
                     Đăng nhập/Đăng ký
-                </button>
+                </button>}
             </div>
         </header>
     )

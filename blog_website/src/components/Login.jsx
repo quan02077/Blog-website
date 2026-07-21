@@ -4,6 +4,7 @@ import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
 import { faGoogle, faGithub, faFacebook } from '@fortawesome/free-brands-svg-icons'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
+import { showErrorAlert, showSuccessAlert } from '../utils/alert'
 
 function Login({ setView }) {
     const [state, dispatch] = useContext(Blog_context)
@@ -12,19 +13,19 @@ function Login({ setView }) {
         const matchedUser = users.find(user => user.email === email && user.password === password);
         if (matchedUser) {
             dispatch(action.loginAction(matchedUser))
-            alert('Đăng nhập thành công')
+            showSuccessAlert('Thông báo', 'Đăng nhập thành công')
         }
         else if (email && password) {
-            alert('Email hoặc mật khẩu không đúng')
+            showErrorAlert('Thông báo', 'Email hoặc mật khẩu không đúng')
         }
         else if (!email && !password) {
-            alert('Vui lòng nhập email và mật khẩu')
+            showErrorAlert('Thông báo', 'Vui lòng nhập email và mật khẩu')
         }
         else if (!email) {
-            alert('Vui lòng nhập email')
+            showErrorAlert('Thông báo', 'Vui lòng nhập email')
         }
         else {
-            alert('Vui lòng nhập mật khẩu')
+            showErrorAlert('Thông báo', 'Vui lòng nhập mật khẩu')
         }
     }
     return (

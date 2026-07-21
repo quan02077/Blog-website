@@ -4,6 +4,7 @@ import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons'
 import { faGoogle, faGithub, faFacebook } from '@fortawesome/free-brands-svg-icons'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
+import { showSuccessAlert } from '../utils/alert'
 
 function Register() {
     const [state, dispatch] = useContext(Blog_context)
@@ -63,7 +64,7 @@ function Register() {
                             password
                         }
                         dispatch(action.registerAction(newUser))
-                        alert('Đăng ký thành công')
+                        showSuccessAlert('Thông báo', 'Đăng ký thành công')
                     }}
                 >
                     Tạo tài khoản
