@@ -30,7 +30,6 @@ function AccountTool() {
                         <FontAwesomeIcon icon={faGear} className="text-gray-500" />
                         <span>Cài đặt</span>
                     </button>
-
                 </div>
                 <hr className='border-gray-200 dark:border-gray-700 my-3' />
                 <div className='flex justify-center'>
