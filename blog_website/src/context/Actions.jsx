@@ -1,4 +1,13 @@
-import { LOGIN, REGISTER, INPUT_EMAIL, INPUT_PASSWORD, INPUT_USERNAME, TOGGLE_DARK_MODE, BTN_SIGN_IN_UP } from "./Constant";
+import {
+    LOGIN,
+    REGISTER,
+    INPUT_EMAIL,
+    INPUT_PASSWORD,
+    INPUT_USERNAME,
+    TOGGLE_DARK_MODE,
+    BTN_SIGN_IN_UP,
+    TOGGLE_ACCOUNT
+} from "./Constant";
 
 export const loginAction = (payload) => {
     return {
@@ -45,6 +54,13 @@ export const inputPasswordAction = (payload) => {
 export const inputUsernameAction = (payload) => {
     return {
         type: INPUT_USERNAME,
+        payload
+    }
+}
+
+export const toggleAccountAction = (payload) => {
+    return {
+        type: TOGGLE_ACCOUNT,
         payload
     }
 }

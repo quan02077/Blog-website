@@ -65,7 +65,7 @@ function SignIn_Up() {
                 <div>
                     {view === 'signIn' && <Login setView={setView} />}
                     {view === 'signUp' && <Register setView={setView} />}
-                    {view === 'forgot' && <ForgotPassword setView={setView} />}
+                    {view === 'forgot' && <ForgotPassword />}
                 </div>
             </div>
         </div >

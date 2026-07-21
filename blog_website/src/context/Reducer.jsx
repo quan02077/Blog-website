@@ -1,4 +1,13 @@
-import { LOGIN, REGISTER, INPUT_EMAIL, INPUT_PASSWORD, INPUT_USERNAME, TOGGLE_DARK_MODE, BTN_SIGN_IN_UP } from "./Constant";
+import {
+    LOGIN,
+    REGISTER,
+    INPUT_EMAIL,
+    INPUT_PASSWORD,
+    INPUT_USERNAME,
+    TOGGLE_DARK_MODE,
+    BTN_SIGN_IN_UP,
+    TOGGLE_ACCOUNT
+} from "./Constant";
 
 export const initialState = {
     isSignIn: false,
@@ -9,6 +18,7 @@ export const initialState = {
     users: JSON.parse(localStorage.getItem('users')) || [],
     darkMode: localStorage.getItem('darkMode') === 'true',
     btnSignInUp: false,
+    btnAccount: false
 }
 
 function reducer(state, action) {
@@ -23,9 +33,9 @@ function reducer(state, action) {
 
             // Nếu đang đăng nhập, lưu luôn vào tài khoản của người đó
             if (state.currentUser) {
-                newUsers = state.users.map(user => 
-                    user.email === state.currentUser.email 
-                        ? { ...user, darkMode: newDarkMode } 
+                newUsers = state.users.map(user =>
+                    user.email === state.currentUser.email
+                        ? { ...user, darkMode: newDarkMode }
                         : user
                 );
                 localStorage.setItem('users', JSON.stringify(newUsers));
@@ -71,7 +81,7 @@ function reducer(state, action) {
             // Trường hợp Đăng nhập
             const loggedUser = action.payload;
             const userDarkMode = loggedUser.darkMode !== undefined ? loggedUser.darkMode : state.darkMode;
-            
+
             // Cập nhật lại giao diện theo cài đặt của user
             localStorage.setItem('darkMode', userDarkMode);
 
@@ -90,7 +100,7 @@ function reducer(state, action) {
                 // Khi đăng ký, gán luôn cài đặt dark mode hiện tại cho user mới
                 const newUser = {
                     ...action.payload,
-                    darkMode: state.darkMode 
+                    darkMode: state.darkMode
                 };
                 const newUsers = [...state.users, newUser];
                 localStorage.setItem('users', JSON.stringify(newUsers));
@@ -101,6 +111,11 @@ function reducer(state, action) {
                     email: '',
                     password: ''
                 }
+            }
+        case TOGGLE_ACCOUNT:
+            return {
+                ...state,
+                btnAccount: action.payload
             }
 
         default:
