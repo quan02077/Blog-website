@@ -6,12 +6,13 @@ import {
     INPUT_USERNAME,
     TOGGLE_DARK_MODE,
     BTN_SIGN_IN_UP,
-    TOGGLE_ACCOUNT
+    TOGGLE_ACCOUNT,
+    LOG_OUT
 } from "./Constant";
 
 export const initialState = {
-    isSignIn: false,
-    currentUser: null,
+    isSignIn: localStorage.getItem('isSignIn') === 'true',
+    currentUser: JSON.parse(localStorage.getItem('currentUser')) || null,
     username: '',
     email: '',
     password: '',
@@ -70,7 +71,9 @@ function reducer(state, action) {
                 username: action.payload
             }
         case LOGIN: {
-            if (action.payload === false) { // Trường hợp Đăng xuất
+            if (action.payload === false) { // Trường hợp Đăng xuất cũ
+                localStorage.removeItem('currentUser');
+                localStorage.setItem('isSignIn', 'false');
                 return {
                     ...state,
                     isSignIn: false,
@@ -81,9 +84,11 @@ function reducer(state, action) {
             // Trường hợp Đăng nhập
             const loggedUser = action.payload;
             const userDarkMode = loggedUser.darkMode !== undefined ? loggedUser.darkMode : state.darkMode;
-
-            // Cập nhật lại giao diện theo cài đặt của user
+            
+            // Cập nhật lại giao diện và lưu trạng thái đăng nhập
             localStorage.setItem('darkMode', userDarkMode);
+            localStorage.setItem('currentUser', JSON.stringify(loggedUser));
+            localStorage.setItem('isSignIn', 'true');
 
             return {
                 ...state,
@@ -117,7 +122,15 @@ function reducer(state, action) {
                 ...state,
                 btnAccount: action.payload
             }
-
+        case LOG_OUT:
+            localStorage.removeItem('currentUser');
+            localStorage.setItem('isSignIn', 'false');
+            return {
+                ...state,
+                isSignIn: false,
+                currentUser: null,
+                btnAccount: false // Ẩn luôn menu account
+            }
         default:
             throw new Error('Invalid action')
     }

@@ -6,7 +6,8 @@ import {
     INPUT_USERNAME,
     TOGGLE_DARK_MODE,
     BTN_SIGN_IN_UP,
-    TOGGLE_ACCOUNT
+    TOGGLE_ACCOUNT,
+    LOG_OUT
 } from "./Constant";
 
 export const loginAction = (payload) => {
@@ -62,5 +63,12 @@ export const toggleAccountAction = (payload) => {
     return {
         type: TOGGLE_ACCOUNT,
         payload
+    }
+}
+
+export const logOutAction = () => {
+    return {
+        type: LOG_OUT,
+        payload: false
     }
 }

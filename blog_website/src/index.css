@@ -72,4 +72,9 @@
     .auth-btn-social {
         @apply flex items-center justify-center py-2.5 border border-gray-200 dark:border-gray-800 rounded-xl hover:bg-white dark:hover:bg-dark-surface transition-colors hover:shadow-sm;
     }
+
+    /* Account Tools */
+    .btnTool {
+        @apply w-full flex items-center my-2 hover:bg-gray-100 hover:rounded-2xl hover:translate-y-0.5 transition-all duration-200 dark:hover:bg-gray-800 gap-2 cursor-pointer;
+    }
 }
