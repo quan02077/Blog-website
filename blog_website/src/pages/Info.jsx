@@ -24,11 +24,13 @@ function InfoContent({ currentUser, dispatch }) {
     }
 
     return (
-        <div 
-            className="bg-white dark:bg-dark-surface rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 w-full max-w-md p-6 animate-in slide-in-from-top-2 fade-in duration-200" 
+        <div
+            className="bg-white dark:bg-dark-surface rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 w-full max-w-md p-6 animate-in slide-in-from-top-2 fade-in duration-200"
             onClick={(e) => e.stopPropagation()}
         >
-            <h3 className="text-center text-xl font-bold text-gray-900 dark:text-white mb-4">Thông tin tài khoản</h3>
+            <div className="flex items-center justify-between pb-4 my-4 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Thông tin tài khoản</h3>
+            </div>
             <AvatarInput avatar={avatar} setAvatar={setAvatar} />
             <FormInfo
                 username={username}
