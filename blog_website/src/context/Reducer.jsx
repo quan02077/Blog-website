@@ -22,6 +22,8 @@ export const initialState = {
     btnAccount: false,
     btnInfo: false,
     btnMyPosts: false,
+    btnBookmarks: false,
+    btnNotifications: false,
     btnSettings: false
 }
 

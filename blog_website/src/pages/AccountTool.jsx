@@ -30,13 +30,6 @@ function AccountTool() {
                         <span>Thông tin tài khoản</span>
                     </button>
                     <button onClick={() => {
-                        dispatch(action.toggleNotificationsAction(true))
-                        dispatch(action.toggleAccountAction(false))
-                    }} className='btnTool'>
-                        <FontAwesomeIcon icon={faBell} className="text-gray-500" />
-                        <span>Thông báo</span>
-                    </button>
-                    <button onClick={() => {
                         dispatch(action.toggleMyPostsAction(true))
                         dispatch(action.toggleAccountAction(false))
                     }} className='btnTool'>
@@ -49,6 +42,13 @@ function AccountTool() {
                     }} className='btnTool'>
                         <FontAwesomeIcon icon={faBookBookmark} className="text-gray-500" />
                         <span>Bookmarks</span>
+                    </button>
+                    <button onClick={() => {
+                        dispatch(action.toggleNotificationsAction(true))
+                        dispatch(action.toggleAccountAction(false))
+                    }} className='btnTool'>
+                        <FontAwesomeIcon icon={faBell} className="text-gray-500" />
+                        <span>Thông báo</span>
                     </button>
                     <button onClick={() => {
                         dispatch(action.toggleSettingsAction(true))
