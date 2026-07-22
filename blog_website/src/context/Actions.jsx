@@ -7,6 +7,8 @@ import {
     LOG_OUT,
     TOGGLE_INFO,
     TOGGLE_MY_POSTS,
+    TOGGLE_BOOKMARKS,
+    TOGGLE_NOTIFICATIONS,
     TOGGLE_SETTINGS,
     UPDATE_INFO
 } from "./Constant";
@@ -78,6 +80,20 @@ export const toggleSettingsAction = (payload) => {
 export const updateInfoAction = (payload) => {
     return {
         type: UPDATE_INFO,
+        payload
+    }
+}
+
+export const toggleBookmarksAction = (payload) => {
+    return {
+        type: TOGGLE_BOOKMARKS,
+        payload
+    }
+}
+
+export const toggleNotificationsAction = (payload) => {
+    return {
+        type: TOGGLE_NOTIFICATIONS,
         payload
     }
 }

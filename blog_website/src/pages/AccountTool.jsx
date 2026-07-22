@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser, faNewspaper } from "@fortawesome/free-regular-svg-icons"
-import { faCircleInfo, faGear } from "@fortawesome/free-solid-svg-icons"
+import { faCircleInfo, faGear, faBookBookmark, faBell } from "@fortawesome/free-solid-svg-icons"
 import Blog_context from "../context/Blog_Context"
 import * as action from "../context/Actions"
 import { showConfirmAlert, showSuccessAlert } from "../utils/alert"
@@ -29,11 +29,31 @@ function AccountTool() {
                         <FontAwesomeIcon icon={faCircleInfo} className="text-gray-500" />
                         <span>Thông tin tài khoản</span>
                     </button>
-                    <button className='btnTool'>
+                    <button onClick={() => {
+                        dispatch(action.toggleNotificationsAction(true))
+                        dispatch(action.toggleAccountAction(false))
+                    }} className='btnTool'>
+                        <FontAwesomeIcon icon={faBell} className="text-gray-500" />
+                        <span>Thông báo</span>
+                    </button>
+                    <button onClick={() => {
+                        dispatch(action.toggleMyPostsAction(true))
+                        dispatch(action.toggleAccountAction(false))
+                    }} className='btnTool'>
                         <FontAwesomeIcon icon={faNewspaper} className="text-gray-500" />
                         <span>Bài viết của tôi</span>
                     </button>
-                    <button className='btnTool'>
+                    <button onClick={() => {
+                        dispatch(action.toggleBookmarksAction(true))
+                        dispatch(action.toggleAccountAction(false))
+                    }} className='btnTool'>
+                        <FontAwesomeIcon icon={faBookBookmark} className="text-gray-500" />
+                        <span>Bookmarks</span>
+                    </button>
+                    <button onClick={() => {
+                        dispatch(action.toggleSettingsAction(true))
+                        dispatch(action.toggleAccountAction(false))
+                    }} className='btnTool'>
                         <FontAwesomeIcon icon={faGear} className="text-gray-500" />
                         <span>Cài đặt</span>
                     </button>

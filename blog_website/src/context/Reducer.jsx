@@ -7,6 +7,8 @@ import {
     LOG_OUT,
     TOGGLE_INFO,
     TOGGLE_MY_POSTS,
+    TOGGLE_BOOKMARKS,
+    TOGGLE_NOTIFICATIONS,
     TOGGLE_SETTINGS,
     UPDATE_INFO
 } from "./Constant";
@@ -123,6 +125,16 @@ function reducer(state, action) {
             return {
                 ...state,
                 btnMyPosts: action.payload
+            }
+        case TOGGLE_BOOKMARKS:
+            return {
+                ...state,
+                btnBookmarks: action.payload
+            }
+        case TOGGLE_NOTIFICATIONS:
+            return {
+                ...state,
+                btnNotifications: action.payload
             }
         case TOGGLE_SETTINGS:
             return {
