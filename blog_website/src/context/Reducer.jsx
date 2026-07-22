@@ -4,7 +4,11 @@ import {
     TOGGLE_DARK_MODE,
     BTN_SIGN_IN_UP,
     TOGGLE_ACCOUNT,
-    LOG_OUT
+    LOG_OUT,
+    TOGGLE_INFO,
+    TOGGLE_MY_POSTS,
+    TOGGLE_SETTINGS,
+    UPDATE_INFO
 } from "./Constant";
 
 export const initialState = {
@@ -13,7 +17,10 @@ export const initialState = {
     users: JSON.parse(localStorage.getItem('users')) || [],
     darkMode: localStorage.getItem('darkMode') === 'true',
     btnSignInUp: false,
-    btnAccount: false
+    btnAccount: false,
+    btnInfo: false,
+    btnMyPosts: false,
+    btnSettings: false
 }
 
 function reducer(state, action) {
@@ -64,7 +71,7 @@ function reducer(state, action) {
             // Trường hợp Đăng nhập
             const loggedUser = action.payload;
             const userDarkMode = loggedUser.darkMode !== undefined ? loggedUser.darkMode : state.darkMode;
-            
+
             // Cập nhật lại giao diện và lưu trạng thái đăng nhập
             localStorage.setItem('darkMode', userDarkMode);
             localStorage.setItem('currentUser', JSON.stringify(loggedUser));
@@ -106,6 +113,38 @@ function reducer(state, action) {
                 isSignIn: false,
                 currentUser: null,
                 btnAccount: false // Ẩn luôn menu account
+            }
+        case TOGGLE_INFO:
+            return {
+                ...state,
+                btnInfo: action.payload
+            }
+        case TOGGLE_MY_POSTS:
+            return {
+                ...state,
+                btnMyPosts: action.payload
+            }
+        case TOGGLE_SETTINGS:
+            return {
+                ...state,
+                btnSettings: action.payload
+            }
+        case UPDATE_INFO:
+            {
+                const updatedUser = action.payload;
+                // Cập nhật lại thông tin user trong danh sách users
+                const updatedUsers = state.users.map(user =>
+                    user.email === state.currentUser?.email ? { ...user, ...updatedUser } : user
+                );
+                // Lưu thông tin mới vào Local Storage
+                localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+                localStorage.setItem('users', JSON.stringify(updatedUsers));
+                return {
+                    ...state,
+                    currentUser: updatedUser,
+                    users: updatedUsers,
+                    btnInfo: false
+                }
             }
         default:
             throw new Error('Invalid action')

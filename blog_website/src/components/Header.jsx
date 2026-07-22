@@ -28,11 +28,15 @@ function Header() {
                 {state.isSignIn && (
                     <div className="relative">
                         <button
-                            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 hover:transition-all duration-200 hover:-translate-y-1.5 hover:shadow-lg cursor-pointer text-gray-700 dark:text-gray-300"
+                            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 hover:transition-all duration-200 hover:-translate-y-1.5 hover:shadow-lg cursor-pointer text-gray-700 dark:text-gray-300 overflow-hidden"
                             title="Tài khoản"
                             onClick={() => dispatch(action.toggleAccountAction(!state.btnAccount))}
                         >
-                            <FontAwesomeIcon icon={faUserCircle} className="text-2xl" />
+                            {state.currentUser?.avatar ? (
+                                <img src={state.currentUser.avatar} alt="Avatar" className="w-full h-full object-cover" />
+                            ) : (
+                                <FontAwesomeIcon icon={faUserCircle} className="text-2xl" />
+                            )}
                         </button>
                         <AccountTool />
                     </div>

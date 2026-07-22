@@ -4,3 +4,7 @@ export const LOGIN = "login";
 export const REGISTER = "register";
 export const LOG_OUT = "log_out";
 export const TOGGLE_ACCOUNT = "toggle_account";
+export const TOGGLE_INFO = "toggle_info";
+export const TOGGLE_MY_POSTS = "toggle_my_posts";
+export const TOGGLE_SETTINGS = "toggle_settings";
+export const UPDATE_INFO = "update_info";

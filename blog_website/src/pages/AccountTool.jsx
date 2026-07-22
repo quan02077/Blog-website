@@ -13,12 +13,19 @@ function AccountTool() {
         <div className="absolute right-0 top-full mt-2 w-56 z-50 animate-in slide-in-from-top-2 fade-in duration-200">
             <div className='bg-white dark:bg-dark-surface rounded-2xl p-4 shadow-xl border border-gray-200 dark:border-gray-700'>
                 <h3 className='font-bold text-gray-800 dark:text-gray-200 flex items-center gap-2 truncate'>
-                    <FontAwesomeIcon icon={faUser} className="text-gray-500" />
+                    {currentUser?.avatar ? (
+                        <img src={currentUser.avatar} alt="Avatar" className="w-6 h-6 rounded-full object-cover border border-gray-300 dark:border-gray-700" />
+                    ) : (
+                        <FontAwesomeIcon icon={faUser} className="text-gray-500" />
+                    )}
                     {currentUser ? currentUser.username : 'Tài khoản của tôi'}
                 </h3>
                 <hr className='border-gray-200 dark:border-gray-700 my-3' />
                 <div className="flex flex-col my-4">
-                    <button className='btnTool'>
+                    <button onClick={() => {
+                        dispatch(action.toggleInfoAction(true))
+                        dispatch(action.toggleAccountAction(false))
+                    }} className='btnTool'>
                         <FontAwesomeIcon icon={faCircleInfo} className="text-gray-500" />
                         <span>Thông tin tài khoản</span>
                     </button>

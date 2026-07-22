@@ -4,7 +4,11 @@ import {
     TOGGLE_DARK_MODE,
     BTN_SIGN_IN_UP,
     TOGGLE_ACCOUNT,
-    LOG_OUT
+    LOG_OUT,
+    TOGGLE_INFO,
+    TOGGLE_MY_POSTS,
+    TOGGLE_SETTINGS,
+    UPDATE_INFO
 } from "./Constant";
 
 export const loginAction = (payload) => {
@@ -47,5 +51,33 @@ export const logOutAction = () => {
     return {
         type: LOG_OUT,
         payload: false
+    }
+}
+
+export const toggleInfoAction = (payload) => {
+    return {
+        type: TOGGLE_INFO,
+        payload
+    }
+}
+
+export const toggleMyPostsAction = (payload) => {
+    return {
+        type: TOGGLE_MY_POSTS,
+        payload
+    }
+}
+
+export const toggleSettingsAction = (payload) => {
+    return {
+        type: TOGGLE_SETTINGS,
+        payload
+    }
+}
+
+export const updateInfoAction = (payload) => {
+    return {
+        type: UPDATE_INFO,
+        payload
     }
 }

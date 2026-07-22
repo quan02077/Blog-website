@@ -3,6 +3,7 @@ import Header from './components/Header'
 import Content from './components/Content'
 import Provider from './context/Provider'
 import AuthForm from './pages/AuthForm'
+import Info from './pages/Info'
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Header />
         <Content />
         <AuthForm />
+        <Info />
       </div>
     </Provider>
   )
