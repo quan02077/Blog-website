@@ -22,7 +22,7 @@ function PostMeta() {
 
             {/* Tags */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-5">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 items-center gap-2">
                     <FontAwesomeIcon icon={faTag} className="text-gray-400 dark:text-gray-500" />
                     Tags
                 </label>
@@ -37,7 +37,7 @@ function PostMeta() {
 
             {/* Reading time preview */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-5">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 items-center gap-2">
                     <FontAwesomeIcon icon={faClock} className="text-gray-400 dark:text-gray-500" />
                     Thời gian đọc ước tính
                 </label>

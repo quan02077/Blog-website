@@ -12,12 +12,13 @@ function WritePost() {
     const [dispatch] = useContext(Blog_context)
     const [title, setTitle] = useState('')
     const [summary, setSummary] = useState('')
+    const [image, setImage] = useState(null)
     return (
         <div className="flex flex-col gap-6 pb-10">
 
             <WritePostHeader />
 
-            <CoverUpload />
+            <CoverUpload image={image} setImage={setImage} />
 
             {/* Post Title */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
@@ -57,23 +58,6 @@ function WritePost() {
 
             <MarkdownEditor />
 
-            {/* Mobile Action Buttons */}
-            <div className="flex sm:hidden items-center gap-3">
-                <button
-                    className="flex-1 flex items-center justify-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 py-3 rounded-xl transition-colors"
-                    onClick={() => dispatch(action.saveDraftsAction())}
-                >
-                    <FontAwesomeIcon icon={faFloppyDisk} />
-                    Lưu nháp
-                </button>
-                <button
-                    className="flex-1 flex items-center justify-center gap-2 text-sm font-semibold text-white bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 py-3 rounded-xl transition-colors"
-                    onClick={() => dispatch(action.publishPostAction())}
-                >
-                    <FontAwesomeIcon icon={faPaperPlane} />
-                    Đăng bài
-                </button>
-            </div>
 
         </div>
     )
