@@ -1,7 +1,11 @@
+import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faFloppyDisk, faPaperPlane, faEye } from '@fortawesome/free-solid-svg-icons'
+import Blog_context from '../context/Blog_Context'
+import * as action from '../context/Actions'
 
-function WritePostHeader() {
+function WritePostHeader({ postData }) {
+    const [dispatch] = useContext(Blog_context)
     return (
         <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -18,11 +22,16 @@ function WritePostHeader() {
                     <FontAwesomeIcon icon={faEye} />
                     Preview
                 </button>
-                <button className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors">
+                <button className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors"
+                    onClick={() => dispatch(action.saveDraftsAction(postData))}
+                >
                     <FontAwesomeIcon icon={faFloppyDisk} />
                     Lưu nháp
                 </button>
-                <button className="flex items-center gap-2 text-sm font-semibold text-white bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 px-4 py-2 rounded-xl transition-colors">
+                <button
+                    className="flex items-center gap-2 text-sm font-semibold text-white bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 px-4 py-2 rounded-xl transition-colors"
+                    onClick={() => dispatch(action.publishPostAction(postData))}
+                >
                     <FontAwesomeIcon icon={faPaperPlane} />
                     Đăng bài
                 </button>

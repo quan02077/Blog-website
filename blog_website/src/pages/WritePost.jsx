@@ -9,10 +9,35 @@ function WritePost() {
     const [summary, setSummary] = useState('')
     const [image, setImage] = useState(null)
     const [newCategory, setNewCategory] = useState('')
+    const [selectedCategory, setSelectedCategory] = useState('')
+    const [isAddingNew, setIsAddingNew] = useState(false)
+    const [tag, setTag] = useState('')
+    const [content, setContent] = useState('')
+
+    const calculateReadTime = (content) => {
+        if (!content || content.trim() === '') return 1;
+        const wordCount = content.trim().split(/\s+/).filter(word => word.length > 0).length;
+
+        const wordsPerMinute = 200;
+
+        const minutes = Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+        return minutes;
+    }
+
+    const postData = {
+        title,
+        summary,
+        image,
+        category: isAddingNew ? newCategory : selectedCategory,
+        tag,
+        content,
+        readTime: calculateReadTime(content)
+    }
+
     return (
         <div className="flex flex-col gap-6 pb-10">
 
-            <WritePostHeader />
+            <WritePostHeader postData={postData} />
 
             <CoverUpload image={image} setImage={setImage} />
 
@@ -50,9 +75,19 @@ function WritePost() {
                 </div>
             </div>
 
-            <PostMeta newCategory={newCategory} setNewCategory={setNewCategory} />
+            <PostMeta
+                newCategory={newCategory}
+                setNewCategory={setNewCategory}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+                isAddingNew={isAddingNew}
+                setIsAddingNew={setIsAddingNew}
+                tag={tag}
+                setTag={setTag}
+                readTime={calculateReadTime(content)}
+            />
 
-            <MarkdownEditor />
+            <MarkdownEditor content={content} setContent={setContent} />
 
 
         </div>

@@ -1,14 +1,12 @@
-import { useState, useContext } from 'react'
+import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag, faClock, faChevronDown, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 
-function PostMeta({ newCategory, setNewCategory }) {
+function PostMeta({ newCategory, setNewCategory, selectedCategory, setSelectedCategory, isAddingNew, setIsAddingNew, tag, setTag, readTime }) {
     const [state, dispatch] = useContext(Blog_context)
     const { categories } = state
-    const [selectedCategory, setSelectedCategory] = useState('')
-    const [isAddingNew, setIsAddingNew] = useState(false)
 
     const handleAddCategory = () => {
         if (newCategory.trim() !== '') {
@@ -80,6 +78,9 @@ function PostMeta({ newCategory, setNewCategory }) {
                     Tags
                 </label>
                 <input
+                    value={tag}
+                    onChange={(e) => setTag(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault())}
                     type="text"
                     placeholder="react, javascript, css..."
                     className="w-full text-sm text-gray-600 dark:text-gray-300 placeholder-gray-300 dark:placeholder-gray-600 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 outline-none bg-white dark:bg-dark-bg"
@@ -94,7 +95,7 @@ function PostMeta({ newCategory, setNewCategory }) {
                     Thời gian đọc ước tính
                 </label>
                 <div className="flex items-center justify-between border border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-bg rounded-xl px-4 py-2.5">
-                    <span className="text-2xl font-black text-blue-500 dark:text-blue-400">~5</span>
+                    <span className="text-2xl font-black text-blue-500 dark:text-blue-400">{readTime}</span>
                     <span className="text-sm text-gray-400 dark:text-gray-500">phút đọc</span>
                 </div>
                 <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">Tự động tính từ nội dung</p>
