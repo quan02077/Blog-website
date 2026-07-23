@@ -3,6 +3,7 @@ import WritePostHeader from '../components/WritePostHeader'
 import CoverUpload from '../components/CoverUpload'
 import PostMeta from '../components/PostMeta'
 import MarkdownEditor from '../components/MarkdownEditor'
+import PreviewModal from '../components/PreviewModal'
 
 function WritePost() {
     const [title, setTitle] = useState('')
@@ -13,6 +14,7 @@ function WritePost() {
     const [isAddingNew, setIsAddingNew] = useState(false)
     const [tag, setTag] = useState('')
     const [content, setContent] = useState('')
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false)
 
     const calculateReadTime = (content) => {
         if (!content || content.trim() === '') return 1;
@@ -37,7 +39,7 @@ function WritePost() {
     return (
         <div className="flex flex-col gap-6 pb-10">
 
-            <WritePostHeader postData={postData} />
+            <WritePostHeader postData={postData} onPreview={() => setIsPreviewOpen(true)} />
 
             <CoverUpload image={image} setImage={setImage} />
 
@@ -89,6 +91,11 @@ function WritePost() {
 
             <MarkdownEditor content={content} setContent={setContent} />
 
+            <PreviewModal
+                isOpen={isPreviewOpen}
+                onClose={() => setIsPreviewOpen(false)}
+                postData={postData}
+            />
 
         </div>
     )

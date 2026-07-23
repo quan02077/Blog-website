@@ -4,7 +4,7 @@ import { faPenToSquare, faFloppyDisk, faPaperPlane, faEye } from '@fortawesome/f
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 
-function WritePostHeader({ postData }) {
+function WritePostHeader({ postData, onPreview }) {
     const [dispatch] = useContext(Blog_context)
     return (
         <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center justify-between">
@@ -18,12 +18,18 @@ function WritePostHeader({ postData }) {
                 </div>
             </div>
             <div className="hidden sm:flex items-center gap-2">
-                <button className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors">
+                <button
+                    type="button"
+                    onClick={onPreview}
+                    className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors cursor-pointer"
+                >
                     <FontAwesomeIcon icon={faEye} />
                     Preview
                 </button>
-                <button className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors"
+                <button
+                    type="button"
                     onClick={() => dispatch(action.saveDraftsAction(postData))}
+                    className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors cursor-pointer"
                 >
                     <FontAwesomeIcon icon={faFloppyDisk} />
                     Lưu nháp
