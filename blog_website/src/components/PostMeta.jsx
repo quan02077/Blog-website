@@ -1,18 +1,20 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag, faClock, faChevronDown, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
+import Blog_context from '../context/Blog_Context'
+import * as action from '../context/Actions'
 
-function PostMeta() {
-    const [categories, setCategories] = useState(['React', 'JavaScript', 'CSS', 'TypeScript', 'Next.js'])
+function PostMeta({ newCategory, setNewCategory }) {
+    const [state, dispatch] = useContext(Blog_context)
+    const { categories } = state
     const [selectedCategory, setSelectedCategory] = useState('')
     const [isAddingNew, setIsAddingNew] = useState(false)
-    const [newCategory, setNewCategory] = useState('')
 
     const handleAddCategory = () => {
         if (newCategory.trim() !== '') {
             const trimmed = newCategory.trim()
             if (!categories.includes(trimmed)) {
-                setCategories([...categories, trimmed])
+                dispatch(action.createCategoryAction(trimmed))
             }
             setSelectedCategory(trimmed)
             setNewCategory('')

@@ -1,18 +1,14 @@
-import { useState, useContext } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFloppyDisk, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { useState } from 'react'
 import WritePostHeader from '../components/WritePostHeader'
 import CoverUpload from '../components/CoverUpload'
 import PostMeta from '../components/PostMeta'
 import MarkdownEditor from '../components/MarkdownEditor'
-import Blog_context from '../context/Blog_Context'
-import * as action from '../context/Actions'
 
 function WritePost() {
-    const [dispatch] = useContext(Blog_context)
     const [title, setTitle] = useState('')
     const [summary, setSummary] = useState('')
     const [image, setImage] = useState(null)
+    const [newCategory, setNewCategory] = useState('')
     return (
         <div className="flex flex-col gap-6 pb-10">
 
@@ -54,7 +50,7 @@ function WritePost() {
                 </div>
             </div>
 
-            <PostMeta />
+            <PostMeta newCategory={newCategory} setNewCategory={setNewCategory} />
 
             <MarkdownEditor />
 

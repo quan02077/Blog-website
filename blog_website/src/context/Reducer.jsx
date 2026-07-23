@@ -169,11 +169,12 @@ function reducer(state, action) {
         case PUBLISH_POST:
             {
                 const newPost = {
+                    id: Date.now(),
                     ...action.payload,
                     createdAt: new Date().toISOString(),
-                    author: state.currentUser.username,
-                    avatar: state.currentUser.avatar,
-
+                    author: state.currentUser?.username,
+                    avatar: state.currentUser?.avatar,
+                    authorEmail: state.currentUser?.email
                 };
                 const newPosts = [...state.posts, newPost];
                 localStorage.setItem('posts', JSON.stringify(newPosts));
@@ -185,11 +186,12 @@ function reducer(state, action) {
         case SAVE_DRAFTS:
             {
                 const newDraft = {
+                    id: Date.now(),
                     ...action.payload,
                     createdAt: new Date().toISOString(),
-                    author: state.currentUser.username,
-                    avatar: state.currentUser.avatar,
-
+                    author: state.currentUser?.username,
+                    avatar: state.currentUser?.avatar,
+                    authorEmail: state.currentUser?.email
                 };
                 const newDrafts = [...state.drafts, newDraft];
                 localStorage.setItem('drafts', JSON.stringify(newDrafts));
