@@ -171,12 +171,17 @@ function reducer(state, action) {
                 const newPost = {
                     id: Date.now(),
                     ...action.payload,
+                    description: action.payload?.summary || action.payload?.description || '',
+                    date: new Date().toLocaleDateString('vi-VN'),
                     createdAt: new Date().toISOString(),
-                    author: state.currentUser?.username,
-                    avatar: state.currentUser?.avatar,
-                    authorEmail: state.currentUser?.email
+                    author: state.currentUser?.username || 'Ẩn danh',
+                    avatar: state.currentUser?.avatar || 'https://ui-avatars.com/api/?name=User',
+                    authorEmail: state.currentUser?.email,
+                    likes: 0,
+                    comments: 0,
+                    readTime: `${action.payload?.readTime || 1} phút đọc`
                 };
-                const newPosts = [...state.posts, newPost];
+                const newPosts = [newPost, ...state.posts];
                 localStorage.setItem('posts', JSON.stringify(newPosts));
                 return {
                     ...state,
@@ -188,12 +193,17 @@ function reducer(state, action) {
                 const newDraft = {
                     id: Date.now(),
                     ...action.payload,
+                    description: action.payload?.summary || action.payload?.description || '',
+                    date: new Date().toLocaleDateString('vi-VN'),
                     createdAt: new Date().toISOString(),
-                    author: state.currentUser?.username,
-                    avatar: state.currentUser?.avatar,
-                    authorEmail: state.currentUser?.email
+                    author: state.currentUser?.username || 'Ẩn danh',
+                    avatar: state.currentUser?.avatar || 'https://ui-avatars.com/api/?name=User',
+                    authorEmail: state.currentUser?.email,
+                    likes: 0,
+                    comments: 0,
+                    readTime: `${action.payload?.readTime || 1} phút đọc`
                 };
-                const newDrafts = [...state.drafts, newDraft];
+                const newDrafts = [newDraft, ...state.drafts];
                 localStorage.setItem('drafts', JSON.stringify(newDrafts));
                 return {
                     ...state,

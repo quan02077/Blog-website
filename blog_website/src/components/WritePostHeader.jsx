@@ -1,11 +1,15 @@
 import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faFloppyDisk, faPaperPlane, faEye } from '@fortawesome/free-solid-svg-icons'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
+import { showSuccessAlert, showConfirmAlert } from '../utils/alert'
 
 function WritePostHeader({ postData, onPreview }) {
-    const [dispatch] = useContext(Blog_context)
+    const [, dispatch] = useContext(Blog_context)
+    const navigate = useNavigate()
+
     return (
         <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -28,15 +32,30 @@ function WritePostHeader({ postData, onPreview }) {
                 </button>
                 <button
                     type="button"
-                    onClick={() => dispatch(action.saveDraftsAction(postData))}
+                    onClick={async () => {
+                        const result = await showConfirmAlert('Thông báo', 'Bạn có chắc chắn muốn lưu nháp bài viết này?')
+                        if (result.isConfirmed) {
+                            dispatch(action.saveDraftsAction(postData))
+                            await showSuccessAlert('Thông báo', 'Bài viết đã được lưu vào bản nháp thành công')
+                            navigate('/')
+                        }
+                    }}
                     className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors cursor-pointer"
                 >
                     <FontAwesomeIcon icon={faFloppyDisk} />
                     Lưu nháp
                 </button>
                 <button
-                    className="flex items-center gap-2 text-sm font-semibold text-white bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 px-4 py-2 rounded-xl transition-colors"
-                    onClick={() => dispatch(action.publishPostAction(postData))}
+                    type="button"
+                    className="flex items-center gap-2 text-sm font-semibold text-white bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 px-4 py-2 rounded-xl transition-colors cursor-pointer"
+                    onClick={async () => {
+                        const result = await showConfirmAlert('Thông báo', 'Bạn có chắc chắn muốn đăng bài viết này?')
+                        if (result.isConfirmed) {
+                            dispatch(action.publishPostAction(postData))
+                            await showSuccessAlert('Thông báo', 'Bài viết đã được đăng thành công')
+                            navigate('/')
+                        }
+                    }}
                 >
                     <FontAwesomeIcon icon={faPaperPlane} />
                     Đăng bài
