@@ -1,11 +1,17 @@
+import { useState, useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import WritePostHeader from '../components/WritePostHeader'
 import CoverUpload from '../components/CoverUpload'
 import PostMeta from '../components/PostMeta'
 import MarkdownEditor from '../components/MarkdownEditor'
+import BlogContext from '../context/BlogContext'
+import * as action from '../context/Actions'
 
 function WritePost() {
+    const [dispatch] = useContext(BlogContext)
+    const [title, setTitle] = useState('')
+    const [summary, setSummary] = useState('')
     return (
         <div className="flex flex-col gap-6 pb-10">
 
@@ -17,10 +23,11 @@ function WritePost() {
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Tiêu đề</label>
                 <input
+                    value={title}
                     type="text"
                     placeholder="Nhập tiêu đề bài viết..."
-                    readOnly
                     className="w-full text-2xl font-bold text-gray-900 dark:text-white placeholder-gray-300 dark:placeholder-gray-600 border-none outline-none bg-transparent"
+                    onChange={(e) => setTitle(e.target.value)}
                 />
                 <div className="mt-2 h-px bg-gray-100 dark:bg-gray-800" />
                 <div className="flex justify-end mt-1.5">
@@ -32,10 +39,11 @@ function WritePost() {
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Mô tả ngắn</label>
                 <textarea
+                    value={summary}
                     placeholder="Tóm tắt ngắn về bài viết của bạn..."
                     rows={3}
-                    readOnly
                     className="w-full text-sm text-gray-600 dark:text-gray-400 placeholder-gray-300 dark:placeholder-gray-600 border-none outline-none bg-transparent resize-none leading-relaxed"
+                    onChange={(e) => setSummary(e.target.value)}
                 />
                 <div className="mt-2 h-px bg-gray-100 dark:bg-gray-800" />
                 <div className="flex justify-end mt-1.5">

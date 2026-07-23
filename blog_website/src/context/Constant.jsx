@@ -10,3 +10,5 @@ export const TOGGLE_BOOKMARKS = "toggle_bookmarks";
 export const TOGGLE_NOTIFICATIONS = "toggle_notifications";
 export const TOGGLE_SETTINGS = "toggle_settings";
 export const UPDATE_INFO = "update_info";
+export const PUBLISH_POST = "publish_post";
+export const SAVE_DRAFTS = "save_drafts";

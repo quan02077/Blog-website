@@ -10,7 +10,9 @@ import {
     TOGGLE_BOOKMARKS,
     TOGGLE_NOTIFICATIONS,
     TOGGLE_SETTINGS,
-    UPDATE_INFO
+    UPDATE_INFO,
+    PUBLISH_POST,
+    SAVE_DRAFTS
 } from "./Constant";
 
 export const initialState = {
@@ -24,7 +26,9 @@ export const initialState = {
     btnMyPosts: false,
     btnBookmarks: false,
     btnNotifications: false,
-    btnSettings: false
+    btnSettings: false,
+    posts: JSON.parse(localStorage.getItem('posts')) || [],
+    drafts: JSON.parse(localStorage.getItem('drafts')) || []
 }
 
 function reducer(state, action) {
@@ -158,6 +162,38 @@ function reducer(state, action) {
                     currentUser: updatedUser,
                     users: updatedUsers,
                     btnInfo: false
+                }
+            }
+        case PUBLISH_POST:
+            {
+                const newPost = {
+                    ...action.payload,
+                    createdAt: new Date().toISOString(),
+                    author: state.currentUser.username,
+                    avatar: state.currentUser.avatar,
+
+                };
+                const newPosts = [...state.posts, newPost];
+                localStorage.setItem('posts', JSON.stringify(newPosts));
+                return {
+                    ...state,
+                    posts: newPosts,
+                }
+            }
+        case SAVE_DRAFTS:
+            {
+                const newDraft = {
+                    ...action.payload,
+                    createdAt: new Date().toISOString(),
+                    author: state.currentUser.username,
+                    avatar: state.currentUser.avatar,
+
+                };
+                const newDrafts = [...state.drafts, newDraft];
+                localStorage.setItem('drafts', JSON.stringify(newDrafts));
+                return {
+                    ...state,
+                    drafts: newDrafts,
                 }
             }
         default:

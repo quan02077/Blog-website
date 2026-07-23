@@ -10,7 +10,9 @@ import {
     TOGGLE_BOOKMARKS,
     TOGGLE_NOTIFICATIONS,
     TOGGLE_SETTINGS,
-    UPDATE_INFO
+    UPDATE_INFO,
+    PUBLISH_POST,
+    SAVE_DRAFTS
 } from "./Constant";
 
 export const loginAction = (payload) => {
@@ -94,6 +96,20 @@ export const toggleBookmarksAction = (payload) => {
 export const toggleNotificationsAction = (payload) => {
     return {
         type: TOGGLE_NOTIFICATIONS,
+        payload
+    }
+}
+
+export const publishPostAction = (payload) => {
+    return {
+        type: PUBLISH_POST,
+        payload
+    }
+}
+
+export const saveDraftsAction = (payload) => {
+    return {
+        type: SAVE_DRAFTS,
         payload
     }
 }
