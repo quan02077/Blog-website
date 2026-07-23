@@ -12,7 +12,8 @@ import {
     TOGGLE_SETTINGS,
     UPDATE_INFO,
     PUBLISH_POST,
-    SAVE_DRAFTS
+    SAVE_DRAFTS,
+    CREATE_CATEGORY
 } from "./Constant";
 
 export const initialState = {
@@ -28,7 +29,8 @@ export const initialState = {
     btnNotifications: false,
     btnSettings: false,
     posts: JSON.parse(localStorage.getItem('posts')) || [],
-    drafts: JSON.parse(localStorage.getItem('drafts')) || []
+    drafts: JSON.parse(localStorage.getItem('drafts')) || [],
+    categories: JSON.parse(localStorage.getItem('categories')) || [],
 }
 
 function reducer(state, action) {
@@ -194,6 +196,16 @@ function reducer(state, action) {
                 return {
                     ...state,
                     drafts: newDrafts,
+                }
+            }
+        case CREATE_CATEGORY:
+            {
+                const newCategory = action.payload
+                const newCategories = [...state.categories, newCategory];
+                localStorage.setItem('categories', JSON.stringify(newCategories));
+                return {
+                    ...state,
+                    categories: newCategories,
                 }
             }
         default:

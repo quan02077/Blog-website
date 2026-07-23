@@ -1,23 +1,74 @@
+import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTag, faClock, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faTag, faClock, faChevronDown, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
 
 function PostMeta() {
+    const [categories, setCategories] = useState(['React', 'JavaScript', 'CSS', 'TypeScript', 'Next.js'])
+    const [selectedCategory, setSelectedCategory] = useState('')
+    const [isAddingNew, setIsAddingNew] = useState(false)
+    const [newCategory, setNewCategory] = useState('')
+
+    const handleAddCategory = () => {
+        if (newCategory.trim() !== '') {
+            const trimmed = newCategory.trim()
+            if (!categories.includes(trimmed)) {
+                setCategories([...categories, trimmed])
+            }
+            setSelectedCategory(trimmed)
+            setNewCategory('')
+            setIsAddingNew(false)
+        }
+    }
+
     return (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {/* Category */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-5">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Chuyên mục</label>
-                <div className="relative">
-                    <select className="w-full appearance-none text-sm text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 pr-8 outline-none bg-white dark:bg-dark-bg cursor-pointer">
-                        <option>Chọn chuyên mục...</option>
-                        <option>React</option>
-                        <option>JavaScript</option>
-                        <option>CSS</option>
-                        <option>TypeScript</option>
-                        <option>Next.js</option>
-                    </select>
-                    <FontAwesomeIcon icon={faChevronDown} className="absolute right-3 top-3 text-gray-400 text-xs pointer-events-none" />
+                <div className="flex items-center justify-between mb-3">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Chuyên mục</label>
+                    <button
+                        type="button"
+                        onClick={() => setIsAddingNew(!isAddingNew)}
+                        className="text-xs font-semibold text-blue-500 hover:text-blue-600 dark:text-blue-400 flex items-center gap-1 cursor-pointer transition-colors"
+                    >
+                        <FontAwesomeIcon icon={isAddingNew ? faTimes : faPlus} />
+                        {isAddingNew ? 'Hủy' : 'Tạo mới'}
+                    </button>
                 </div>
+
+                {isAddingNew ? (
+                    <div className="flex gap-2">
+                        <input
+                            type="text"
+                            value={newCategory}
+                            onChange={(e) => setNewCategory(e.target.value)}
+                            placeholder="Tên chuyên mục mới..."
+                            className="w-full text-sm text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 outline-none bg-white dark:bg-dark-bg"
+                            onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCategory())}
+                        />
+                        <button
+                            type="button"
+                            onClick={handleAddCategory}
+                            className="px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold rounded-xl transition-colors cursor-pointer shrink-0"
+                        >
+                            Thêm
+                        </button>
+                    </div>
+                ) : (
+                    <div className="relative">
+                        <select
+                            value={selectedCategory}
+                            onChange={(e) => setSelectedCategory(e.target.value)}
+                            className="w-full appearance-none text-sm text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 pr-8 outline-none bg-white dark:bg-dark-bg cursor-pointer"
+                        >
+                            <option value="">Chọn chuyên mục...</option>
+                            {categories.map((cat, idx) => (
+                                <option key={idx} value={cat}>{cat}</option>
+                            ))}
+                        </select>
+                        <FontAwesomeIcon icon={faChevronDown} className="absolute right-3 top-3 text-gray-400 text-xs pointer-events-none" />
+                    </div>
+                )}
             </div>
 
             {/* Tags */}
@@ -29,7 +80,6 @@ function PostMeta() {
                 <input
                     type="text"
                     placeholder="react, javascript, css..."
-                    readOnly
                     className="w-full text-sm text-gray-600 dark:text-gray-300 placeholder-gray-300 dark:placeholder-gray-600 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 outline-none bg-white dark:bg-dark-bg"
                 />
                 <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">Phân cách bằng dấu phẩy, tối đa 5 tags</p>

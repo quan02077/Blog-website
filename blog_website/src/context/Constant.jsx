@@ -12,3 +12,4 @@ export const TOGGLE_SETTINGS = "toggle_settings";
 export const UPDATE_INFO = "update_info";
 export const PUBLISH_POST = "publish_post";
 export const SAVE_DRAFTS = "save_drafts";
+export const CREATE_CATEGORY = "create_category";
