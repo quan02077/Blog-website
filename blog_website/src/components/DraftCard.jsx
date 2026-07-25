@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faTrashCan, faPaperPlane, faClock, faCalendar } from '@fortawesome/free-solid-svg-icons'
 import * as action from '../context/Actions'
@@ -14,6 +15,7 @@ const catColors = {
 
 function DraftCard({ draft }) {
     const [, dispatch] = useContext(Blog_context)
+    const navigate = useNavigate()
     const tagsList = Array.isArray(draft.tags)
         ? draft.tags
         : typeof draft.tag === 'string' && draft.tag.trim() !== ''
@@ -29,6 +31,10 @@ function DraftCard({ draft }) {
             dispatch(action.deleteDraftsAction(draftID))
             showSuccessAlert('Thành công', 'Đã xóa bản nháp thành công!')
         }
+    }
+
+    const handleUpdate = (draftID) => {
+        navigate(`/write/${draftID}`)
     }
 
     return (
@@ -79,7 +85,9 @@ function DraftCard({ draft }) {
                         </span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <button className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-1.5 rounded-lg transition-colors">
+                        <button
+                            onClick={() => handleUpdate(draft.id)}
+                            className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-1.5 rounded-lg transition-colors">
                             <FontAwesomeIcon icon={faPenToSquare} />
                             Sửa
                         </button>

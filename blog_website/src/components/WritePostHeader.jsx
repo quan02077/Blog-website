@@ -6,7 +6,7 @@ import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 import { showSuccessAlert, showConfirmAlert } from '../utils/alert'
 
-function WritePostHeader({ postData, onPreview }) {
+function WritePostHeader({ postData, onPreview, isEdit = false }) {
     const [, dispatch] = useContext(Blog_context)
     const navigate = useNavigate()
 
@@ -17,8 +17,12 @@ function WritePostHeader({ postData, onPreview }) {
                     <FontAwesomeIcon icon={faPenToSquare} />
                 </div>
                 <div>
-                    <h1 className="text-xl font-extrabold text-gray-900 dark:text-white leading-none mb-0.5">Viết bài mới</h1>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Chia sẻ kiến thức của bạn với cộng đồng</p>
+                    <h1 className="text-xl font-extrabold text-gray-900 dark:text-white leading-none mb-0.5">
+                        {isEdit ? 'Chỉnh sửa bản nháp' : 'Viết bài mới'}
+                    </h1>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {isEdit ? 'Cập nhật thông tin bản nháp của bạn' : 'Chia sẻ kiến thức của bạn với cộng đồng'}
+                    </p>
                 </div>
             </div>
             <div className="hidden sm:flex items-center gap-2">
@@ -33,17 +37,23 @@ function WritePostHeader({ postData, onPreview }) {
                 <button
                     type="button"
                     onClick={async () => {
-                        const result = await showConfirmAlert('Thông báo', 'Bạn có chắc chắn muốn lưu nháp bài viết này?')
+                        const message = isEdit ? 'Bạn có chắc chắn muốn cập nhật bản nháp này?' : 'Bạn có chắc chắn muốn lưu nháp bài viết này?'
+                        const result = await showConfirmAlert('Thông báo', message)
                         if (result.isConfirmed) {
-                            dispatch(action.saveDraftsAction(postData))
-                            await showSuccessAlert('Thông báo', 'Bài viết đã được lưu vào bản nháp thành công')
+                            if (isEdit) {
+                                dispatch(action.updateDraftsAction(postData))
+                                await showSuccessAlert('Thông báo', 'Cập nhật bản nháp thành công')
+                            } else {
+                                dispatch(action.saveDraftsAction(postData))
+                                await showSuccessAlert('Thông báo', 'Bài viết đã được lưu vào bản nháp thành công')
+                            }
                             navigate('/drafts')
                         }
                     }}
                     className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors cursor-pointer"
                 >
                     <FontAwesomeIcon icon={faFloppyDisk} />
-                    Lưu nháp
+                    {isEdit ? 'Cập nhật nháp' : 'Lưu nháp'}
                 </button>
                 <button
                     type="button"

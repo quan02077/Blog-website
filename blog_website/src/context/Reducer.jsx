@@ -15,7 +15,8 @@ import {
     SAVE_DRAFTS,
     CREATE_CATEGORY,
     DELETE_POSTS,
-    DELETE_DRAFT
+    DELETE_DRAFT,
+    UPDATE_DRAFT
 } from "./Constant";
 
 export const initialState = {
@@ -256,6 +257,20 @@ function reducer(state, action) {
                 return {
                     ...state,
                     drafts: newDrafts,
+                }
+            }
+        case UPDATE_DRAFT:
+            {
+                const updateDraft = action.payload
+                const newDraft = state.drafts.map(draft => draft.id === updateDraft.id ? { ...draft, ...updateDraft } : draft);
+                try {
+                    localStorage.setItem('drafts', JSON.stringify(newDraft));
+                } catch (error) {
+                    console.warn('LocalStorage error:', error);
+                }
+                return {
+                    ...state,
+                    drafts: newDraft,
                 }
             }
         default:

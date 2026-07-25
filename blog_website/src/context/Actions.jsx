@@ -15,7 +15,8 @@ import {
     DELETE_POSTS,
     SAVE_DRAFTS,
     CREATE_CATEGORY,
-    DELETE_DRAFT
+    DELETE_DRAFT,
+    UPDATE_DRAFT
 } from "./Constant";
 
 export const loginAction = (payload) => {
@@ -134,6 +135,13 @@ export const deletePostsAction = (payload) => {
 export const deleteDraftsAction = (payload) => {
     return {
         type: DELETE_DRAFT,
+        payload
+    }
+}
+
+export const updateDraftsAction = (payload) => {
+    return {
+        type: UPDATE_DRAFT,
         payload
     }
 }

@@ -16,6 +16,7 @@ function MainContent() {
                 <Route path="/popular" element={<PopularPosts />} />
                 <Route path="/archives" element={<Archives />} />
                 <Route path="/write" element={<WritePost />} />
+                <Route path="/write/:id" element={<WritePost />} />
                 <Route path="/drafts" element={<Drafts />} />
             </Routes>
         </div>

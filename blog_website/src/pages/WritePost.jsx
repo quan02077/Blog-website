@@ -1,19 +1,25 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { useParams } from 'react-router-dom'
 import WritePostHeader from '../components/WritePostHeader'
 import CoverUpload from '../components/CoverUpload'
 import PostMeta from '../components/PostMeta'
 import MarkdownEditor from '../components/MarkdownEditor'
 import PreviewModal from '../components/PreviewModal'
+import Blog_context from '../context/Blog_Context'
 
-function WritePost() {
-    const [title, setTitle] = useState('')
-    const [summary, setSummary] = useState('')
-    const [image, setImage] = useState(null)
+function WritePostContent({ currentDraft, id }) {
+    const isEdit = Boolean(id)
+
+    const [title, setTitle] = useState(currentDraft?.title || '')
+    const [summary, setSummary] = useState(currentDraft?.summary || currentDraft?.description || '')
+    const [image, setImage] = useState(currentDraft?.image || null)
     const [newCategory, setNewCategory] = useState('')
-    const [selectedCategory, setSelectedCategory] = useState('')
+    const [selectedCategory, setSelectedCategory] = useState(currentDraft?.category || '')
     const [isAddingNew, setIsAddingNew] = useState(false)
-    const [tag, setTag] = useState('')
-    const [content, setContent] = useState('')
+    const [tag, setTag] = useState(
+        currentDraft?.tag || (Array.isArray(currentDraft?.tags) ? currentDraft.tags.join(', ') : '')
+    )
+    const [content, setContent] = useState(currentDraft?.content || '')
     const [isPreviewOpen, setIsPreviewOpen] = useState(false)
 
     const calculateReadTime = (content) => {
@@ -27,6 +33,7 @@ function WritePost() {
     }
 
     const postData = {
+        id: id ? Number(id) || id : undefined,
         title,
         summary,
         image,
@@ -39,7 +46,7 @@ function WritePost() {
     return (
         <div className="flex flex-col gap-6 pb-10">
 
-            <WritePostHeader postData={postData} onPreview={() => setIsPreviewOpen(true)} />
+            <WritePostHeader postData={postData} onPreview={() => setIsPreviewOpen(true)} isEdit={isEdit} />
 
             <CoverUpload image={image} setImage={setImage} />
 
@@ -99,6 +106,17 @@ function WritePost() {
 
         </div>
     )
+}
+
+function WritePost() {
+    const { id } = useParams()
+    const [state] = useContext(Blog_context)
+
+    const currentDraft = id
+        ? state.drafts.find(d => String(d.id) === String(id)) || state.posts.find(p => String(p.id) === String(id))
+        : null
+
+    return <WritePostContent key={id || 'new'} currentDraft={currentDraft} id={id} />
 }
 
 export default WritePost
