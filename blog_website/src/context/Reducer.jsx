@@ -262,15 +262,19 @@ function reducer(state, action) {
         case UPDATE_DRAFT:
             {
                 const updateDraft = action.payload
-                const newDraft = state.drafts.map(draft => draft.id === updateDraft.id ? { ...draft, ...updateDraft } : draft);
+                const newDrafts = state.drafts.map(draft =>
+                    draft.id === updateDraft.id
+                        ? { ...draft, ...updateDraft, updatedAt: new Date().toISOString(), date: new Date().toLocaleDateString('vi-VN') }
+                        : draft
+                );
                 try {
-                    localStorage.setItem('drafts', JSON.stringify(newDraft));
+                    localStorage.setItem('drafts', JSON.stringify(newDrafts));
                 } catch (error) {
                     console.warn('LocalStorage error:', error);
                 }
                 return {
                     ...state,
-                    drafts: newDraft,
+                    drafts: newDrafts,
                 }
             }
         default:

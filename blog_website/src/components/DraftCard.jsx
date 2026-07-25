@@ -24,6 +24,9 @@ function DraftCard({ draft }) {
 
     const excerptText = draft.excerpt || draft.summary || draft.description || ''
     const dateText = draft.lastEdited || draft.date || 'Mới đây'
+    const timeText = (draft.updatedAt || draft.createdAt)
+        ? new Date(draft.updatedAt || draft.createdAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })
+        : ''
 
     const handleDelete = async (draftID) => {
         const result = await showConfirmAlert('Xóa bản nháp', 'Bạn có chắc chắn muốn xóa bản nháp này?')
@@ -81,7 +84,7 @@ function DraftCard({ draft }) {
                         </span>
                         <span className="flex items-center gap-1.5">
                             <FontAwesomeIcon icon={faClock} />
-                            {draft.readTime}
+                            {timeText}
                         </span>
                     </div>
                     <div className="flex items-center gap-2">
