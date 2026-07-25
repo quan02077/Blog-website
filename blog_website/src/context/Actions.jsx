@@ -18,7 +18,8 @@ import {
     DELETE_DRAFT,
     UPDATE_DRAFT,
     SORT_BY,
-    SEARCH
+    SEARCH,
+    FILTER_STATUS
 } from "./Constant";
 
 export const loginAction = (payload) => {
@@ -158,6 +159,13 @@ export const sortByAction = (payload) => {
 export const searchAction = (payload) => {
     return {
         type: SEARCH,
+        payload
+    }
+}
+
+export const filterAction = (payload) => {
+    return {
+        type: FILTER_STATUS,
         payload
     }
 }

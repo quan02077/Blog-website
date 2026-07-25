@@ -19,3 +19,4 @@ export const UPDATE_DRAFT = "update_draft";
 export const PUBLISH_FROM_DRAFT = "publish_from_draft";
 export const SORT_BY = "sort_by";
 export const SEARCH = "search";
+export const FILTER_STATUS = "filter_status";

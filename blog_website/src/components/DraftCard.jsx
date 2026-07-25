@@ -59,8 +59,8 @@ function DraftCard({ draft }) {
                         <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${catColors[draft.category] ?? 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'}`}>
                             {draft.category || 'Chưa phân loại'}
                         </span>
-                        {tagsList.map((tag) => (
-                            <span key={tag} className="text-[10px] font-medium text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">
+                        {tagsList.map((tag, idx) => (
+                            <span key={`tag-${tag}-${idx}`} className="text-[10px] font-medium text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">
                                 #{tag}
                             </span>
                         ))}

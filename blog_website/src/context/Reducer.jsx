@@ -18,7 +18,8 @@ import {
     DELETE_DRAFT,
     UPDATE_DRAFT,
     SORT_BY,
-    SEARCH
+    SEARCH,
+    FILTER_STATUS
 } from "./Constant";
 
 export const initialState = {
@@ -37,7 +38,8 @@ export const initialState = {
     drafts: JSON.parse(localStorage.getItem('drafts')) || [],
     categories: JSON.parse(localStorage.getItem('categories')) || [],
     search: '',
-    sortBy: 'latest'
+    sortBy: 'latest',
+    filter: 'all'
 }
 
 function reducer(state, action) {
@@ -267,8 +269,16 @@ function reducer(state, action) {
             {
                 const updateDraft = action.payload
                 const newDrafts = state.drafts.map(draft =>
-                    draft.id === updateDraft.id
-                        ? { ...draft, ...updateDraft, updatedAt: new Date().toISOString(), date: new Date().toLocaleDateString('vi-VN') }
+                    String(draft.id) === String(updateDraft.id)
+                        ? {
+                            ...draft,
+                            ...updateDraft,
+                            description: updateDraft?.summary || updateDraft?.description || draft.description,
+                            category: updateDraft?.category || draft.category,
+                            readTime: typeof updateDraft?.readTime === 'number' ? `${updateDraft.readTime} phút đọc` : (updateDraft?.readTime || draft.readTime),
+                            updatedAt: new Date().toISOString(),
+                            date: new Date().toLocaleDateString('vi-VN')
+                        }
                         : draft
                 );
                 try {
@@ -290,6 +300,11 @@ function reducer(state, action) {
             return {
                 ...state,
                 search: action.payload
+            }
+        case FILTER_STATUS:
+            return {
+                ...state,
+                filter: action.payload
             }
         default:
             throw new Error('Invalid action');
