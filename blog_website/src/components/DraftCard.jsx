@@ -6,13 +6,6 @@ import { showConfirmAlert, showSuccessAlert } from '../utils/alert'
 import { useContext } from 'react'
 import Blog_context from '../context/Blog_Context'
 
-const catColors = {
-    React: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
-    JavaScript: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
-    CSS: "bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400",
-    TypeScript: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
-}
-
 function DraftCard({ draft }) {
     const [, dispatch] = useContext(Blog_context)
     const navigate = useNavigate()
@@ -56,7 +49,7 @@ function DraftCard({ draft }) {
                 <div>
                     {/* Category + Tags */}
                     <div className="flex flex-wrap items-center gap-2 mb-2">
-                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${catColors[draft.category] ?? 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'}`}>
+                        <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400">
                             {draft.category || 'Chưa phân loại'}
                         </span>
                         {tagsList.map((tag, idx) => (
