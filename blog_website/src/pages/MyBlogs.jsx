@@ -1,44 +1,25 @@
 import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmark, faNewspaper } from '@fortawesome/free-solid-svg-icons'
+import { faXmark, faNewspaper, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import PostCard from '../components/PostCard'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
-
-const sampleMyPosts = [
-    {
-        id: 101,
-        author: "Minh Quân",
-        avatar: "https://ui-avatars.com/api/?name=Minh+Quan&background=3b82f6&color=fff&size=128",
-        date: "14 Tháng 7, 2026",
-        category: "React",
-        title: "Hướng dẫn React Router v6 cho người mới bắt đầu",
-        description: "Tìm hiểu cách sử dụng React Router v6 để xây dựng ứng dụng Single Page Application với hệ thống điều hướng mạnh mẽ và linh hoạt.",
-        image: "https://picsum.photos/seed/react-router/800/400",
-        likes: 42,
-        comments: 12,
-        readTime: "5 phút đọc",
-    },
-    {
-        id: 102,
-        author: "Minh Quân",
-        avatar: "https://ui-avatars.com/api/?name=Minh+Quan&background=3b82f6&color=fff&size=128",
-        date: "12 Tháng 7, 2026",
-        category: "CSS",
-        title: "Tailwind CSS v4 — Những tính năng mới đáng chú ý",
-        description: "Khám phá những thay đổi lớn trong Tailwind CSS v4 bao gồm @theme, CSS-first configuration và hiệu suất build nhanh hơn gấp 10 lần.",
-        image: "https://picsum.photos/seed/tailwind-v4/800/400",
-        likes: 85,
-        comments: 23,
-        readTime: "8 phút đọc",
-    }
-]
+import { showConfirmAlert, showSuccessAlert } from '../utils/alert'
 
 function MyBlogs() {
     const [state, dispatch] = useContext(Blog_context)
-    const { btnMyPosts } = state
+    const { btnMyPosts, posts, currentUser } = state
+    const userPosts = posts.filter(post => post.authorEmail ? post.authorEmail === currentUser?.email : post.author === currentUser?.username);
 
     if (!btnMyPosts) return null
+
+    const handleDelete = async (postId) => {
+        const result = await showConfirmAlert('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa bài viết này không?')
+        if (result.isConfirmed) {
+            dispatch(action.deletePostsAction(postId))
+            showSuccessAlert('Thành công', 'Đã xóa bài viết thành công!')
+        }
+    }
 
     return (
         <div
@@ -55,7 +36,7 @@ function MyBlogs() {
                         <FontAwesomeIcon icon={faNewspaper} className="text-blue-500 text-xl" />
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white">Bài viết của tôi</h3>
                         <span className="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 text-xs font-bold px-2.5 py-0.5 rounded-full">
-                            {sampleMyPosts.length} bài
+                            {userPosts.length} bài
                         </span>
                     </div>
                     <button
@@ -68,11 +49,21 @@ function MyBlogs() {
 
                 {/* --- DANH SÁCH BÀI VIẾT --- */}
                 <div className="flex-1 overflow-y-auto my-4 space-y-6 pr-1">
-                    {sampleMyPosts.length === 0 ? (
+                    {userPosts.length === 0 ? (
                         <p className="text-center text-gray-500 py-8">Bạn chưa viết bài nào.</p>
                     ) : (
-                        sampleMyPosts.map((post) => (
-                            <PostCard key={post.id} post={post} />
+                        userPosts.map((post) => (
+                            <div key={post.id} className="relative group cursor-pointer" >
+                                <PostCard post={post} />
+                                <button
+                                    type="button"
+                                    onClick={() => handleDelete(post.id)}
+                                    className="absolute top-3 right-3 z-10 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1.5 transition-all cursor-pointer"
+                                >
+                                    <FontAwesomeIcon icon={faTrashCan} />
+                                    Xóa bài
+                                </button>
+                            </div>
                         ))
                     )}
                 </div>

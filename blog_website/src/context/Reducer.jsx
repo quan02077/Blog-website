@@ -14,7 +14,8 @@ import {
     PUBLISH_POST,
     SAVE_DRAFTS,
     CREATE_CATEGORY,
-    DELETE_POSTS
+    DELETE_POSTS,
+    DELETE_DRAFT
 } from "./Constant";
 
 export const initialState = {
@@ -231,15 +232,34 @@ function reducer(state, action) {
             }
         case DELETE_POSTS:
             {
-                const newPosts = state.posts.filter(post => !action.payload.includes(post.id));
-                localStorage.setItem('posts', JSON.stringify(newPosts));
+                const targetIds = Array.isArray(action.payload) ? action.payload : [action.payload];
+                const newPosts = state.posts.filter(post => !targetIds.includes(post.id));
+                try {
+                    localStorage.setItem('posts', JSON.stringify(newPosts));
+                } catch (error) {
+                    console.warn('LocalStorage error:', error);
+                }
                 return {
                     ...state,
                     posts: newPosts,
                 }
             }
+        case DELETE_DRAFT:
+            {
+                const targetIds = Array.isArray(action.payload) ? action.payload : [action.payload];
+                const newDrafts = state.drafts.filter(draft => !targetIds.includes(draft.id));
+                try {
+                    localStorage.setItem('drafts', JSON.stringify(newDrafts));
+                } catch (error) {
+                    console.warn('LocalStorage error:', error);
+                }
+                return {
+                    ...state,
+                    drafts: newDrafts,
+                }
+            }
         default:
-            throw new Error('Invalid action')
+            throw new Error('Invalid action');
     }
 }
 

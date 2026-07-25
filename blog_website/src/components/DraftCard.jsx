@@ -1,5 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faTrashCan, faPaperPlane, faClock, faCalendar } from '@fortawesome/free-solid-svg-icons'
+import * as action from '../context/Actions'
+import { showConfirmAlert, showSuccessAlert } from '../utils/alert'
+import { useContext } from 'react'
+import Blog_context from '../context/Blog_Context'
 
 const catColors = {
     React: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
@@ -9,6 +13,7 @@ const catColors = {
 }
 
 function DraftCard({ draft }) {
+    const [, dispatch] = useContext(Blog_context)
     const tagsList = Array.isArray(draft.tags)
         ? draft.tags
         : typeof draft.tag === 'string' && draft.tag.trim() !== ''
@@ -17,6 +22,14 @@ function DraftCard({ draft }) {
 
     const excerptText = draft.excerpt || draft.summary || draft.description || ''
     const dateText = draft.lastEdited || draft.date || 'Mới đây'
+
+    const handleDelete = async (draftID) => {
+        const result = await showConfirmAlert('Xóa bản nháp', 'Bạn có chắc chắn muốn xóa bản nháp này?')
+        if (result.isConfirmed) {
+            dispatch(action.deleteDraftsAction(draftID))
+            showSuccessAlert('Thành công', 'Đã xóa bản nháp thành công!')
+        }
+    }
 
     return (
         <article className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden flex flex-col sm:flex-row hover:shadow-lg hover:shadow-gray-100 dark:hover:shadow-dark-bg/50 transition-all duration-300 group">
@@ -74,7 +87,9 @@ function DraftCard({ draft }) {
                             <FontAwesomeIcon icon={faPaperPlane} />
                             Đăng
                         </button>
-                        <button className="flex items-center gap-1.5 text-xs font-semibold text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 bg-red-50 dark:bg-red-900/30 hover:bg-red-100 dark:hover:bg-red-900/50 px-3 py-1.5 rounded-lg transition-colors">
+                        <button
+                            onClick={() => handleDelete(draft.id)}
+                            className="flex items-center gap-1.5 text-xs font-semibold text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 bg-red-50 dark:bg-red-900/30 hover:bg-red-100 dark:hover:bg-red-900/50 px-3 py-1.5 rounded-lg transition-colors">
                             <FontAwesomeIcon icon={faTrashCan} />
                         </button>
                     </div>
