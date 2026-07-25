@@ -16,7 +16,9 @@ import {
     CREATE_CATEGORY,
     DELETE_POSTS,
     DELETE_DRAFT,
-    UPDATE_DRAFT
+    UPDATE_DRAFT,
+    SORT_BY,
+    SEARCH
 } from "./Constant";
 
 export const initialState = {
@@ -34,6 +36,8 @@ export const initialState = {
     posts: JSON.parse(localStorage.getItem('posts')) || [],
     drafts: JSON.parse(localStorage.getItem('drafts')) || [],
     categories: JSON.parse(localStorage.getItem('categories')) || [],
+    search: '',
+    sortBy: 'latest'
 }
 
 function reducer(state, action) {
@@ -276,6 +280,16 @@ function reducer(state, action) {
                     ...state,
                     drafts: newDrafts,
                 }
+            }
+        case SORT_BY:
+            return {
+                ...state,
+                sortBy: action.payload
+            }
+        case SEARCH:
+            return {
+                ...state,
+                search: action.payload
             }
         default:
             throw new Error('Invalid action');

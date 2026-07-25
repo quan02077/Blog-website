@@ -3,11 +3,36 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileLines, faSearch, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import DraftCard from '../components/DraftCard'
 import DraftEmptyState from '../components/DraftEmptyState'
+import * as action from '../context/Actions'
 import Blog_context from '../context/Blog_Context'
 function Drafts() {
-    const [state] = useContext(Blog_context)
-    const { drafts } = state
+    const [state, dispatch] = useContext(Blog_context)
+    const { drafts, search, sortBy } = state
     const isEmpty = drafts.length === 0
+
+    const searchTerm = (search || '').trim().toLowerCase()
+    const draftsSort = drafts.filter(draft => {
+        if (searchTerm !== '') {
+            return (draft.title || '').toLowerCase().includes(searchTerm)
+        } else return true
+    })
+
+    switch (sortBy) {
+        case "az":
+            draftsSort.sort((a, b) => (a.title || '').toLowerCase().localeCompare((b.title || '').toLowerCase()))
+            break;
+        case "za":
+            draftsSort.sort((a, b) => (b.title || '').toLowerCase().localeCompare((a.title || '').toLowerCase()))
+            break;
+        case "latest":
+            draftsSort.sort((a, b) => new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0))
+            break;
+        case "oldest":
+            draftsSort.sort((a, b) => new Date(a.updatedAt || a.createdAt || 0) - new Date(b.updatedAt || b.createdAt || 0))
+            break;
+        default:
+            break;
+    }
 
     return (
         <div className="flex flex-col gap-6 pb-10">
@@ -28,9 +53,10 @@ function Drafts() {
                 <div className="relative flex-1 min-w-48">
                     <FontAwesomeIcon icon={faSearch} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
                     <input
+                        value={search}
+                        onChange={(e) => dispatch(action.searchAction(e.target.value))}
                         type="text"
                         placeholder="Tìm kiếm bản nháp..."
-                        readOnly
                         className="w-full pl-9 pr-4 py-2.5 text-sm bg-white dark:bg-dark-bg text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl outline-none placeholder-gray-300 dark:placeholder-gray-600"
                     />
                 </div>
@@ -44,10 +70,13 @@ function Drafts() {
                     <FontAwesomeIcon icon={faChevronDown} className="absolute right-3 top-3 text-gray-400 text-xs pointer-events-none" />
                 </div>
                 <div className="relative">
-                    <select className="appearance-none text-sm text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 pr-8 outline-none bg-white dark:bg-dark-bg cursor-pointer">
-                        <option>Chỉnh sửa gần nhất</option>
-                        <option>Cũ nhất</option>
-                        <option>A → Z</option>
+                    <select
+                        onChange={(e) => dispatch(action.sortByAction(e.target.value))}
+                        className="appearance-none text-sm text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 pr-8 outline-none bg-white dark:bg-dark-bg cursor-pointer" value={sortBy}>
+                        <option value="latest">Chỉnh sửa gần nhất</option>
+                        <option value="oldest">Cũ nhất</option>
+                        <option value="az">A → Z</option>
+                        <option value="za">Z → A</option>
                     </select>
                     <FontAwesomeIcon icon={faChevronDown} className="absolute right-3 top-3 text-gray-400 text-xs pointer-events-none" />
                 </div>
@@ -58,7 +87,7 @@ function Drafts() {
                 <DraftEmptyState />
             ) : (
                 <div className="flex flex-col gap-4">
-                    {drafts.map((draft) => (
+                    {draftsSort.map((draft) => (
                         <DraftCard key={draft.id} draft={draft} />
                     ))}
                 </div>

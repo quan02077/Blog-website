@@ -16,7 +16,9 @@ import {
     SAVE_DRAFTS,
     CREATE_CATEGORY,
     DELETE_DRAFT,
-    UPDATE_DRAFT
+    UPDATE_DRAFT,
+    SORT_BY,
+    SEARCH
 } from "./Constant";
 
 export const loginAction = (payload) => {
@@ -142,6 +144,20 @@ export const deleteDraftsAction = (payload) => {
 export const updateDraftsAction = (payload) => {
     return {
         type: UPDATE_DRAFT,
+        payload
+    }
+}
+
+export const sortByAction = (payload) => {
+    return {
+        type: SORT_BY,
+        payload
+    }
+}
+
+export const searchAction = (payload) => {
+    return {
+        type: SEARCH,
         payload
     }
 }
