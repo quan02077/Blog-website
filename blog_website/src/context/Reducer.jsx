@@ -273,11 +273,9 @@ function reducer(state, action) {
                         ? {
                             ...draft,
                             ...updateDraft,
-                            description: updateDraft?.summary || updateDraft?.description || draft.description,
-                            category: updateDraft?.category || draft.category,
-                            readTime: typeof updateDraft?.readTime === 'number' ? `${updateDraft.readTime} phút đọc` : (updateDraft?.readTime || draft.readTime),
-                            updatedAt: new Date().toISOString(),
-                            date: new Date().toLocaleDateString('vi-VN')
+                            description: updateDraft.summary || updateDraft.description || '',
+                            readTime: typeof updateDraft.readTime === 'number' ? `${updateDraft.readTime} phút đọc` : updateDraft.readTime,
+                            updatedAt: new Date().toISOString()
                         }
                         : draft
                 );
