@@ -37,7 +37,7 @@ function WritePostHeader({ postData, onPreview }) {
                         if (result.isConfirmed) {
                             dispatch(action.saveDraftsAction(postData))
                             await showSuccessAlert('Thông báo', 'Bài viết đã được lưu vào bản nháp thành công')
-                            navigate('/')
+                            navigate('/drafts')
                         }
                     }}
                     className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors cursor-pointer"

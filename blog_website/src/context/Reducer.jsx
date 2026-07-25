@@ -13,7 +13,8 @@ import {
     UPDATE_INFO,
     PUBLISH_POST,
     SAVE_DRAFTS,
-    CREATE_CATEGORY
+    CREATE_CATEGORY,
+    DELETE_POSTS
 } from "./Constant";
 
 export const initialState = {
@@ -182,7 +183,11 @@ function reducer(state, action) {
                     readTime: `${action.payload?.readTime || 1} phút đọc`
                 };
                 const newPosts = [newPost, ...state.posts];
-                localStorage.setItem('posts', JSON.stringify(newPosts));
+                try {
+                    localStorage.setItem('posts', JSON.stringify(newPosts));
+                } catch (error) {
+                    console.warn('LocalStorage bị đầy, không thể lưu thêm bài viết:', error);
+                }
                 return {
                     ...state,
                     posts: newPosts,
@@ -204,7 +209,11 @@ function reducer(state, action) {
                     readTime: `${action.payload?.readTime || 1} phút đọc`
                 };
                 const newDrafts = [newDraft, ...state.drafts];
-                localStorage.setItem('drafts', JSON.stringify(newDrafts));
+                try {
+                    localStorage.setItem('drafts', JSON.stringify(newDrafts));
+                } catch (error) {
+                    console.warn('LocalStorage bị đầy, không thể lưu thêm bản nháp:', error);
+                }
                 return {
                     ...state,
                     drafts: newDrafts,
@@ -218,6 +227,15 @@ function reducer(state, action) {
                 return {
                     ...state,
                     categories: newCategories,
+                }
+            }
+        case DELETE_POSTS:
+            {
+                const newPosts = state.posts.filter(post => !action.payload.includes(post.id));
+                localStorage.setItem('posts', JSON.stringify(newPosts));
+                return {
+                    ...state,
+                    posts: newPosts,
                 }
             }
         default:

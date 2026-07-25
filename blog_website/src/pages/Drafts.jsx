@@ -1,43 +1,13 @@
+import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileLines, faSearch, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import DraftCard from '../components/DraftCard'
 import DraftEmptyState from '../components/DraftEmptyState'
-
-const sampleDrafts = [
-    {
-        id: 1,
-        title: "Deploy React lên Vercel — Hướng dẫn từng bước",
-        excerpt: "Hướng dẫn chi tiết cách deploy một ứng dụng React lên Vercel, từ cấu hình đến biến môi trường.",
-        image: "https://picsum.photos/seed/vercel-deploy/400/200",
-        category: "React",
-        tags: ["vercel", "deploy", "react"],
-        lastEdited: "14/07/2026 — 20:30",
-        readTime: "6 phút",
-    },
-    {
-        id: 2,
-        title: "So sánh Vite vs Webpack — Ai nhanh hơn?",
-        excerpt: "Phân tích chi tiết sự khác biệt giữa Vite và Webpack về tốc độ build, cấu hình và hệ sinh thái plugin.",
-        image: "https://picsum.photos/seed/vite-webpack/400/200",
-        category: "JavaScript",
-        tags: ["vite", "webpack", "bundler"],
-        lastEdited: "13/07/2026 — 15:45",
-        readTime: "8 phút",
-    },
-    {
-        id: 3,
-        title: "CSS Grid vs Flexbox — Khi nào dùng cái nào?",
-        excerpt: "Hướng dẫn toàn diện về hai layout system mạnh mẽ nhất của CSS và khi nào nên chọn cái nào.",
-        image: "https://picsum.photos/seed/css-grid/400/200",
-        category: "CSS",
-        tags: ["css", "grid", "flexbox"],
-        lastEdited: "12/07/2026 — 09:10",
-        readTime: "5 phút",
-    },
-]
-
+import Blog_context from '../context/Blog_Context'
 function Drafts() {
-    const isEmpty = sampleDrafts.length === 0
+    const [state] = useContext(Blog_context)
+    const { drafts } = state
+    const isEmpty = drafts.length === 0
 
     return (
         <div className="flex flex-col gap-6 pb-10">
@@ -49,7 +19,7 @@ function Drafts() {
                 </div>
                 <div>
                     <h1 className="text-xl font-extrabold text-gray-900 dark:text-white leading-none mb-0.5">Bản nháp</h1>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{sampleDrafts.length} bài chưa được đăng</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{drafts.length} bài chưa được đăng</p>
                 </div>
             </div>
 
@@ -88,7 +58,7 @@ function Drafts() {
                 <DraftEmptyState />
             ) : (
                 <div className="flex flex-col gap-4">
-                    {sampleDrafts.map((draft) => (
+                    {drafts.map((draft) => (
                         <DraftCard key={draft.id} draft={draft} />
                     ))}
                 </div>

@@ -12,6 +12,7 @@ import {
     TOGGLE_SETTINGS,
     UPDATE_INFO,
     PUBLISH_POST,
+    DELETE_POSTS,
     SAVE_DRAFTS,
     CREATE_CATEGORY
 } from "./Constant";
@@ -118,6 +119,13 @@ export const saveDraftsAction = (payload) => {
 export const createCategoryAction = (payload) => {
     return {
         type: CREATE_CATEGORY,
+        payload
+    }
+}
+
+export const deletePostsAction = (payload) => {
+    return {
+        type: DELETE_POSTS,
         payload
     }
 }

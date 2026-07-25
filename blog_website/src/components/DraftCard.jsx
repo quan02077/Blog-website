@@ -9,13 +9,22 @@ const catColors = {
 }
 
 function DraftCard({ draft }) {
+    const tagsList = Array.isArray(draft.tags)
+        ? draft.tags
+        : typeof draft.tag === 'string' && draft.tag.trim() !== ''
+            ? draft.tag.split(',').map(t => t.trim()).filter(Boolean)
+            : []
+
+    const excerptText = draft.excerpt || draft.summary || draft.description || ''
+    const dateText = draft.lastEdited || draft.date || 'Mới đây'
+
     return (
         <article className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden flex flex-col sm:flex-row hover:shadow-lg hover:shadow-gray-100 dark:hover:shadow-dark-bg/50 transition-all duration-300 group">
             {/* Cover Image */}
             <div className="sm:w-52 sm:shrink-0 overflow-hidden">
                 <img
-                    src={draft.image}
-                    alt={draft.title}
+                    src={draft.image || 'https://picsum.photos/seed/draft/400/200'}
+                    alt={draft.title || 'Bản nháp'}
                     className="w-full h-40 sm:h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
             </div>
@@ -26,9 +35,9 @@ function DraftCard({ draft }) {
                     {/* Category + Tags */}
                     <div className="flex flex-wrap items-center gap-2 mb-2">
                         <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${catColors[draft.category] ?? 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'}`}>
-                            {draft.category}
+                            {draft.category || 'Chưa phân loại'}
                         </span>
-                        {draft.tags.map((tag) => (
+                        {tagsList.map((tag) => (
                             <span key={tag} className="text-[10px] font-medium text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">
                                 #{tag}
                             </span>
@@ -37,11 +46,11 @@ function DraftCard({ draft }) {
 
                     {/* Title */}
                     <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-1.5 line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                        {draft.title}
+                        {draft.title || 'Bài viết chưa có tiêu đề'}
                     </h2>
 
                     {/* Excerpt */}
-                    <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{draft.excerpt}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{excerptText}</p>
                 </div>
 
                 {/* Meta + Actions */}
@@ -49,11 +58,11 @@ function DraftCard({ draft }) {
                     <div className="flex items-center gap-4 text-xs text-gray-400">
                         <span className="flex items-center gap-1.5">
                             <FontAwesomeIcon icon={faCalendar} />
-                            {draft.lastEdited}
+                            {dateText}
                         </span>
                         <span className="flex items-center gap-1.5">
                             <FontAwesomeIcon icon={faClock} />
-                            {draft.readTime} đọc
+                            {draft.readTime}
                         </span>
                     </div>
                     <div className="flex items-center gap-2">
