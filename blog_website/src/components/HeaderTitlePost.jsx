@@ -1,0 +1,55 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+    faClock,
+    faCalendar,
+    faUserCheck
+} from '@fortawesome/free-solid-svg-icons'
+function HeaderTitlePost({ post }) {
+    return (
+        <>
+            <header className="flex flex-col gap-4">
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white leading-tight">
+                    {post.title}
+                </h1>
+
+                <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-normal italic border-l-4 border-blue-500 pl-4 py-1">
+                    {post.summary}
+                </p>
+
+                {/* Thẻ Thông tin Tác giả */}
+                <div className="flex items-center justify-between flex-wrap gap-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+                    <div className="flex items-center gap-3.5">
+                        <img
+                            src={post.avatar}
+                            alt={post.author}
+                            className="w-12 h-12 rounded-full ring-2 ring-blue-500/30 object-cover"
+                        />
+                        <div>
+                            <div className="flex items-center gap-2">
+                                <h3 className="font-bold text-gray-900 dark:text-white">{post.author}</h3>
+                                <span className="text-blue-500 text-xs">
+                                    <FontAwesomeIcon icon={faUserCheck} />
+                                </span>
+                            </div>
+                            <p className="text-xs text-gray-400 flex items-center gap-2 mt-0.5">
+                                <span><FontAwesomeIcon icon={faCalendar} className="mr-1" />{post.date}</span>
+                                <span>•</span>
+                                <span><FontAwesomeIcon icon={faClock} className="mr-1" />{post.readTime}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            {/* --- HERO COVER IMAGE --- */}
+            <div className="rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-800">
+                <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-full max-h-[450px] object-cover"
+                />
+            </div>
+        </>
+    )
+}
+export default HeaderTitlePost

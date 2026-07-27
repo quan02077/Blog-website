@@ -8,34 +8,34 @@ function Sidebar() {
         <div className="w-full h-full bg-white dark:bg-dark-surface border border-gray-200 dark:border-gray-800 rounded-xl p-4 custom-scrollbar">
             <nav className="flex flex-col gap-1">
                 {/* DISCOVER SECTION */}
-                <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 px-2">Discover</div>
+                <div className="titleSideBar">Discover</div>
                 <NavLink to="/posts" className={({ isActive }) => `sideBar ${activeBtn({ isActive })}`}>
-                    📝 All Posts
+                    All Posts
                 </NavLink>
                 <NavLink to="/popular" className={({ isActive }) => `sideBar ${activeBtn({ isActive })}`}>
-                    🔥 Popular Posts
+                    Popular Posts
                 </NavLink>
 
                 {/* ORGANIZE SECTION */}
-                <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-4 mb-1 px-2">Organize</div>
+                <div className="titleSideBar">Organize</div>
                 <NavLink to="/categories" className={({ isActive }) => `sideBar ${activeBtn({ isActive })}`}>
-                    🏷️ Categories
+                    Categories
                 </NavLink>
                 <NavLink to="/archives" className={({ isActive }) => `sideBar ${activeBtn({ isActive })}`}>
-                    📁 Archives
+                    Archives
                 </NavLink>
 
                 {/* AUTHOR SECTION */}
-                <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-4 mb-1 px-2">AUTHOR</div>
+                <div className="titleSideBar">AUTHOR</div>
                 <NavLink to="/write" className={({ isActive }) => `sideBar ${activeBtn({ isActive })}`}>
-                    ✍️ Write a New Post
+                    Write a New Post
                 </NavLink>
                 <NavLink to="/drafts" className={({ isActive }) => `sideBar ${activeBtn({ isActive })}`}>
-                    📋 Drafts
+                    Drafts
                 </NavLink>
 
                 {/* INFO SECTION */}
-                <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-4 mb-1 px-2">Info</div>
+                <div className="titleSideBar">Info</div>
                 <div className="flex flex-wrap gap-3">
                     <a href="https://www.facebook.com/nguyen.quan.930371/" target="_blank" rel="noopener noreferrer" className="hoverButton">
                         <FontAwesomeIcon icon={faFacebook} />
