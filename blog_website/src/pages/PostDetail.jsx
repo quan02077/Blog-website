@@ -1,5 +1,4 @@
-import { useState, useContext } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faArrowLeft,
@@ -13,23 +12,11 @@ import {
     faUserCheck,
     faTag
 } from '@fortawesome/free-solid-svg-icons'
-import {
-    faHeart as faHeartRegular,
-    faBookmark as faBookmarkRegular
-} from '@fortawesome/free-regular-svg-icons'
-import Blog_context from '../context/Blog_Context'
+import { faHeart as faHeartRegular, faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons'
 
 function PostDetail() {
-    const { id } = useParams()
-    const navigate = useNavigate()
-    const [state] = useContext(Blog_context)
-
-    // Lấy bài viết từ Context theo ID hoặc dùng dữ liệu mẫu làm Template thiết kế
-    const foundPost = state?.posts?.find(p => String(p.id) === String(id))
-
-    // Dữ liệu mẫu (Sample Post) phục vụ việc thiết kế giao diện
-    const samplePost = {
-        id: id || 1,
+    // 💡 Dữ liệu mẫu (Template Data) thuần giao diện
+    const post = {
         title: "Xây dựng ứng dụng Web hiện đại với React, Vite và Tailwind CSS",
         summary: "Hướng dẫn chi tiết từ A-Z cách tối ưu cấu trúc dự án, tạo Design System với Tailwind CSS và kết hợp Context API quản lý state hiệu quả.",
         category: "ReactJS",
@@ -39,7 +26,6 @@ function PostDetail() {
         date: "25/07/2026",
         readTime: "5 phút đọc",
         likes: 42,
-        commentsCount: 3,
         tags: ["React", "TailwindCSS", "Frontend", "JavaScript"],
         content: `
 # 🚀 Giới thiệu
@@ -83,14 +69,11 @@ Hãy bắt đầu tối ưu dự án của bạn ngay hôm nay bằng cách áp 
         `
     }
 
-    const post = foundPost || samplePost
-
-    // State mẫu tương tác
+    // State mẫu giao diện thuần túy
     const [isLiked, setIsLiked] = useState(false)
-    const [likeCount, setLikeCount] = useState(post.likes || 0)
     const [isBookmarked, setIsBookmarked] = useState(false)
     const [commentText, setCommentText] = useState('')
-    const [commentsList, setCommentsList] = useState([
+    const [commentsList] = useState([
         {
             id: 1,
             author: "Hoàng Nam",
@@ -107,25 +90,6 @@ Hãy bắt đầu tối ưu dự án của bạn ngay hôm nay bằng cách áp 
         }
     ])
 
-    const handleLikeToggle = () => {
-        setIsLiked(!isLiked)
-        setLikeCount(prev => isLiked ? prev - 1 : prev + 1)
-    }
-
-    const handleAddComment = (e) => {
-        e.preventDefault()
-        if (commentText.trim() === '') return
-        const newCmt = {
-            id: Date.now(),
-            author: state?.currentUser?.username || "Người dùng",
-            avatar: state?.currentUser?.avatar || "https://ui-avatars.com/api/?name=User",
-            date: "Mới đây",
-            content: commentText.trim()
-        }
-        setCommentsList([newCmt, ...commentsList])
-        setCommentText('')
-    }
-
     return (
         <article className="flex flex-col gap-8 pb-16 max-w-4xl mx-auto">
 
@@ -133,7 +97,6 @@ Hãy bắt đầu tối ưu dự án của bạn ngay hôm nay bằng cách áp 
             <div className="flex items-center justify-between bg-white dark:bg-dark-surface p-4 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm sticky top-4 z-20 backdrop-blur-md bg-opacity-90 dark:bg-opacity-90">
                 <button
                     type="button"
-                    onClick={() => navigate(-1)}
                     className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-3.5 py-2 rounded-xl transition-colors cursor-pointer"
                 >
                     <FontAwesomeIcon icon={faArrowLeft} />
@@ -142,7 +105,7 @@ Hãy bắt đầu tối ưu dự án của bạn ngay hôm nay bằng cách áp 
 
                 <div className="flex items-center gap-3">
                     <span className="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                        {post.category || "Bài viết"}
+                        {post.category}
                     </span>
                     <span className="hidden sm:flex items-center gap-1.5 text-xs text-gray-400">
                         <FontAwesomeIcon icon={faClock} />
@@ -153,15 +116,15 @@ Hãy bắt đầu tối ưu dự án của bạn ngay hôm nay bằng cách áp 
                 <div className="flex items-center gap-2">
                     <button
                         type="button"
-                        onClick={handleLikeToggle}
+                        onClick={() => setIsLiked(!isLiked)}
                         className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-xl transition-all cursor-pointer ${
                             isLiked
                                 ? 'bg-red-50 dark:bg-red-900/30 text-red-500'
                                 : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-red-500'
                         }`}
                     >
-                        <FontAwesomeIcon icon={isLiked ? faHeart : faHeartRegular} className={isLiked ? 'text-red-500 animate-bounce' : ''} />
-                        <span>{likeCount}</span>
+                        <FontAwesomeIcon icon={isLiked ? faHeart : faHeartRegular} className={isLiked ? 'text-red-500' : ''} />
+                        <span>{isLiked ? post.likes + 1 : post.likes}</span>
                     </button>
 
                     <button
@@ -172,19 +135,13 @@ Hãy bắt đầu tối ưu dự án của bạn ngay hôm nay bằng cách áp 
                                 ? 'bg-yellow-50 dark:bg-yellow-900/30 text-yellow-500'
                                 : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-yellow-500'
                         }`}
-                        title="Lưu bài viết"
                     >
                         <FontAwesomeIcon icon={isBookmarked ? faBookmark : faBookmarkRegular} />
                     </button>
 
                     <button
                         type="button"
-                        onClick={() => {
-                            navigator.clipboard?.writeText(window.location.href)
-                            alert('Đã chép liên kết bài viết!')
-                        }}
                         className="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-blue-500 transition-all cursor-pointer"
-                        title="Chia sẻ"
                     >
                         <FontAwesomeIcon icon={faShareNodes} />
                     </button>
@@ -197,24 +154,22 @@ Hãy bắt đầu tối ưu dự án của bạn ngay hôm nay bằng cách áp 
                     {post.title}
                 </h1>
 
-                {post.summary && (
-                    <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-normal italic border-l-4 border-blue-500 pl-4 py-1">
-                        {post.summary}
-                    </p>
-                )}
+                <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-normal italic border-l-4 border-blue-500 pl-4 py-1">
+                    {post.summary}
+                </p>
 
                 {/* Thẻ Thông tin Tác giả */}
                 <div className="flex items-center justify-between flex-wrap gap-4 pt-4 border-t border-gray-100 dark:border-gray-800">
                     <div className="flex items-center gap-3.5">
                         <img
-                            src={post.avatar || "https://ui-avatars.com/api/?name=User"}
+                            src={post.avatar}
                             alt={post.author}
                             className="w-12 h-12 rounded-full ring-2 ring-blue-500/30 object-cover"
                         />
                         <div>
                             <div className="flex items-center gap-2">
                                 <h3 className="font-bold text-gray-900 dark:text-white">{post.author}</h3>
-                                <span className="text-blue-500 text-xs" title="Tác giả đã xác thực">
+                                <span className="text-blue-500 text-xs">
                                     <FontAwesomeIcon icon={faUserCheck} />
                                 </span>
                             </div>
@@ -229,39 +184,35 @@ Hãy bắt đầu tối ưu dự án của bạn ngay hôm nay bằng cách áp 
             </header>
 
             {/* --- HERO COVER IMAGE --- */}
-            {post.image && (
-                <div className="rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-800">
-                    <img
-                        src={post.image}
-                        alt={post.title}
-                        className="w-full max-h-[450px] object-cover"
-                    />
-                </div>
-            )}
+            <div className="rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-800">
+                <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-full max-h-[450px] object-cover"
+                />
+            </div>
 
-            {/* --- NỘI DUNG BÀI VIẾT (ARTICLE BODY) --- */}
+            {/* --- NỘI DUNG BÀI VIẾT --- */}
             <div className="bg-white dark:bg-dark-surface rounded-3xl border border-gray-200 dark:border-gray-800 p-6 sm:p-10 shadow-sm">
                 <div className="prose dark:prose-invert max-w-none text-gray-800 dark:text-gray-200 leading-relaxed text-base whitespace-pre-line">
                     {post.content}
                 </div>
 
                 {/* --- TAGS LIST --- */}
-                {post.tags && post.tags.length > 0 && (
-                    <div className="mt-10 pt-6 border-t border-gray-100 dark:border-gray-800 flex flex-wrap items-center gap-2">
-                        <span className="text-xs font-semibold text-gray-400 mr-2 flex items-center gap-1">
-                            <FontAwesomeIcon icon={faTag} />
-                            Thẻ bài viết:
+                <div className="mt-10 pt-6 border-t border-gray-100 dark:border-gray-800 flex flex-wrap items-center gap-2">
+                    <span className="text-xs font-semibold text-gray-400 mr-2 flex items-center gap-1">
+                        <FontAwesomeIcon icon={faTag} />
+                        Thẻ bài viết:
+                    </span>
+                    {post.tags.map((t, idx) => (
+                        <span
+                            key={idx}
+                            className="text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-1 rounded-full transition-colors cursor-pointer"
+                        >
+                            #{t}
                         </span>
-                        {(Array.isArray(post.tags) ? post.tags : String(post.tags).split(',')).map((t, idx) => (
-                            <span
-                                key={idx}
-                                className="text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-1 rounded-full transition-colors cursor-pointer"
-                            >
-                                #{String(t).trim()}
-                            </span>
-                        ))}
-                    </div>
-                )}
+                    ))}
+                </div>
             </div>
 
             {/* --- KHU VỰC BÌNH LUẬN (COMMENTS SECTION) --- */}
@@ -273,10 +224,10 @@ Hãy bắt đầu tối ưu dự án của bạn ngay hôm nay bằng cách áp 
                     </h3>
                 </div>
 
-                {/* Form gửi bình luận */}
-                <form onSubmit={handleAddComment} className="flex gap-3 items-start">
+                {/* Form gửi bình luận mẫu */}
+                <div className="flex gap-3 items-start">
                     <img
-                        src={state?.currentUser?.avatar || "https://ui-avatars.com/api/?name=User"}
+                        src="https://ui-avatars.com/api/?name=User"
                         alt="Avatar"
                         className="w-10 h-10 rounded-full ring-2 ring-gray-200 dark:ring-gray-700 shrink-0"
                     />
@@ -290,7 +241,7 @@ Hãy bắt đầu tối ưu dự án của bạn ngay hôm nay bằng cách áp 
                         />
                         <div className="flex justify-end">
                             <button
-                                type="submit"
+                                type="button"
                                 className="flex items-center gap-2 text-sm font-semibold text-white bg-blue-500 hover:bg-blue-600 px-5 py-2 rounded-xl transition-colors cursor-pointer shadow-md shadow-blue-500/20"
                             >
                                 <FontAwesomeIcon icon={faPaperPlane} />
@@ -298,9 +249,9 @@ Hãy bắt đầu tối ưu dự án của bạn ngay hôm nay bằng cách áp 
                             </button>
                         </div>
                     </div>
-                </form>
+                </div>
 
-                {/* Danh sách các bình luận */}
+                {/* Danh sách các bình luận mẫu */}
                 <div className="flex flex-col gap-4 mt-2">
                     {commentsList.map((cmt) => (
                         <div key={cmt.id} className="p-4 rounded-2xl bg-gray-50 dark:bg-dark-bg/60 border border-gray-100 dark:border-gray-800/80 flex gap-3.5">

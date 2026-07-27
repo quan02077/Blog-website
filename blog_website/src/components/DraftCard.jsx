@@ -38,6 +38,7 @@ function DraftCard({ draft }) {
         if (result.isConfirmed) {
             dispatch(action.publishPostAction(draft))
             showSuccessAlert('Thành công', 'Đã đăng bài viết thành công!')
+            navigate('/')
         }
     }
 
