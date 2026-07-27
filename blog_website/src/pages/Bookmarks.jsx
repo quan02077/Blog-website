@@ -5,25 +5,9 @@ import PostCard from '../components/PostCard'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 
-const sampleBookmarkedPosts = [
-    {
-        id: 201,
-        author: "Minh Quân",
-        avatar: "https://ui-avatars.com/api/?name=Minh+Quan&background=3b82f6&color=fff&size=128",
-        date: "10 Tháng 7, 2026",
-        category: "JavaScript",
-        title: "10 mẹo JavaScript giúp code sạch hơn",
-        description: "Tổng hợp 10 kỹ thuật và mẹo viết JavaScript hiện đại giúp code của bạn ngắn gọn, dễ đọc và hiệu quả hơn.",
-        image: "https://picsum.photos/seed/js-tips/800/400",
-        likes: 128,
-        comments: 34,
-        readTime: "6 phút đọc",
-    }
-]
-
 function Bookmarks() {
     const [state, dispatch] = useContext(Blog_context)
-    const { btnBookmarks } = state
+    const { btnBookmarks, bookmarks } = state
 
     if (!btnBookmarks) return null
 
@@ -42,7 +26,7 @@ function Bookmarks() {
                         <FontAwesomeIcon icon={faBookmark} className="text-yellow-500 text-xl" />
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white">Bài viết đã lưu (Bookmarks)</h3>
                         <span className="bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 text-xs font-bold px-2.5 py-0.5 rounded-full">
-                            {sampleBookmarkedPosts.length} đã lưu
+                            {bookmarks.length} đã lưu
                         </span>
                     </div>
                     <button
@@ -55,11 +39,11 @@ function Bookmarks() {
 
                 {/* --- DANH SÁCH BÀI VIẾT ĐÃ LƯU --- */}
                 <div className="flex-1 overflow-y-auto my-4 space-y-6 pr-1">
-                    {sampleBookmarkedPosts.length === 0 ? (
+                    {(!bookmarks || bookmarks.length === 0) ? (
                         <p className="text-center text-gray-500 py-8">Chưa có bài viết nào được lưu.</p>
                     ) : (
-                        sampleBookmarkedPosts.map((post) => (
-                            <PostCard key={post.id} post={post} />
+                        bookmarks.filter(b => typeof b === 'object' && b !== null).map((post, idx) => (
+                            <PostCard key={post.id || idx} post={post} />
                         ))
                     )}
                 </div>

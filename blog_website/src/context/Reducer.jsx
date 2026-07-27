@@ -309,12 +309,19 @@ function reducer(state, action) {
         case BOOKMARKS:
             {
                 const targetPost = action.payload
-                if (!targetPost || !targetPost.id) return state;
+                if (!targetPost || (!targetPost.id && !targetPost.title)) return state;
 
-                const isAlreadyBookmarked = state.bookmarks.some(b => String(b.id) === String(targetPost.id))
+                // Kiểm tra trùng lặp theo cả ID lẫn Tiêu đề bài viết
+                const isAlreadyBookmarked = state.bookmarks.some(b =>
+                    (targetPost.id && String(b.id) === String(targetPost.id)) ||
+                    (targetPost.title && b.title === targetPost.title)
+                )
 
                 const newBookmarks = isAlreadyBookmarked
-                    ? state.bookmarks.filter(b => String(b.id) !== String(targetPost.id))
+                    ? state.bookmarks.filter(b =>
+                        String(b.id) !== String(targetPost.id) &&
+                        b.title !== targetPost.title
+                    )
                     : [targetPost, ...state.bookmarks]
 
                 try {
