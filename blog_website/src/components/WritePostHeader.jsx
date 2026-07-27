@@ -10,6 +10,30 @@ function WritePostHeader({ postData, onPreview, isEdit = false }) {
     const [, dispatch] = useContext(Blog_context)
     const navigate = useNavigate()
 
+    const handleSaveDraft = async () => {
+        const message = isEdit ? 'Bạn có chắc chắn muốn cập nhật bản nháp này?' : 'Bạn có chắc chắn muốn lưu nháp bài viết này?'
+        const result = await showConfirmAlert('Thông báo', message)
+        if (result.isConfirmed) {
+            if (isEdit) {
+                dispatch(action.updateDraftsAction(postData))
+                await showSuccessAlert('Thông báo', 'Cập nhật bản nháp thành công')
+            } else {
+                dispatch(action.saveDraftsAction(postData))
+                await showSuccessAlert('Thông báo', 'Bài viết đã được lưu vào bản nháp thành công')
+            }
+            navigate('/drafts')
+        }
+    }
+
+    const handlePublishPost = async () => {
+        const result = await showConfirmAlert('Thông báo', 'Bạn có chắc chắn muốn đăng bài viết này?')
+        if (result.isConfirmed) {
+            dispatch(action.publishPostAction(postData))
+            await showSuccessAlert('Thông báo', 'Bài viết đã được đăng thành công')
+            navigate('/')
+        }
+    }
+
     return (
         <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -32,24 +56,11 @@ function WritePostHeader({ postData, onPreview, isEdit = false }) {
                     className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors cursor-pointer"
                 >
                     <FontAwesomeIcon icon={faEye} />
-                    Preview
+                    Xem trước
                 </button>
                 <button
                     type="button"
-                    onClick={async () => {
-                        const message = isEdit ? 'Bạn có chắc chắn muốn cập nhật bản nháp này?' : 'Bạn có chắc chắn muốn lưu nháp bài viết này?'
-                        const result = await showConfirmAlert('Thông báo', message)
-                        if (result.isConfirmed) {
-                            if (isEdit) {
-                                dispatch(action.updateDraftsAction(postData))
-                                await showSuccessAlert('Thông báo', 'Cập nhật bản nháp thành công')
-                            } else {
-                                dispatch(action.saveDraftsAction(postData))
-                                await showSuccessAlert('Thông báo', 'Bài viết đã được lưu vào bản nháp thành công')
-                            }
-                            navigate('/drafts')
-                        }
-                    }}
+                    onClick={handleSaveDraft}
                     className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors cursor-pointer"
                 >
                     <FontAwesomeIcon icon={faFloppyDisk} />
@@ -58,14 +69,7 @@ function WritePostHeader({ postData, onPreview, isEdit = false }) {
                 <button
                     type="button"
                     className="flex items-center gap-2 text-sm font-semibold text-white bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 px-4 py-2 rounded-xl transition-colors cursor-pointer"
-                    onClick={async () => {
-                        const result = await showConfirmAlert('Thông báo', 'Bạn có chắc chắn muốn đăng bài viết này?')
-                        if (result.isConfirmed) {
-                            dispatch(action.publishPostAction(postData))
-                            await showSuccessAlert('Thông báo', 'Bài viết đã được đăng thành công')
-                            navigate('/')
-                        }
-                    }}
+                    onClick={handlePublishPost}
                 >
                     <FontAwesomeIcon icon={faPaperPlane} />
                     Đăng bài

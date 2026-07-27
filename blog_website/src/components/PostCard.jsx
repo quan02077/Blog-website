@@ -1,11 +1,20 @@
+import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faComment, faBookmark, faShareFromSquare } from '@fortawesome/free-regular-svg-icons'
 
 function PostCard({ post }) {
+    const navigate = useNavigate()
+
+    const handleGoDetail = () => {
+        if (post?.id) {
+            navigate(`/post/${post.id}`)
+        }
+    }
+
     return (
         <article className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-lg transition-shadow duration-300">
             {/* Post Image */}
-            <div className="relative overflow-hidden">
+            <div className="relative overflow-hidden cursor-pointer" onClick={handleGoDetail}>
                 <img
                     src={post.image}
                     alt={post.title}
@@ -32,10 +41,13 @@ function PostCard({ post }) {
                 </div>
 
                 {/* Title & Description */}
-                <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2 line-clamp-2 hover:text-blue-600 transition-colors cursor-pointer">
+                <h3
+                    onClick={handleGoDetail}
+                    className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2 line-clamp-2 hover:text-blue-600 transition-colors cursor-pointer"
+                >
                     {post.title}
                 </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4">
+                <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4 cursor-pointer" onClick={handleGoDetail}>
                     {post.description}
                 </p>
 

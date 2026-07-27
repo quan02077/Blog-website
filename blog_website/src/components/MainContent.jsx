@@ -5,6 +5,7 @@ import PopularPosts from "../pages/PopularPosts"
 import Archives from "../pages/Archives"
 import WritePost from "../pages/WritePost"
 import Drafts from "../pages/Drafts"
+import PostDetail from "../pages/PostDetail"
 
 function MainContent() {
     return (
@@ -12,6 +13,7 @@ function MainContent() {
             <Routes>
                 <Route path="/" element={<Navigate to="/posts" replace />} />
                 <Route path="/posts" element={<Posts />} />
+                <Route path="/post/:id" element={<PostDetail />} />
                 <Route path="/categories" element={<Categories />} />
                 <Route path="/popular" element={<PopularPosts />} />
                 <Route path="/archives" element={<Archives />} />

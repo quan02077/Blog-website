@@ -33,6 +33,14 @@ function DraftCard({ draft }) {
         navigate(`/write/${draftID}`)
     }
 
+    const handlePublish = async () => {
+        const result = await showConfirmAlert('Đăng bài viết', 'Bạn có chắc chắn muốn đăng bài viết này?')
+        if (result.isConfirmed) {
+            dispatch(action.publishPostAction(draft))
+            showSuccessAlert('Thành công', 'Đã đăng bài viết thành công!')
+        }
+    }
+
     return (
         <article className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden flex flex-col sm:flex-row hover:shadow-lg hover:shadow-gray-100 dark:hover:shadow-dark-bg/50 transition-all duration-300">
             {/* Cover Image */}
@@ -87,7 +95,9 @@ function DraftCard({ draft }) {
                             <FontAwesomeIcon icon={faPenToSquare} />
                             Sửa
                         </button>
-                        <button className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 px-3 py-1.5 rounded-lg transition-colors">
+                        <button
+                            onClick={handlePublish}
+                            className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 px-3 py-1.5 rounded-lg transition-colors">
                             <FontAwesomeIcon icon={faPaperPlane} />
                             Đăng
                         </button>
