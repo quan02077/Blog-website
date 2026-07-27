@@ -6,7 +6,7 @@ import PostContent from '../components/PostContent'
 import PostComment from '../components/PostComment'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
-import { showSuccessAlert, showErrorAlert } from '../utils/alert'
+import { showSuccessAlert } from '../utils/alert'
 
 function PostDetail() {
     const [state, dispatch] = useContext(Blog_context)
@@ -33,13 +33,24 @@ function PostDetail() {
         }
     ])
 
+    const isBookmarked = bookmarks?.some(b => String(b.id) === String(post?.id))
+
     const handleBookmark = () => {
-        if (id === bookmarks.id) {
-            showErrorAlert('Thông báo', 'Bài viết đã được lưu!')
-            return
-        }
+        if (!post) return
         dispatch(action.bookmarksAction(post))
-        showSuccessAlert('Thông báo', 'Lưu bài viết thành công!')
+        if (isBookmarked) {
+            showSuccessAlert('Thông báo', 'Đã bỏ lưu bài viết!')
+        } else {
+            showSuccessAlert('Thông báo', 'Lưu bài viết thành công!')
+        }
+    }
+
+    if (!post) {
+        return (
+            <div className="p-8 text-center text-gray-500 dark:text-gray-400">
+                Bài viết không tồn tại hoặc đã bị xóa.
+            </div>
+        )
     }
 
     return (
@@ -49,6 +60,7 @@ function PostDetail() {
                 post={post}
                 isLiked={isLiked}
                 setIsLiked={setIsLiked}
+                isBookmarked={isBookmarked}
                 handleBookmark={handleBookmark}
             />
 

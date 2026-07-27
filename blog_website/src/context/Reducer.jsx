@@ -206,7 +206,7 @@ function reducer(state, action) {
         case SAVE_DRAFTS:
             {
                 const newDraft = {
-                    id: Date.now(),
+                    id: action.payload?.id || Date.now(),
                     ...action.payload,
                     description: action.payload?.summary || action.payload?.description || '',
                     date: new Date().toLocaleDateString('vi-VN'),
@@ -308,24 +308,19 @@ function reducer(state, action) {
             }
         case BOOKMARKS:
             {
-                const newBookmark = {
-                    id: Date.now(),
-                    ...action.payload,
-                    description: action.payload?.summary || action.payload?.description || '',
-                    date: new Date().toLocaleDateString('vi-VN'),
-                    createdAt: new Date().toISOString(),
-                    author: state.currentUser?.username || 'Ẩn danh',
-                    avatar: state.currentUser?.avatar || 'https://ui-avatars.com/api/?name=User',
-                    authorEmail: state.currentUser?.email,
-                    likes: 0,
-                    comments: 0,
-                    readTime: `${action.payload?.readTime || 1} phút đọc`
-                };
-                const newBookmarks = [newBookmark, ...state.bookmarks];
+                const targetPost = action.payload
+                if (!targetPost || !targetPost.id) return state;
+
+                const isAlreadyBookmarked = state.bookmarks.some(b => String(b.id) === String(targetPost.id))
+
+                const newBookmarks = isAlreadyBookmarked
+                    ? state.bookmarks.filter(b => String(b.id) !== String(targetPost.id))
+                    : [targetPost, ...state.bookmarks]
+
                 try {
                     localStorage.setItem('bookmarks', JSON.stringify(newBookmarks));
                 } catch (error) {
-                    console.warn('LocalStorage bị đầy, không thể lưu thêm bản nháp:', error);
+                    console.warn('LocalStorage error:', error);
                 }
                 return {
                     ...state,

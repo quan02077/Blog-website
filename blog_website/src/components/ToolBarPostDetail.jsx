@@ -7,7 +7,7 @@ import {
     faClock
 } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as faHeartRegular, faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons'
-function ToolBarPostDetail({ isLiked, setIsLiked, post, handleBookmark }) {
+function ToolBarPostDetail({ isLiked, setIsLiked, isBookmarked, post, handleBookmark }) {
     const handleBack = () => {
         window.history.back()
     }

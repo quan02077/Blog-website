@@ -2,13 +2,16 @@ import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faComment, faBookmark, faShareFromSquare } from '@fortawesome/free-regular-svg-icons'
+import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons'
 import { showSuccessAlert } from '../utils/alert'
 import * as action from '../context/Actions'
 import Blog_context from '../context/Blog_Context'
 
 function PostCard({ post }) {
-    const [, dispatch] = useContext(Blog_context)
+    const [state, dispatch] = useContext(Blog_context)
     const navigate = useNavigate()
+
+    const isBookmarked = state.bookmarks?.some(b => String(b.id) === String(post.id))
 
     const handleGoDetail = () => {
         if (post?.id) {
@@ -16,9 +19,13 @@ function PostCard({ post }) {
         }
     }
 
-    const handleBookmark = (postID) => {
-        dispatch(action.bookmarksAction(postID))
-        showSuccessAlert('Thông báo', 'Lưu bài viết thành công!')
+    const handleBookmark = () => {
+        dispatch(action.bookmarksAction(post))
+        if (isBookmarked) {
+            showSuccessAlert('Thông báo', 'Đã bỏ lưu bài viết!')
+        } else {
+            showSuccessAlert('Thông báo', 'Lưu bài viết thành công!')
+        }
     }
 
     return (
@@ -75,9 +82,11 @@ function PostCard({ post }) {
                     </div>
                     <div className="flex items-center gap-3">
                         <button
-                            onClick={() => handleBookmark(post.id)}
-                            className="text-gray-400 hover:text-yellow-500 transition-colors">
-                            <FontAwesomeIcon icon={faBookmark} />
+                            onClick={handleBookmark}
+                            className={`transition-colors ${isBookmarked ? 'text-yellow-500' : 'text-gray-400 hover:text-yellow-500'}`}
+                            title={isBookmarked ? "Bỏ lưu bài viết" : "Lưu bài viết"}
+                        >
+                            <FontAwesomeIcon icon={isBookmarked ? faBookmarkSolid : faBookmark} />
                         </button>
                         <button className="text-gray-400 hover:text-green-500 transition-colors">
                             <FontAwesomeIcon icon={faShareFromSquare} />
