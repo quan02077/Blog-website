@@ -20,3 +20,4 @@ export const PUBLISH_FROM_DRAFT = "publish_from_draft";
 export const SORT_BY = "sort_by";
 export const SEARCH = "search";
 export const FILTER_STATUS = "filter_status";
+export const BOOKMARKS = "bookmarks";

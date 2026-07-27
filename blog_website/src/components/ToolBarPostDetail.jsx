@@ -7,7 +7,7 @@ import {
     faClock
 } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as faHeartRegular, faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons'
-function ToolBarPostDetail({ isLiked, setIsLiked, isBookmarked, setIsBookmarked, post }) {
+function ToolBarPostDetail({ isLiked, setIsLiked, post, handleBookmark }) {
     const handleBack = () => {
         window.history.back()
     }
@@ -47,7 +47,7 @@ function ToolBarPostDetail({ isLiked, setIsLiked, isBookmarked, setIsBookmarked,
 
                 <button
                     type="button"
-                    onClick={() => setIsBookmarked(!isBookmarked)}
+                    onClick={handleBookmark}
                     className={`p-2 rounded-xl transition-all cursor-pointer ${isBookmarked
                         ? 'bg-yellow-50 dark:bg-yellow-900/30 text-yellow-500'
                         : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-yellow-500'

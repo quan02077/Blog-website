@@ -1,14 +1,24 @@
 import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faComment, faBookmark, faShareFromSquare } from '@fortawesome/free-regular-svg-icons'
+import { showSuccessAlert } from '../utils/alert'
+import * as action from '../context/Actions'
+import Blog_context from '../context/Blog_Context'
 
 function PostCard({ post }) {
+    const [, dispatch] = useContext(Blog_context)
     const navigate = useNavigate()
 
     const handleGoDetail = () => {
         if (post?.id) {
             navigate(`/post/${post.id}`)
         }
+    }
+
+    const handleBookmark = (postID) => {
+        dispatch(action.bookmarksAction(postID))
+        showSuccessAlert('Thông báo', 'Lưu bài viết thành công!')
     }
 
     return (
@@ -64,7 +74,9 @@ function PostCard({ post }) {
                         </button>
                     </div>
                     <div className="flex items-center gap-3">
-                        <button className="text-gray-400 hover:text-yellow-500 transition-colors">
+                        <button
+                            onClick={() => handleBookmark(post.id)}
+                            className="text-gray-400 hover:text-yellow-500 transition-colors">
                             <FontAwesomeIcon icon={faBookmark} />
                         </button>
                         <button className="text-gray-400 hover:text-green-500 transition-colors">

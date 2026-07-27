@@ -5,15 +5,16 @@ import HeaderTitlePost from '../components/HeaderTitlePost'
 import PostContent from '../components/PostContent'
 import PostComment from '../components/PostComment'
 import Blog_context from '../context/Blog_Context'
+import * as action from '../context/Actions'
+import { showSuccessAlert, showErrorAlert } from '../utils/alert'
 
 function PostDetail() {
-    const [state] = useContext(Blog_context)
-    const { posts } = state
+    const [state, dispatch] = useContext(Blog_context)
+    const { posts, bookmarks } = state
     const { id } = useParams()
     const post = posts.find((p) => String(p.id) === String(id))
 
     const [isLiked, setIsLiked] = useState(false)
-    const [isBookmarked, setIsBookmarked] = useState(false)
     const [commentText, setCommentText] = useState('')
     const [commentsList] = useState([
         {
@@ -32,6 +33,15 @@ function PostDetail() {
         }
     ])
 
+    const handleBookmark = () => {
+        if (id === bookmarks.id) {
+            showErrorAlert('Thông báo', 'Bài viết đã được lưu!')
+            return
+        }
+        dispatch(action.bookmarksAction(post))
+        showSuccessAlert('Thông báo', 'Lưu bài viết thành công!')
+    }
+
     return (
         <article className="flex flex-col gap-8 pb-16 max-w-4xl mx-auto">
 
@@ -39,8 +49,7 @@ function PostDetail() {
                 post={post}
                 isLiked={isLiked}
                 setIsLiked={setIsLiked}
-                isBookmarked={isBookmarked}
-                setIsBookmarked={setIsBookmarked}
+                handleBookmark={handleBookmark}
             />
 
             <HeaderTitlePost post={post} />

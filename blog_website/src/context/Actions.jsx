@@ -19,7 +19,8 @@ import {
     UPDATE_DRAFT,
     SORT_BY,
     SEARCH,
-    FILTER_STATUS
+    FILTER_STATUS,
+    BOOKMARKS
 } from "./Constant";
 
 export const loginAction = (payload) => {
@@ -166,6 +167,13 @@ export const searchAction = (payload) => {
 export const filterAction = (payload) => {
     return {
         type: FILTER_STATUS,
+        payload
+    }
+}
+
+export const bookmarksAction = (payload) => {
+    return {
+        type: BOOKMARKS,
         payload
     }
 }
