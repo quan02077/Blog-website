@@ -8,10 +8,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as faHeartRegular, faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons'
 function ToolBarPostDetail({ isLiked, setIsLiked, isBookmarked, setIsBookmarked, post }) {
+    const handleBack = () => {
+        window.history.back()
+    }
     return (
         <div className="flex items-center justify-between bg-white dark:bg-dark-surface p-4 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm sticky top-4 z-20 backdrop-blur-md bg-opacity-90 dark:bg-opacity-90">
             <button
                 type="button"
+                onClick={handleBack}
                 className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-3.5 py-2 rounded-xl transition-colors cursor-pointer"
             >
                 <FontAwesomeIcon icon={faArrowLeft} />
