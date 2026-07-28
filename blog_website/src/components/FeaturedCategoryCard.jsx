@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-function FeaturedCategoryCard({ cat }) {
+function FeaturedCategoryCard({ cat, handleGoPosts }) {
     return (
-        <div className={`relative bg-gradient-to-br ${cat.color} rounded-2xl p-6 text-white overflow-hidden cursor-pointer group hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300`}>
+        <div onClick={handleGoPosts} className={`relative bg-gradient-to-br ${cat.color} rounded-2xl p-6 text-white overflow-hidden cursor-pointer group hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300`}>
             {/* Badge */}
             <span className={`absolute top-4 right-4 text-[10px] font-bold px-2.5 py-1 rounded-full ${cat.badgeColor} text-white`}>
                 {cat.badge}

@@ -12,6 +12,7 @@ function MainContent() {
         <div className="custom-scrollbar group">
             <Routes>
                 <Route path="/" element={<Navigate to="/posts" replace />} />
+                <Route path="/posts" element={<Posts />} />
                 <Route path="/posts/:category" element={<Posts />} />
                 <Route path="/post/:id" element={<PostDetail />} />
                 <Route path="/categories" element={<Categories />} />

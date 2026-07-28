@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import PostCard from '../components/PostCard'
@@ -8,6 +8,11 @@ import Blog_context from '../context/Blog_Context'
 function Posts() {
     const [state] = useContext(Blog_context)
     const { currentUser, posts } = state
+    const { category } = useParams()
+
+    const displayPosts = category
+        ? posts.filter(p => p.category?.toLowerCase() === category.toLowerCase())
+        : posts
 
     return (
         <div className="flex flex-col gap-6">
@@ -18,9 +23,25 @@ function Posts() {
                     <FontAwesomeIcon icon={faPenToSquare} className='mt-4' />
                 </div>
             </Link>
-            {posts.map((post) => (
-                <PostCard key={post.id} post={post} />
-            ))}
+            {category && (
+                <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-2xl p-4 flex items-center justify-between">
+                    <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">
+                        Đang xem chuyên mục: <strong className="uppercase">{category}</strong> ({displayPosts.length} bài viết)
+                    </span>
+                    <Link to="/posts" className="text-xs font-bold text-blue-600 hover:underline">
+                        Xem tất cả
+                    </Link>
+                </div>
+            )}
+            {displayPosts.length === 0 ? (
+                <div className="bg-white dark:bg-dark-surface rounded-2xl p-8 text-center text-gray-500">
+                    Chưa có bài viết nào trong chuyên mục này.
+                </div>
+            ) : (
+                displayPosts.map((post) => (
+                    <PostCard key={post.id} post={post} />
+                ))
+            )}
         </div>
     )
 }
