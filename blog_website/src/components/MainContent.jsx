@@ -14,6 +14,7 @@ function MainContent() {
                 <Route path="/" element={<Navigate to="/posts" replace />} />
                 <Route path="/posts" element={<Posts />} />
                 <Route path="/posts/:category" element={<Posts />} />
+                <Route path="/posts/:tag" element={<Posts />} />
                 <Route path="/post/:id" element={<PostDetail />} />
                 <Route path="/categories" element={<Categories />} />
                 <Route path="/popular" element={<PopularPosts />} />
