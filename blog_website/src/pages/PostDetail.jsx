@@ -14,8 +14,8 @@ function PostDetail() {
     const { posts, bookmarks } = state
     const { id } = useParams()
     const post = posts.find((p) => String(p.id) === String(id)) ||
-                 bookmarks.find((b) => String(b.id) === String(id)) ||
-                 popularPosts.find((pop) => String(pop.id) === String(id))
+        bookmarks.find((b) => String(b.id) === String(id)) ||
+        popularPosts.find((pop) => String(pop.id) === String(id))
 
     const [isLiked, setIsLiked] = useState(false)
     const [commentText, setCommentText] = useState('')

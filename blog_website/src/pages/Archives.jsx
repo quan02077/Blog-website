@@ -1,4 +1,5 @@
 import { useContext } from "react"
+import { useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faArchive, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import ArchiveMonthCard from '../components/ArchiveMonthCard'
@@ -8,6 +9,12 @@ import * as action from '../context/Actions'
 function Archives() {
     const [state, dispatch] = useContext(Blog_context)
     const { posts, search } = state
+
+    const navigate = useNavigate()
+
+    const handleGoDetail = (id) => {
+        navigate(`/post/${id}`)
+    }
 
     const searchTerm = (search || '').trim().toLowerCase()
 
@@ -130,7 +137,7 @@ function Archives() {
                         </div>
 
                         {yearBlock.months.map((monthBlock) => (
-                            <ArchiveMonthCard key={monthBlock.month} monthBlock={monthBlock} />
+                            <ArchiveMonthCard key={monthBlock.month} monthBlock={monthBlock} handleGoDetail={handleGoDetail} />
                         ))}
                     </div>
                 ))

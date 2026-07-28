@@ -9,7 +9,7 @@ const catColors = {
     "Next.js": "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
 }
 
-function ArchiveMonthCard({ monthBlock }) {
+function ArchiveMonthCard({ monthBlock, handleGoDetail }) {
     return (
         <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
             {/* Month Header */}
@@ -22,7 +22,10 @@ function ArchiveMonthCard({ monthBlock }) {
             <div className="flex flex-col">
                 {monthBlock.posts.map((post, index) => (
                     <div key={post.id}>
-                        <div className="flex items-center gap-4 p-4 group cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                        <div
+                            onClick={() => handleGoDetail?.(post.id)}
+                            className="flex items-center gap-4 p-4 group cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                        >
                             <img
                                 src={post.image}
                                 alt={post.title}
