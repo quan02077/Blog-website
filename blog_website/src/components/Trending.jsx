@@ -1,20 +1,11 @@
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFire } from '@fortawesome/free-solid-svg-icons'
-const defaultTags = [
-    { name: "ReactJS" },
-    { name: "JavaScript" },
-    { name: "TailwindCSS" },
-    { name: "NodeJS" },
-    { name: "TypeScript" },
-    { name: "NextJS" },
-]
-
-function Trending({ trendingTags = defaultTags }) {
+function Trending({ trendingTags }) {
     const navigate = useNavigate()
-    const handleGoPosts = (id) => {
-        if (id) {
-            navigate(`/post/${id}`)
+    const handleGoPosts = (tag) => {
+        if (tag) {
+            navigate(`/posts/tag/${tag}`)
         }
     }
     return (
@@ -27,7 +18,7 @@ function Trending({ trendingTags = defaultTags }) {
                 <hr className='border-gray-200 dark:border-gray-800 mt-2' />
                 <div className='flex flex-wrap gap-4 mt-2'>
                     {trendingTags?.map((tag, index) => (
-                        <div key={index} onClick={() => handleGoPosts(tag.id)} className='flex items-center gap-2 hover:cursor-pointer hover:-translate-y-1.5 duration-200 hover:transition-all text-gray-900 dark:text-gray-300'>
+                        <div key={index} onClick={() => handleGoPosts(tag.name)} className='flex items-center gap-2 hover:cursor-pointer hover:-translate-y-1.5 duration-200 hover:transition-all text-gray-900 dark:text-gray-300'>
                             <span className='font-bold'>#{index + 1}</span>
                             <span className='text-sm text-gray-600 dark:text-gray-400'>{tag.name}</span>
                         </div>
