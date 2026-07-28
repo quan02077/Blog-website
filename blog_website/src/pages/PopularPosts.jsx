@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowTrendUp } from "@fortawesome/free-solid-svg-icons"
 import { FeaturedPopularPost, CompactPopularPost } from '../components/Popular'
@@ -77,6 +78,13 @@ const popularPosts = [
 
 function PopularPosts() {
     const [featured, ...rest] = popularPosts
+    const navigate = useNavigate()
+
+    const handleGoDetail = (id) => {
+        if (id) {
+            navigate(`/post/${id}`)
+        }
+    }
 
     return (
         <div className="flex flex-col gap-6 pb-8">
@@ -95,13 +103,13 @@ function PopularPosts() {
             <div className="flex flex-col gap-6">
 
                 {/* Featured Post (Rank 1) */}
-                <FeaturedPopularPost post={featured} />
+                <FeaturedPopularPost post={featured} handleGoDetail={() => handleGoDetail(featured.id)} />
 
                 {/* Compact List (Rank 2-5) */}
                 <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-2 sm:p-4">
                     {rest.map((post, index) => (
                         <div key={post.id} className="relative">
-                            <CompactPopularPost post={post} />
+                            <CompactPopularPost post={post} handleGoDetail={() => handleGoDetail(post.id)} />
 
                             {/* Divider */}
                             {index < rest.length - 1 && (

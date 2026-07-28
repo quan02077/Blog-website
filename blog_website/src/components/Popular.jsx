@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faComment } from "@fortawesome/free-solid-svg-icons"
 
-export function FeaturedPopularPost({ post }) {
+export function FeaturedPopularPost({ post, handleGoDetail }) {
     return (
         <article className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden group cursor-pointer hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300">
-            <div className="relative overflow-hidden h-72 sm:h-[400px]">
+            <div className="relative overflow-hidden h-72 sm:h-[400px]" onClick={handleGoDetail}>
                 <img
                     src={post.image}
                     alt={post.title}
@@ -52,9 +52,9 @@ export function FeaturedPopularPost({ post }) {
     )
 }
 
-export function CompactPopularPost({ post }) {
+export function CompactPopularPost({ post, handleGoDetail }) {
     return (
-        <div className="flex items-center sm:items-start gap-4 sm:gap-6 p-4 rounded-xl group cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+        <div className="flex items-center sm:items-start gap-4 sm:gap-6 p-4 rounded-xl group cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors" onClick={handleGoDetail}>
             {/* Rank Number Large */}
             <div className="text-3xl sm:text-5xl font-black text-gray-300 group-hover:text-blue-300 transition-colors shrink-0 w-8 sm:w-16 text-center">
                 {post.rank}

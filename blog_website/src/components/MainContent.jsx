@@ -15,7 +15,8 @@ function MainContent() {
                 <Route path="/posts" element={<Posts />} />
                 <Route path="/post/:id" element={<PostDetail />} />
                 <Route path="/categories" element={<Categories />} />
-                <Route path="/popular" element={<PopularPosts />} />
+                <Route path="/populars" element={<PopularPosts />} />
+                <Route path="/popular/:id" element={<PostDetail />} />
                 <Route path="/archives" element={<Archives />} />
                 <Route path="/write" element={<WritePost />} />
                 <Route path="/write/:id" element={<WritePost />} />
