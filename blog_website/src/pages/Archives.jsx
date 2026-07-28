@@ -2,15 +2,25 @@ import { useContext } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faArchive, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import ArchiveMonthCard from '../components/ArchiveMonthCard'
-import Blog_context from "../context/Blog_Context"
+import Blog_context from '../context/Blog_Context'
+import * as action from '../context/Actions'
 
 function Archives() {
-    const [state] = useContext(Blog_context)
-    const { posts } = state
+    const [state, dispatch] = useContext(Blog_context)
+    const { posts, search } = state
+
+    const searchTerm = (search || '').trim().toLowerCase()
+
+    const filteredPosts = posts.filter((post) => {
+        if (searchTerm !== '') {
+            return (post.title || '').toLowerCase().includes(searchTerm)
+        }
+        return true
+    })
 
     // 🔄 Nhóm bài viết theo NĂM và THÁNG động từ danh sách posts
     const archiveData = Object.values(
-        posts.reduce((acc, post) => {
+        filteredPosts.reduce((acc, post) => {
             let year = new Date().getFullYear()
             let monthName = `Tháng ${new Date().getMonth() + 1}`
 
@@ -87,9 +97,10 @@ function Archives() {
                 <div className="relative flex-1 min-w-48">
                     <FontAwesomeIcon icon={faSearch} className="absolute left-3 top-3 text-gray-400 text-sm" />
                     <input
+                        value={search}
+                        onChange={(e) => dispatch(action.searchAction(e.target.value))}
                         type="text"
                         placeholder="Tìm kiếm bài viết..."
-                        readOnly
                         className="w-full pl-9 pr-4 py-2.5 text-sm bg-white dark:bg-dark-bg text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl outline-none placeholder-gray-300 dark:placeholder-gray-600"
                     />
                 </div>
