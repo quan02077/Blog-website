@@ -24,7 +24,7 @@ function Sidebar() {
                 <NavLink to="/posts" className={getBtnClass(isAllPostsActive)}>
                     All Posts
                 </NavLink>
-                <NavLink to="/populars" className={getBtnClass(isPopularActive)}>
+                <NavLink to="/popular" className={getBtnClass(isPopularActive)}>
                     Popular Posts
                 </NavLink>
 

@@ -12,11 +12,10 @@ function MainContent() {
         <div className="custom-scrollbar group">
             <Routes>
                 <Route path="/" element={<Navigate to="/posts" replace />} />
-                <Route path="/posts" element={<Posts />} />
+                <Route path="/posts/:category" element={<Posts />} />
                 <Route path="/post/:id" element={<PostDetail />} />
                 <Route path="/categories" element={<Categories />} />
-                <Route path="/populars" element={<PopularPosts />} />
-                <Route path="/popular/:id" element={<PostDetail />} />
+                <Route path="/popular" element={<PopularPosts />} />
                 <Route path="/archives" element={<Archives />} />
                 <Route path="/write" element={<WritePost />} />
                 <Route path="/write/:id" element={<WritePost />} />

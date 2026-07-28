@@ -22,6 +22,7 @@ import {
     FILTER_STATUS,
     BOOKMARKS
 } from "./Constant";
+import { initialPosts } from "../data/initialPosts";
 
 export const initialState = {
     isSignIn: localStorage.getItem('isSignIn') === 'true',
@@ -35,7 +36,7 @@ export const initialState = {
     btnBookmarks: false,
     btnNotifications: false,
     btnSettings: false,
-    posts: JSON.parse(localStorage.getItem('posts')) || [],
+    posts: (JSON.parse(localStorage.getItem('posts')) && JSON.parse(localStorage.getItem('posts')).length > 0) ? JSON.parse(localStorage.getItem('posts')) : initialPosts,
     drafts: JSON.parse(localStorage.getItem('drafts')) || [],
     categories: JSON.parse(localStorage.getItem('categories')) || [],
     search: '',
