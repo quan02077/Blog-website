@@ -11,7 +11,7 @@ function Posts() {
     const { currentUser, posts = [] } = state || {}
     const { category, tag } = useParams()
     // Số lượng bài viết hiển thị ban đầu
-    const [visibleCount, setVisibleCount] = useState(3)
+    const [visibleCount, setVisibleCount] = useState(2)
     const safePosts = posts || []
     const displayPosts = category
         ? safePosts.filter(p => p.category?.toLowerCase() === category.toLowerCase())
@@ -23,8 +23,7 @@ function Posts() {
             : safePosts
     const hasMore = visibleCount < displayPosts.length
     const handleLoadMore = () => {
-        // Tải thêm 3 bài viết mỗi lần cuộn xuống đáy
-        setVisibleCount(prev => prev + 3)
+        setVisibleCount(prev => prev + 2)
     }
     const observerRef = useInfiniteScroll(handleLoadMore, hasMore)
     return (
