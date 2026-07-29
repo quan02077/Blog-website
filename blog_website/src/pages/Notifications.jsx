@@ -44,19 +44,10 @@ const initialNotifications = [
     }
 ]
 
-import useModalBackHandler from "../hooks/useModalBackHandler"
-
 function Notifications() {
     const [state, dispatch] = useContext(Blog_context)
     const { btnNotifications } = state
     const [list, setList] = useState(initialNotifications)
-
-    // 🔄 Bắt sự kiện nút Back (←) và Forward (→) trình duyệt để đóng/mở Modal
-    useModalBackHandler(
-        btnNotifications,
-        () => dispatch(action.toggleNotificationsAction(false)),
-        () => dispatch(action.toggleNotificationsAction(true))
-    )
 
     if (!btnNotifications) return null
 

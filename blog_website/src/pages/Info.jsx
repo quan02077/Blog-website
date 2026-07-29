@@ -7,19 +7,10 @@ import Blog_context from "../context/Blog_Context"
 import EditForm from "../components/EditForm"
 import PostCard from "../components/PostCard"
 
-import useModalBackHandler from "../hooks/useModalBackHandler"
-
 function Info() {
     const [state, dispatch] = useContext(Blog_context)
     const { btnInfo, currentUser, posts = [] } = state
     const [isEditing, setIsEditing] = useState(false)
-
-    // 🔄 Bắt sự kiện nút Back (←) và Forward (→) trình duyệt để đóng/mở Modal
-    useModalBackHandler(
-        btnInfo,
-        () => dispatch(action.toggleInfoAction(false)),
-        () => dispatch(action.toggleInfoAction(true))
-    )
 
     if (!btnInfo) return null
 

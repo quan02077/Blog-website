@@ -6,18 +6,9 @@ import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 import { showConfirmAlert, showSuccessAlert } from '../utils/alert'
 
-import useModalBackHandler from '../hooks/useModalBackHandler'
-
 function MyBlogs() {
     const [state, dispatch] = useContext(Blog_context)
     const { btnMyPosts, posts, currentUser } = state
-
-    // 🔄 Bắt sự kiện nút Back (←) và Forward (→) trình duyệt để đóng/mở Modal
-    useModalBackHandler(
-        btnMyPosts,
-        () => dispatch(action.toggleMyPostsAction(false)),
-        () => dispatch(action.toggleMyPostsAction(true))
-    )
 
     const userPosts = posts.filter(post => post.authorEmail ? post.authorEmail === currentUser?.email : post.author === currentUser?.username);
 

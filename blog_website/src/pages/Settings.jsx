@@ -2,18 +2,9 @@ import { useContext, useState } from 'react'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 
-import useModalBackHandler from '../hooks/useModalBackHandler'
-
 function Settings() {
     const [state, dispatch] = useContext(Blog_context)
     const [fontSize, setFontSize] = useState(16)
-
-    // 🔄 Bắt sự kiện nút Back (←) và Forward (→) trình duyệt để đóng/mở Modal
-    useModalBackHandler(
-        state.btnSettings,
-        () => dispatch(action.toggleSettingsAction(false)),
-        () => dispatch(action.toggleSettingsAction(true))
-    )
 
     if (!state.btnSettings) return null
     return (
