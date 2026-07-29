@@ -1,17 +1,18 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import PostCard from '../components/PostCard'
 import Blog_context from '../context/Blog_Context'
-
+import useInfiniteScroll from '../hooks/useInfiniteScroll'
+import Loader from '../animation/Loader'
 function Posts() {
     const [state] = useContext(Blog_context)
     const { currentUser, posts = [] } = state || {}
     const { category, tag } = useParams()
-
+    // Số lượng bài viết hiển thị ban đầu
+    const [visibleCount, setVisibleCount] = useState(3)
     const safePosts = posts || []
-
     const displayPosts = category
         ? safePosts.filter(p => p.category?.toLowerCase() === category.toLowerCase())
         : tag
@@ -20,7 +21,12 @@ function Posts() {
                 (p.category || '').toLowerCase() === tag.toLowerCase()
             )
             : safePosts
-
+    const hasMore = visibleCount < displayPosts.length
+    const handleLoadMore = () => {
+        // Tải thêm 3 bài viết mỗi lần cuộn xuống đáy
+        setVisibleCount(prev => prev + 3)
+    }
+    const observerRef = useInfiniteScroll(handleLoadMore, hasMore)
     return (
         <div className="flex flex-col gap-6">
             {currentUser && (
@@ -57,12 +63,26 @@ function Posts() {
                     Chưa có bài viết nào phù hợp.
                 </div>
             ) : (
-                displayPosts.map((post) => (
-                    <PostCard key={post.id} post={post} />
-                ))
-            )}
-        </div>
+                <>
+                    {
+                        displayPosts.slice(0, visibleCount).map((post) => (
+                            <PostCard key={post.id} post={post} />
+                        ))
+                    }
+                    {/* Vùng cảm biến cuộn trang Infinite Scroll */}
+                    <div ref={observerRef} className="py-6 flex flex-col items-center justify-center gap-2">
+                        {hasMore ? (
+                            <Loader />
+                        ) : (
+                            <p className="text-xs font-semibold text-gray-400 dark:text-gray-500">
+                                ✨ Bạn đã xem hết danh sách bài viết.
+                            </p>
+                        )}
+                    </div>
+                </>
+            )
+            }
+        </div >
     )
 }
-
 export default Posts

@@ -66,7 +66,8 @@ function Register() {
                         const newUser = {
                             username,
                             email,
-                            password
+                            password,
+                            createdAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
                         }
                         dispatch(action.registerAction(newUser))
                         showSuccessAlert('Thông báo', 'Đăng ký thành công')
