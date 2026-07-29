@@ -5,7 +5,6 @@ import Provider from './context/Provider'
 import AuthForm from './pages/AuthForm'
 import Info from './pages/Info'
 import Notifications from './pages/Notifications'
-import MyBlogs from './pages/MyBlogs'
 import Bookmarks from './pages/Bookmarks'
 import Settings from './pages/Settings'
 
@@ -18,7 +17,6 @@ function App() {
         <AuthForm />
         <Info />
         <Notifications />
-        <MyBlogs />
         <Bookmarks />
         <Settings />
       </div>

@@ -1,11 +1,12 @@
-import { useContext, useState, useEffect } from "react"
+import { useContext, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCakeCandles, faHashtag, faXmark, faUserPen, faUser } from "@fortawesome/free-solid-svg-icons"
+import { faCakeCandles, faHashtag, faXmark, faUserPen, faUser, faTrashCan } from "@fortawesome/free-solid-svg-icons"
 import { faFileLines, faComments } from "@fortawesome/free-regular-svg-icons"
 import * as action from "../context/Actions"
 import Blog_context from "../context/Blog_Context"
 import EditForm from "../components/EditForm"
 import PostCard from "../components/PostCard"
+import { showConfirmAlert, showSuccessAlert } from "../utils/alert"
 
 function Info() {
     const [state, dispatch] = useContext(Blog_context)
@@ -13,6 +14,14 @@ function Info() {
     const [isEditing, setIsEditing] = useState(false)
 
     if (!btnInfo) return null
+
+    const handleDelete = async (postId) => {
+        const result = await showConfirmAlert('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa bài viết này không?')
+        if (result.isConfirmed) {
+            dispatch(action.deletePostsAction(postId))
+            showSuccessAlert('Thành công', 'Đã xóa bài viết thành công!')
+        }
+    }
 
     // Danh sách bài viết của User
     const userPosts = posts.filter(p =>
@@ -103,7 +112,17 @@ function Info() {
                             <p className="text-center text-gray-500 py-8 text-sm">Bạn chưa xuất bản bài viết nào.</p>
                         ) : (
                             userPosts.map(post => (
-                                <PostCard key={post.id} post={post} />
+                                <div key={post.id} className="relative group cursor-pointer" >
+                                    <PostCard post={post} />
+                                    <button
+                                        type="button"
+                                        onClick={() => handleDelete(post.id)}
+                                        className="absolute top-3 right-3 z-10 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1.5 transition-all cursor-pointer"
+                                    >
+                                        <FontAwesomeIcon icon={faTrashCan} />
+                                        Xóa bài
+                                    </button>
+                                </div>
                             ))
                         )}
                     </div>

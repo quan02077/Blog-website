@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faUser, faNewspaper } from "@fortawesome/free-regular-svg-icons"
+import { faUser } from "@fortawesome/free-regular-svg-icons"
 import { faCircleInfo, faGear, faBookBookmark, faBell } from "@fortawesome/free-solid-svg-icons"
 import Blog_context from "../context/Blog_Context"
 import * as action from "../context/Actions"
@@ -28,13 +28,6 @@ function AccountTool() {
                     }} className='btnTool'>
                         <FontAwesomeIcon icon={faCircleInfo} className="text-gray-500" />
                         <span>Thông tin tài khoản</span>
-                    </button>
-                    <button onClick={() => {
-                        dispatch(action.toggleMyPostsAction(true))
-                        dispatch(action.toggleAccountAction(false))
-                    }} className='btnTool'>
-                        <FontAwesomeIcon icon={faNewspaper} className="text-gray-500" />
-                        <span>Bài viết của tôi</span>
                     </button>
                     <button onClick={() => {
                         dispatch(action.toggleBookmarksAction(true))
