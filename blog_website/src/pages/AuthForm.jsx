@@ -7,16 +7,25 @@ import Login from '../components/Login'
 import Register from '../components/Register'
 import ForgotPassword from '../components/ForgotPassword'
 
+import useModalBackHandler from '../hooks/useModalBackHandler'
+
 function SignIn_Up() {
     const [state, dispatch] = useContext(Blog_context)
     const [view, setView] = useState('signIn') // 'signIn', 'signUp', 'forgot'
-
-    if (!state.btnSignInUp) return null
 
     const handleClose = () => {
         dispatch(action.btnSignInUpAction(false));
         setTimeout(() => setView('signIn'), 300);
     }
+
+    // 🔄 Bắt sự kiện nút Back (←) và Forward (→) trình duyệt để đóng/mở Modal
+    useModalBackHandler(
+        state.btnSignInUp,
+        handleClose,
+        () => dispatch(action.btnSignInUpAction(true))
+    )
+
+    if (!state.btnSignInUp) return null
 
     const activeBtn = ({ targetView }) => targetView === view ? 'isActive' : 'isNoActive'
 

@@ -5,9 +5,18 @@ import PostCard from '../components/PostCard'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 
+import useModalBackHandler from '../hooks/useModalBackHandler'
+
 function Bookmarks() {
     const [state, dispatch] = useContext(Blog_context)
     const { btnBookmarks, bookmarks } = state
+
+    // 🔄 Bắt sự kiện nút Back (←) và Forward (→) trình duyệt để đóng/mở Modal
+    useModalBackHandler(
+        btnBookmarks,
+        () => dispatch(action.toggleBookmarksAction(false)),
+        () => dispatch(action.toggleBookmarksAction(true))
+    )
 
     if (!btnBookmarks) return null
 
