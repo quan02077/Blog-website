@@ -13,21 +13,25 @@ const trendingTags = [
 
 const hotDiscussions = [
     {
+        id: "post-9",
         title: "React 19 có thực sự cần thiết?",
         comments: 89,
         author: "DevTuan",
     },
     {
+        id: "post-10",
         title: "Tailwind vs CSS thuần — Bạn chọn cái nào?",
         comments: 156,
         author: "CSSLover",
     },
     {
+        id: "post-11",
         title: "Lộ trình học Frontend 2026",
         comments: 67,
         author: "MinhQuân",
     },
     {
+        id: "post-12",
         title: "Nên học Vue hay React trước?",
         comments: 203,
         author: "JSDev",

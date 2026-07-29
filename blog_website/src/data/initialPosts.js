@@ -110,5 +110,61 @@ export const initialPosts = [
         comments: 31,
         readTime: "11 phút đọc",
         tag: "DevOps, Docker, Nginx"
+    },
+    {
+        id: "post-9",
+        author: "Dev Tuấn",
+        avatar: "https://ui-avatars.com/api/?name=Dev+Tuan&background=ef4444&color=fff&size=128",
+        date: "28/7/2026",
+        category: "React",
+        title: "React 19 có thực sự cần thiết?",
+        description: "Phân tích chuyên sâu các tính năng đột phá trong React 19 như React Compiler, Server Actions, use() hook và đánh giá xem dự án của bạn có nên nâng cấp ngay lúc này.",
+        image: "https://picsum.photos/seed/react19/800/400",
+        likes: 412,
+        comments: 89,
+        readTime: "7 phút đọc",
+        tag: "React, Frontend, React19"
+    },
+    {
+        id: "post-10",
+        author: "CSS Lover",
+        avatar: "https://ui-avatars.com/api/?name=CSS+Lover&background=10b981&color=fff&size=128",
+        date: "26/7/2026",
+        category: "CSS",
+        title: "Tailwind vs CSS thuần — Bạn chọn cái nào?",
+        description: "So sánh toàn diện giữa triết lý Utility-First của Tailwind CSS và cách viết CSS thuần/SCSS truyền thống. Đâu là sự lựa chọn tối ưu cho các dự án quy mô lớn?",
+        image: "https://picsum.photos/seed/tailwind-vs-css/800/400",
+        likes: 520,
+        comments: 156,
+        readTime: "6 phút đọc",
+        tag: "CSS, Tailwind, Frontend"
+    },
+    {
+        id: "post-11",
+        author: "Minh Quân",
+        avatar: "https://ui-avatars.com/api/?name=Minh+Quan&background=3b82f6&color=fff&size=128",
+        date: "25/7/2026",
+        category: "JavaScript",
+        title: "Lộ trình học Frontend 2026",
+        description: "Lộ trình hoàn chỉnh từ Zero đến Hero cho Lập trình viên Frontend năm 2026: HTML/CSS/JS căn bản, React/Next.js, TypeScript, State Management và ứng dụng AI vào Workflow.",
+        image: "https://picsum.photos/seed/frontend-roadmap/800/400",
+        likes: 630,
+        comments: 67,
+        readTime: "12 phút đọc",
+        tag: "Frontend, Roadmap, Career"
+    },
+    {
+        id: "post-12",
+        author: "JS Dev",
+        avatar: "https://ui-avatars.com/api/?name=JS+Dev&background=8b5cf6&color=fff&size=128",
+        date: "23/7/2026",
+        category: "React",
+        title: "Nên học Vue hay React trước?",
+        description: "Phân tích chi tiết cú pháp, đường cong học tập (learning curve), cơ hội việc làm thị trường và hệ sinh thái thư viện giữa Vue.js và React.js dành cho người mới.",
+        image: "https://picsum.photos/seed/vue-vs-react/800/400",
+        likes: 489,
+        comments: 203,
+        readTime: "8 phút đọc",
+        tag: "React, Vue, JavaScript"
     }
 ];
