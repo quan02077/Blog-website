@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useMemo } from "react"
 import { useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faArchive, faChevronDown } from '@fortawesome/free-solid-svg-icons'
@@ -26,7 +26,7 @@ function Archives() {
     })
 
     // 🔄 Nhóm bài viết theo NĂM và THÁNG động từ danh sách posts
-    const archiveData = Object.values(
+    const archiveData = useMemo(() => Object.values(
         filteredPosts.reduce((acc, post) => {
             let year = new Date().getFullYear()
             let monthName = `Tháng ${new Date().getMonth() + 1}`
@@ -56,11 +56,11 @@ function Archives() {
             acc[year].monthsMap[monthName].posts.push(post)
 
             return acc
-        }, {})
+        }, {}),
     ).map((yearBlock) => ({
         year: yearBlock.year,
         months: Object.values(yearBlock.monthsMap)
-    })).sort((a, b) => b.year - a.year)
+    })).sort((a, b) => b.year - a.year), [filteredPosts])
 
     // 📊 Thống kê động
     const totalPosts = posts.length

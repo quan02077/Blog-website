@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import ToolBarPostDetail from '../components/ToolBarPostDetail'
 import HeaderTitlePost from '../components/HeaderTitlePost'
@@ -13,9 +13,9 @@ function PostDetail() {
     const [state, dispatch] = useContext(Blog_context)
     const { posts, bookmarks } = state
     const { id } = useParams()
-    const post = posts.find((p) => String(p.id) === String(id)) ||
+    const post = useMemo(() => posts.find((p) => String(p.id) === String(id)) ||
         bookmarks.find((b) => String(b.id) === String(id)) ||
-        popularPosts.find((pop) => String(pop.id) === String(id))
+        popularPosts.find((pop) => String(pop.id) === String(id)), [posts, bookmarks, id])
 
     const [isLiked, setIsLiked] = useState(false)
     const [commentText, setCommentText] = useState('')
