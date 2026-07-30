@@ -1,24 +1,34 @@
-// src/hooks/useInfiniteScroll.js
 import { useEffect, useRef } from 'react'
 
-export default function useInfiniteScroll(onLoadMore, hasMore) {
+export default function useInfiniteScroll(onLoadMore, hasMore, options = { threshold: 0.5, rootMargin: '100px' }) {
     const observerRef = useRef(null)
+    const callbackRef = useRef(onLoadMore)
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                // Khi phần tử ở đáy màn hình xuất hiện & vẫn còn bài để load
-                if (entries[0].isIntersecting && hasMore) {
-                    onLoadMore()
-                }
-            },
-            { threshold: 1.0 }
-        )
+        callbackRef.current = onLoadMore
+    }, [onLoadMore])
 
-        if (observerRef.current) observer.observe(observerRef.current)
+    useEffect(() => {
+        if (!hasMore) return
 
-        return () => observer.disconnect()
-    }, [onLoadMore, hasMore])
+        const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                callbackRef.current()
+            }
+        }, options)
+
+        const currentTarget = observerRef.current
+        if (currentTarget) {
+            observer.observe(currentTarget)
+        }
+
+        return () => {
+            if (currentTarget) {
+                observer.unobserve(currentTarget)
+            }
+            observer.disconnect()
+        }
+    }, [hasMore, options.rootMargin, options.threshold])
 
     return observerRef
 }

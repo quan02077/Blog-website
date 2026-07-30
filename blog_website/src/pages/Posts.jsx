@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useMemo, useCallback } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
@@ -6,26 +6,57 @@ import PostCard from '../components/PostCard'
 import Blog_context from '../context/Blog_Context'
 import useInfiniteScroll from '../hooks/useInfiniteScroll'
 import Loader from '../animation/Loader'
+
+// Sub-component hiển thị Banner lọc bài viết (Áp dụng nguyên lý DRY - Don't Repeat Yourself)
+function FilterBanner({ title, type, count }) {
+    return (
+        <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-2xl p-4 flex items-center justify-between">
+            <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">
+                Đang xem {type}: <strong className="uppercase">{title}</strong> ({count} bài viết)
+            </span>
+            <Link to="/posts" className="text-xs font-bold text-blue-600 hover:underline">
+                Xem tất cả
+            </Link>
+        </div>
+    )
+}
+
 function Posts() {
     const [state] = useContext(Blog_context)
     const { currentUser, posts = [] } = state || {}
     const { category, tag } = useParams()
+
     // Số lượng bài viết hiển thị ban đầu
     const [visibleCount, setVisibleCount] = useState(2)
-    const safePosts = posts || []
-    const displayPosts = category
-        ? safePosts.filter(p => p.category?.toLowerCase() === category.toLowerCase())
-        : tag
-            ? safePosts.filter(p =>
+
+    // 1. Tối ưu phép lọc bài viết bằng useMemo (Tránh lọc lại mảng khi chỉ đổi số bài đang xem)
+    const displayPosts = useMemo(() => {
+        const safePosts = posts || []
+
+        if (category) {
+            return safePosts.filter(p => p.category?.toLowerCase() === category.toLowerCase())
+        }
+
+        if (tag) {
+            return safePosts.filter(p =>
                 (p.tag || '').toLowerCase().includes(tag.toLowerCase()) ||
                 (p.category || '').toLowerCase() === tag.toLowerCase()
             )
-            : safePosts
+        }
+
+        return safePosts
+    }, [posts, category, tag])
+
     const hasMore = visibleCount < displayPosts.length
-    const handleLoadMore = () => {
+
+    // 2. Cố định tham chiếu hàm bằng useCallback (Tránh re-create function instance)
+    const handleLoadMore = useCallback(() => {
         setVisibleCount(prev => prev + 2)
-    }
+    }, [])
+
+    // 3. Sử dụng custom hook Infinite Scroll đã tối ưu
     const observerRef = useInfiniteScroll(handleLoadMore, hasMore)
+
     return (
         <div className="flex flex-col gap-6">
             {currentUser && (
@@ -37,37 +68,21 @@ function Posts() {
                     </div>
                 </Link>
             )}
-            {category && (
-                <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-2xl p-4 flex items-center justify-between">
-                    <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">
-                        Đang xem chuyên mục: <strong className="uppercase">{category}</strong> ({displayPosts.length} bài viết)
-                    </span>
-                    <Link to="/posts" className="text-xs font-bold text-blue-600 hover:underline">
-                        Xem tất cả
-                    </Link>
-                </div>
-            )}
-            {tag && (
-                <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-2xl p-4 flex items-center justify-between">
-                    <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">
-                        Đang xem thẻ: <strong className="uppercase">{tag}</strong> ({displayPosts.length} bài viết)
-                    </span>
-                    <Link to="/posts" className="text-xs font-bold text-blue-600 hover:underline">
-                        Xem tất cả
-                    </Link>
-                </div>
-            )}
+
+            {/* Render Banner bằng Component tái sử dụng (DRY) */}
+            {category && <FilterBanner type="chuyên mục" title={category} count={displayPosts.length} />}
+            {tag && <FilterBanner type="thẻ" title={tag} count={displayPosts.length} />}
+
             {displayPosts.length === 0 ? (
                 <div className="bg-white dark:bg-dark-surface rounded-2xl p-8 text-center text-gray-500">
                     Chưa có bài viết nào phù hợp.
                 </div>
             ) : (
                 <>
-                    {
-                        displayPosts.slice(0, visibleCount).map((post) => (
-                            <PostCard key={post.id} post={post} />
-                        ))
-                    }
+                    {displayPosts.slice(0, visibleCount).map((post) => (
+                        <PostCard key={post.id} post={post} />
+                    ))}
+
                     {/* Vùng cảm biến cuộn trang Infinite Scroll */}
                     <div ref={observerRef} className="py-6 flex flex-col items-center justify-center gap-2">
                         {hasMore ? (
@@ -79,9 +94,9 @@ function Posts() {
                         )}
                     </div>
                 </>
-            )
-            }
-        </div >
+            )}
+        </div>
     )
 }
+
 export default Posts
