@@ -81,4 +81,21 @@
     .btnTool {
         @apply w-full flex items-center my-2 hover:bg-gray-100 hover:rounded-2xl hover:translate-y-0.5 transition-all duration-200 dark:hover:bg-gray-800 gap-2 cursor-pointer;
     }
+
+    /* Common Card & UI Components (Clean Code @apply) */
+    .card-surface {
+        @apply bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm;
+    }
+
+    .info-badge {
+        @apply bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-2xl p-4 flex items-center justify-between;
+    }
+
+    .btn-close-icon {
+        @apply w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer;
+    }
+
+    .hover-card-item {
+        @apply hover:bg-gray-100 dark:hover:bg-gray-800 hover:rounded-2xl hover:-translate-y-1 duration-200 transition-all cursor-pointer;
+    }
 }

@@ -10,7 +10,7 @@ import Loader from '../animation/Loader'
 // Sub-component hiển thị Banner lọc bài viết (Áp dụng nguyên lý DRY - Don't Repeat Yourself)
 function FilterBanner({ title, type, count }) {
     return (
-        <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-2xl p-4 flex items-center justify-between">
+        <div className="info-badge">
             <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">
                 Đang xem {type}: <strong className="uppercase">{title}</strong> ({count} bài viết)
             </span>
