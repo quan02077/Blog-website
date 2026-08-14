@@ -12,14 +12,16 @@ function Login({ setView }) {
     const [show, setShow] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
     const handleLogin = async (e) => {
         e.preventDefault()
         if (!email || !password) {
             showErrorAlert('Thông báo', 'Vui lòng nhập email và mật khẩu')
             return
         }
+        setLoading(true)
         try {
-            const response = await fetch("https://localhost:7289/api/auth/login", {
+            const response = await fetch("http://localhost:5264/api/auth/login", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -39,13 +41,15 @@ function Login({ setView }) {
             }
             const loggedUser = data.user || data
             dispatch(action.loginAction(loggedUser))
-
             showSuccessAlert('Thông báo', 'Đăng nhập thành công')
             setView(null)
         } catch (error) {
             showErrorAlert('Thông báo', error.message)
+        } finally {
+            setLoading(false)
         }
     }
+
     return (
         <div className="p-8">
             <form className="space-y-4" onSubmit={handleLogin}>
@@ -89,10 +93,12 @@ function Login({ setView }) {
 
                 <button
                     type="submit"
-                    className="auth-btn-main mt-4"
+                    className="auth-btn-main mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
+                    disabled={loading}
                 >
-                    Đăng nhập
+                    {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
                 </button>
+
             </form>
 
             <div className="relative mt-8 mb-6">

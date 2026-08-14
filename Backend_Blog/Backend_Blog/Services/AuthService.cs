@@ -15,7 +15,7 @@ namespace Backend_Blog.Services
     {
         public async Task<string?> LoginAsync(UserDTO request)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Username == request.Username);
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
             if (user is null)
             {
                 return null;

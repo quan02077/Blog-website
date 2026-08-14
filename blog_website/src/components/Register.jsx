@@ -13,14 +13,16 @@ function Register({ setView }) {
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
     const handleRegister = async (e) => {
         e.preventDefault()
         if (!email || !username || !password) {
             showErrorAlert("Thông báo", "Vui lòng nhập đầy đủ thông tin")
             return
         }
+        setLoading(true)
         try {
-            const response = await fetch("https://localhost:7289/api/auth/register", {
+            const response = await fetch("http://localhost:5264/api/auth/register", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -40,6 +42,8 @@ function Register({ setView }) {
 
         } catch (error) {
             showErrorAlert("Thông báo", error.message)
+        } finally {
+            setLoading(false)
         }
     }
     return (
@@ -90,9 +94,10 @@ function Register({ setView }) {
 
                 <button
                     type="submit"
-                    className="auth-btn-main mt-4"
+                    className="auth-btn-main mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
+                    disabled={loading}
                 >
-                    Tạo tài khoản
+                    {loading ? 'Đang tạo...' : 'Tạo tài khoản'}
                 </button>
             </form>
 
