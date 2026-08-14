@@ -1,0 +1,17 @@
+## Thư mục tạm của Visual Studio (Sửa lỗi Permission denied)
+.vs/
+*.suo
+*.user
+*.sln.docstates
+
+## Thư mục chứa file chạy sau khi Biên dịch (Build)
+[Bb]in/
+[Oo]bj/
+
+## Thư mục công cụ của .NET
+.paket/
+.fake/
+
+## Tệp cấu hình cá nhân của Rider / ReSharper (nếu có dùng)
+.idea/
+*.sln.DotSettings.user
