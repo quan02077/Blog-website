@@ -8,33 +8,47 @@ import { showErrorAlert, showSuccessAlert } from '../utils/alert'
 import ShowHidePass from './ShowHidePass'
 
 function Login({ setView }) {
-    const [state, dispatch] = useContext(Blog_context)
+    const [, dispatch] = useContext(Blog_context)
     const [show, setShow] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const { users } = state
-    const handleLogin = () => {
-        const matchedUser = users.find(user => user.email === email && user.password === password);
-        if (matchedUser) {
-            dispatch(action.loginAction(matchedUser))
-            showSuccessAlert('Thông báo', 'Đăng nhập thành công')
-        }
-        else if (email && password) {
-            showErrorAlert('Thông báo', 'Email hoặc mật khẩu không đúng')
-        }
-        else if (!email && !password) {
+    const handleLogin = async (e) => {
+        e.preventDefault()
+        if (!email || !password) {
             showErrorAlert('Thông báo', 'Vui lòng nhập email và mật khẩu')
+            return
         }
-        else if (!email) {
-            showErrorAlert('Thông báo', 'Vui lòng nhập email')
-        }
-        else {
-            showErrorAlert('Thông báo', 'Vui lòng nhập mật khẩu')
+        try {
+            const response = await fetch("https://localhost:7289/api/auth/login", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            })
+            if (!response.ok) {
+                const error = await response.json()
+                throw new Error(error.message || 'Email hoặc mật khẩu không đúng')
+            }
+            const data = await response.json()
+            if (data.token) {
+                localStorage.setItem('token', data.token)
+            }
+            const loggedUser = data.user || data
+            dispatch(action.loginAction(loggedUser))
+
+            showSuccessAlert('Thông báo', 'Đăng nhập thành công')
+            setView(null)
+        } catch (error) {
+            showErrorAlert('Thông báo', error.message)
         }
     }
     return (
         <div className="p-8">
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleLogin}>
                 <div className="space-y-1.5">
                     <label className="auth-label">Email</label>
                     <div className="relative">
@@ -74,9 +88,8 @@ function Login({ setView }) {
                 </div>
 
                 <button
-                    type="button"
+                    type="submit"
                     className="auth-btn-main mt-4"
-                    onClick={handleLogin}
                 >
                     Đăng nhập
                 </button>

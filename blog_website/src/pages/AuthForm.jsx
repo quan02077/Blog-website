@@ -9,13 +9,13 @@ import ForgotPassword from '../components/ForgotPassword'
 
 function SignIn_Up() {
     const [state, dispatch] = useContext(Blog_context)
-    const [view, setView] = useState('signIn') // 'signIn', 'signUp', 'forgot'
+    const [view, setView] = useState('login') // 'login', 'register', 'forgot'
 
     if (!state.btnSignInUp) return null
 
     const handleClose = () => {
         dispatch(action.btnSignInUpAction(false));
-        setTimeout(() => setView('signIn'), 300);
+        setTimeout(() => setView('login'), 300);
     }
 
     const activeBtn = ({ targetView }) => targetView === view ? 'isActive' : 'isNoActive'
@@ -32,7 +32,7 @@ function SignIn_Up() {
                 {view === 'forgot' ? (
                     <div className="px-8 pt-8 pb-0">
                         <button
-                            onClick={() => setView('signIn')}
+                            onClick={() => setView('login')}
                             className="text-gray-500 hover:text-primary mb-4 flex items-center gap-2 text-sm font-semibold transition-colors"
                         >
                             <FontAwesomeIcon icon={faArrowLeft} /> Quay lại
@@ -45,26 +45,26 @@ function SignIn_Up() {
                 ) : (
                     <div className='flex items-center text-center px-8 pt-6 border-b border-gray-200 dark:border-gray-800'>
                         <button
-                            onClick={() => setView('signIn')}
-                            className={`signin_upBtn hoverButton ${activeBtn({ targetView: 'signIn' })}`}
+                            onClick={() => setView('login')}
+                            className={`signin_upBtn hoverButton ${activeBtn({ targetView: 'login' })}`}
                         >
                             ĐĂNG NHẬP
-                            {view === 'signIn' && <div className="txt_signin_upBtn bg-primary" />}
+                            {view === 'login' && <div className="txt_signin_upBtn bg-primary" />}
                         </button>
                         <button
-                            onClick={() => setView('signUp')}
-                            className={`signin_upBtn hoverButton ${activeBtn({ targetView: 'signUp' })}`}
+                            onClick={() => setView('register')}
+                            className={`signin_upBtn hoverButton ${activeBtn({ targetView: 'register' })}`}
                         >
                             ĐĂNG KÝ
-                            {view === 'signUp' && <div className="txt_signin_upBtn bg-primary" />}
+                            {view === 'register' && <div className="txt_signin_upBtn bg-primary" />}
                         </button>
                     </div>
                 )}
 
                 {/* Render Component tương ứng */}
                 <div>
-                    {view === 'signIn' && <Login setView={setView} />}
-                    {view === 'signUp' && <Register setView={setView} />}
+                    {view === 'login' && <Login setView={setView} />}
+                    {view === 'register' && <Register setView={setView} />}
                     {view === 'forgot' && <ForgotPassword />}
                 </div>
             </div>

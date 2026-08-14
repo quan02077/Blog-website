@@ -1,21 +1,50 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons'
 import { faGoogle, faGithub, faFacebook } from '@fortawesome/free-brands-svg-icons'
-import Blog_context from '../context/Blog_Context'
-import * as action from '../context/Actions'
-import { showSuccessAlert } from '../utils/alert'
+// import Blog_context from '../context/Blog_Context'
+// import * as action from '../context/Actions'
+import { showSuccessAlert, showErrorAlert } from '../utils/alert'
 import ShowHidePass from './ShowHidePass'
 
-function Register() {
-    const [dispatch] = useContext(Blog_context)
+function Register({ setView }) {
+    // const [dispatch] = useContext(Blog_context)
     const [show, setShow] = useState(false)
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const handleRegister = async (e) => {
+        e.preventDefault()
+        if (!email || !username || !password) {
+            showErrorAlert("Thông báo", "Vui lòng nhập đầy đủ thông tin")
+            return
+        }
+        try {
+            const response = await fetch("https://localhost:7289/api/auth/register", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password
+                })
+            })
+            if (!response.ok) {
+                const error = await response.json()
+                throw new Error(error.message || "Đăng ký thất bại")
+            }
+            showSuccessAlert("Thông báo", "Đăng ký thành công")
+            setView('login')
+
+        } catch (error) {
+            showErrorAlert("Thông báo", error.message)
+        }
+    }
     return (
         <div className="p-8">
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleRegister}>
                 <div className="space-y-1.5 animate-in slide-in-from-right-4 duration-300">
                     <label className="auth-label">Họ và Tên</label>
                     <div className="relative">
@@ -60,18 +89,8 @@ function Register() {
                 </div>
 
                 <button
-                    type="button"
+                    type="submit"
                     className="auth-btn-main mt-4"
-                    onClick={() => {
-                        const newUser = {
-                            username,
-                            email,
-                            password,
-                            createdAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-                        }
-                        dispatch(action.registerAction(newUser))
-                        showSuccessAlert('Thông báo', 'Đăng ký thành công')
-                    }}
                 >
                     Tạo tài khoản
                 </button>

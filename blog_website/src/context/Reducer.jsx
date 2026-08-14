@@ -27,7 +27,6 @@ import { initialPosts } from "../data/initialPosts";
 export const initialState = {
     isSignIn: localStorage.getItem('isSignIn') === 'true',
     currentUser: JSON.parse(localStorage.getItem('currentUser')) || null,
-    users: JSON.parse(localStorage.getItem('users')) || [],
     darkMode: localStorage.getItem('darkMode') === 'true',
     btnSignInUp: false,
     btnAccount: false,
@@ -49,27 +48,20 @@ function reducer(state, action) {
     switch (action.type) {
         case TOGGLE_DARK_MODE: {
             const newDarkMode = action.payload;
-            let newUsers = state.users;
             let newCurrentUser = state.currentUser;
 
             // Lưu chung vào trình duyệt
             localStorage.setItem('darkMode', newDarkMode);
 
-            // Nếu đang đăng nhập, lưu luôn vào tài khoản của người đó
+            // Nếu đang đăng nhập, lưu luôn cấu hình cho tài khoản của người đó
             if (state.currentUser) {
-                newUsers = state.users.map(user =>
-                    user.email === state.currentUser.email
-                        ? { ...user, darkMode: newDarkMode }
-                        : user
-                );
-                localStorage.setItem('users', JSON.stringify(newUsers));
                 newCurrentUser = { ...state.currentUser, darkMode: newDarkMode };
+                localStorage.setItem('currentUser', JSON.stringify(newCurrentUser));
             }
 
             return {
                 ...state,
                 darkMode: newDarkMode,
-                users: newUsers,
                 currentUser: newCurrentUser
             }
         }
@@ -108,19 +100,9 @@ function reducer(state, action) {
             }
         }
         case REGISTER:
-            {
-                // Khi đăng ký, gán luôn cài đặt dark mode hiện tại cho user mới
-                const newUser = {
-                    ...action.payload,
-                    darkMode: state.darkMode
-                };
-                const newUsers = [...state.users, newUser];
-                localStorage.setItem('users', JSON.stringify(newUsers));
-                return {
-                    ...state,
-                    users: newUsers,
-                    btnSignInUp: false // Đăng ký xong thì tắt modal đi (hoặc đổi qua tab login tùy bạn)
-                }
+            return {
+                ...state,
+                btnSignInUp: false // Đăng ký xong thì tắt modal đi
             }
         case TOGGLE_ACCOUNT:
             return {
@@ -129,6 +111,7 @@ function reducer(state, action) {
             }
         case LOG_OUT:
             localStorage.removeItem('currentUser');
+            localStorage.removeItem('token'); // Xóa token JWT khi đăng xuất
             localStorage.setItem('isSignIn', 'false');
             return {
                 ...state,
@@ -164,17 +147,11 @@ function reducer(state, action) {
         case UPDATE_INFO:
             {
                 const updatedUser = action.payload;
-                // Cập nhật lại thông tin user trong danh sách users
-                const updatedUsers = state.users.map(user =>
-                    user.email === state.currentUser?.email ? { ...user, ...updatedUser } : user
-                );
                 // Lưu thông tin mới vào Local Storage
                 localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-                localStorage.setItem('users', JSON.stringify(updatedUsers));
                 return {
                     ...state,
                     currentUser: updatedUser,
-                    users: updatedUsers,
                     btnInfo: false
                 }
             }
