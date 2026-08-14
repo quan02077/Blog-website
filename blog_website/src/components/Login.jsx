@@ -42,7 +42,6 @@ function Login({ setView }) {
             const loggedUser = data.user || data
             dispatch(action.loginAction(loggedUser))
             showSuccessAlert('Thông báo', 'Đăng nhập thành công')
-            setView(null)
         } catch (error) {
             showErrorAlert('Thông báo', error.message)
         } finally {

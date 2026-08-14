@@ -42,6 +42,7 @@ namespace Backend_Blog.Services
             await context.SaveChangesAsync();
             return user;
         }
+
         private string GenerateJwtToken(User user)
         {
             var claims = new List<Claim>
