@@ -2,6 +2,7 @@
 using Backend_Blog.Entities;
 using Backend_Blog.Models;
 using Backend_Blog.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,6 +44,12 @@ namespace Backend_Blog.Controllers
                     createdAt = user.CreatedAt.ToString("MMM dd, yyyy")
                 }
             });
-        }   
+        }
+        [Authorize]
+        [HttpGet]
+        public IActionResult AuthenticatedOnlyEndpoint()
+        {
+            return Ok("You are authenticated!");
+        }
     }
 }
