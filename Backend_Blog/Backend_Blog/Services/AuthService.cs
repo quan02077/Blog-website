@@ -111,7 +111,5 @@ namespace Backend_Blog.Services
 
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
-
-
     }
 }

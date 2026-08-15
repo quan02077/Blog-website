@@ -7,6 +7,6 @@ namespace Backend_Blog.Services
     {
         Task<User?> RegisterAsync(UserDTO request);
         Task<TokenReponseDTO?> LoginAsync(UserDTO request);
-        Task<TokenReponseDTO?> RefreshTokenAsync(UserDTO request);
+        Task<TokenReponseDTO?> RefreshTokenAsync(RefreshTokenRequestDTO request);
     }
 }
