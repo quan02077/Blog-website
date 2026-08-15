@@ -25,7 +25,7 @@ namespace Backend_Blog.Controllers
             return Ok(result);
         }
         [HttpPost("login")] 
-        public async Task<IActionResult> Login(UserDTO request)
+        public async Task<ActionResult<TokenReponseDTO>> Login(UserDTO request)
         {
             var result = await authService.LoginAsync(request);
             if (result is null)
