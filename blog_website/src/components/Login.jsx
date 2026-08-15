@@ -6,6 +6,7 @@ import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 import { showErrorAlert, showSuccessAlert } from '../utils/alert'
 import ShowHidePass from './ShowHidePass'
+import { loginApi } from '../api/auth'
 
 function Login({ setView }) {
     const [, dispatch] = useContext(Blog_context)
@@ -21,21 +22,7 @@ function Login({ setView }) {
         }
         setLoading(true)
         try {
-            const response = await fetch("http://localhost:5264/api/auth/login", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                })
-            })
-            if (!response.ok) {
-                const error = await response.json()
-                throw new Error(error.message || 'Email hoặc mật khẩu không đúng')
-            }
-            const data = await response.json()
+            const data = await loginApi(email, password)
             if (data.token) {
                 localStorage.setItem('token', data.token)
             }

@@ -6,6 +6,7 @@ import { faGoogle, faGithub, faFacebook } from '@fortawesome/free-brands-svg-ico
 // import * as action from '../context/Actions'
 import { showSuccessAlert, showErrorAlert } from '../utils/alert'
 import ShowHidePass from './ShowHidePass'
+import { registerApi } from '../api/auth'
 
 function Register({ setView }) {
     // const [dispatch] = useContext(Blog_context)
@@ -22,24 +23,9 @@ function Register({ setView }) {
         }
         setLoading(true)
         try {
-            const response = await fetch("http://localhost:5264/api/auth/register", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username,
-                    email,
-                    password
-                })
-            })
-            if (!response.ok) {
-                const error = await response.json()
-                throw new Error(error.message || "Đăng ký thất bại")
-            }
+            await registerApi(username, email, password)
             showSuccessAlert("Thông báo", "Đăng ký thành công")
             setView('login')
-
         } catch (error) {
             showErrorAlert("Thông báo", error.message)
         } finally {
