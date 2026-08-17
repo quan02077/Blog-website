@@ -4,6 +4,7 @@ using Backend_Blog.Models;
 using Backend_Blog.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -106,5 +107,51 @@ namespace Backend_Blog.Controllers
             });
         }
 
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPassworDTO request)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.email);
+            if(user is null)
+            {
+                return BadRequest(new { message = "Email không tồn tại trong hệ thống!" });
+            }
+
+            string resetToken = Guid.NewGuid().ToString();
+
+            user.ResetToken = resetToken;
+            user.ResetTokenExpiryTime = DateTime.UtcNow.AddMinutes(15);
+
+            await context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                message = "Yêu cầu thành công! Vui lòng đặt mật khẩu mới.",
+                resetToken = resetToken
+            });
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPassworDTO request)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.email);
+            if (user is null)
+            {
+                return BadRequest(new { message = "Email không tồn tại trong hệ thống!" });
+            }
+            if(user.ResetToken != request.token || user.ResetTokenExpiryTime <= DateTime.UtcNow)
+            {
+                return BadRequest(new { message = "Mã xác thực không hợp lệ hoặc đã hết hạn!" });
+
+            }
+
+            user.PasswordHash = new PasswordHasher<User>().HashPassword(user, request.newPassword);
+
+            user.ResetToken = null;
+
+            user.RefreshTokenExpiryTime = null;
+            await context.SaveChangesAsync();
+
+            return Ok(new { message = "Đặt lại mật khẩu thành công! Hãy đăng nhập bằng mật khẩu mới." });
+        }
     }
 }

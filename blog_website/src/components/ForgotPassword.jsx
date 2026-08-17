@@ -69,7 +69,7 @@ function ForgotPassword({ setView }) {
                             />
                         </div>
                     </div>
-                    <button type="submit" disabled={loading} className="w-full auth-btn mt-6">
+                    <button type="submit" disabled={loading} className="auth-btn-main mt-4 disabled:opacity-70 disabled:cursor-not-allowed">
                         {loading ? 'Đang gửi yêu cầu...' : 'Xác nhận Email'}
                     </button>
                 </form>
@@ -90,7 +90,7 @@ function ForgotPassword({ setView }) {
                             />
                         </div>
                     </div>
-                    <button type="submit" disabled={loading} className="w-full auth-btn mt-6">
+                    <button type="submit" disabled={loading} className="auth-btn-main mt-4 disabled:opacity-70 disabled:cursor-not-allowed">
                         {loading ? 'Đang cập nhật...' : 'Đổi mật khẩu'}
                     </button>
                 </form>
