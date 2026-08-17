@@ -111,5 +111,10 @@ namespace Backend_Blog.Services
 
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
+
+        object IAuthService.GenerateJwtToken(User user)
+        {
+            return GenerateJwtToken(user);
+        }
     }
 }

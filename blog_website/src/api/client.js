@@ -1,8 +1,8 @@
-export const BASE_URL = 'http://localhost:5264/api';
+export const BASE_URL = import.meta.env.VITE_API_URL;
 
 const refreshAccessToken = async () => {
     try {
-        const response = await fetch(`${BASE_URL}/auth/refresh`, {
+        const response = await fetch(`${BASE_URL}/api/auth/refresh`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,9 +41,9 @@ export const request = async (endpoint, options = {}) => {
 
     let response = await fetch(url, responseOptions);
 
-    const isAuthEndpoint = endpoint.includes('/auth/login') ||
-        endpoint.includes('/auth/register') ||
-        endpoint.includes('/auth/refresh');
+    const isAuthEndpoint = endpoint.includes('/api/auth/login') ||
+        endpoint.includes('/api/auth/register') ||
+        endpoint.includes('/api/auth/refresh');
 
     if (response.status === 401 && !isAuthEndpoint) {
         console.log("Access Token hết hạn, đang tự động gia hạn ngầm...");

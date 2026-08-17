@@ -72,7 +72,7 @@ namespace Backend_Blog.Controllers
             var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
             if (user is null) return NotFound();
             return Ok(new
-            {
+            {   
                 username = user.Username,
                 email = user.Email,
                 avatar = user.Avatar ?? $"https://ui-avatars.com/api/?name={user.Username}&background=3b82f6&color=fff",

@@ -89,7 +89,7 @@ function Posts() {
                             <Loader />
                         ) : (
                             <p className="text-xs font-semibold text-gray-400 dark:text-gray-500">
-                                ✨ Bạn đã xem hết danh sách bài viết.
+                                Bạn đã xem hết danh sách bài viết.
                             </p>
                         )}
                     </div>
