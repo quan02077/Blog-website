@@ -45,3 +45,32 @@ export const getMeApi = async (token) => {
 
     return response.json();
 };
+
+export const forgotPasswordApi = async (email) => {
+    const response = await request('/auth/forgot-password', {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+    });
+
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Yêu cầu thất bại');
+    }
+
+    return response.json();
+};
+
+export const resetPasswordApi = async (email, token, newPassword) => {
+    const response = await request('/auth/reset-password', {
+        method: 'POST',
+        body: JSON.stringify({ email, token, newPassword }),
+    });
+
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Đặt lại mật khẩu thất bại');
+    }
+
+    return response.json();
+};
+
