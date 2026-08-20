@@ -44,6 +44,8 @@ namespace Backend_Blog.Controllers
             if (!string.IsNullOrEmpty(request.Password))
             {
                 user.PasswordHash = new PasswordHasher<User>().HashPassword(user, request.Password);
+                user.RefreshToken = null;
+                user.RefreshTokenExpiryTime = null;
             }
 
             await context.SaveChangesAsync();
