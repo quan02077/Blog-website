@@ -6,6 +6,8 @@ import FormInfo from "./FormInfo"
 import * as action from "../context/Actions"
 import { showSuccessAlert, showErrorAlert } from "../utils/alert"
 import { editProfile } from "../api/editProfile"
+import { uploadToCloudinary } from "../api/cloudinary";
+
 
 function EditForm({ currentUser, dispatch, onClose }) {
     const [username, setUsername] = useState(currentUser?.username || '');
@@ -16,15 +18,22 @@ function EditForm({ currentUser, dispatch, onClose }) {
     const [loading, setLoading] = useState(false);
 
     const handleSave = async () => {
-        const updatedUser = {
-            username,
-            bio,
-            email,
-            password,
-            avatar
-        }
         setLoading(true);
         try {
+            let finalAvatarUrl = avatar;
+            if (avatar instanceof File) {
+                console.log("Đang upload ảnh đại diện mới lên Cloudinary...");
+                finalAvatarUrl = await uploadToCloudinary(avatar);
+            }
+
+            const updatedUser = {
+                username,
+                bio,
+                email,
+                password,
+                avatar: finalAvatarUrl
+            };
+
             const data = await editProfile(updatedUser);
             dispatch(action.updateInfoAction(data));
             showSuccessAlert('Thông báo', 'Cập nhật thông tin tài khoản thành công!');
@@ -35,6 +44,7 @@ function EditForm({ currentUser, dispatch, onClose }) {
             setLoading(false);
         }
     };
+
 
     return (
         <div

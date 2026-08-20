@@ -8,11 +8,7 @@ function AvatarInput({ avatar, setAvatar }) {
     const handleFileChange = (e) => {
         const file = e.target.files[0]
         if (file) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setAvatar(reader.result)
-            }
-            reader.readAsDataURL(file)
+            setAvatar(file)
         }
     }
 
@@ -20,7 +16,7 @@ function AvatarInput({ avatar, setAvatar }) {
         <div className="relative w-28 h-28 mx-auto mb-4">
             {avatar ? (
                 <img
-                    src={avatar}
+                    src={avatar instanceof File ? URL.createObjectURL(avatar) : avatar}
                     alt="Avatar"
                     className="w-full h-full rounded-full object-cover border-4 border-gray-300 dark:border-gray-600 shadow-md"
                 />
@@ -47,4 +43,5 @@ function AvatarInput({ avatar, setAvatar }) {
         </div>
     )
 }
+
 export default AvatarInput
