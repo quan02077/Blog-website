@@ -4,28 +4,37 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons"
 import AvatarInput from "./AvatarInput"
 import FormInfo from "./FormInfo"
 import * as action from "../context/Actions"
-import { showSuccessAlert } from "../utils/alert"
+import { showSuccessAlert, showErrorAlert } from "../utils/alert"
+import { editProfile } from "../api/editProfile"
 
 function EditForm({ currentUser, dispatch, onClose }) {
-    const [username, setUsername] = useState(currentUser?.username || '')
-    const [bio, setBio] = useState(currentUser?.bio || '')
-    const [email, setEmail] = useState(currentUser?.email || '')
-    const [password, setPassword] = useState(currentUser?.password || '')
-    const [avatar, setAvatar] = useState(currentUser?.avatar || null)
+    const [username, setUsername] = useState(currentUser?.username || '');
+    const [bio, setBio] = useState(currentUser?.bio || '');
+    const [email, setEmail] = useState(currentUser?.email || '');
+    const [password, setPassword] = useState(currentUser?.password || '');
+    const [avatar, setAvatar] = useState(currentUser?.avatar || null);
+    const [loading, setLoading] = useState(false);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         const updatedUser = {
-            ...currentUser,
             username,
             bio,
             email,
             password,
             avatar
         }
-        dispatch(action.updateInfoAction(updatedUser))
-        showSuccessAlert('Thông báo', 'Cập nhật thông tin tài khoản thành công!')
-        onClose()
-    }
+        setLoading(true);
+        try {
+            const data = await editProfile(updatedUser);
+            dispatch(action.updateInfoAction(data));
+            showSuccessAlert('Thông báo', 'Cập nhật thông tin tài khoản thành công!');
+            onClose();
+        } catch (error) {
+            showErrorAlert('Lỗi', error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div
@@ -80,10 +89,11 @@ function EditForm({ currentUser, dispatch, onClose }) {
                     </button>
                     <button
                         type="button"
-                        className="px-5 py-2 text-sm font-semibold bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors cursor-pointer shadow-md"
+                        className="px-5 py-2 text-sm font-semibold bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors cursor-pointer shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
                         onClick={handleSave}
+                        disabled={loading}
                     >
-                        Lưu thay đổi
+                        {loading ? 'Đang lưu...' : 'Lưu thay đổi'}
                     </button>
                 </div>
             </div>

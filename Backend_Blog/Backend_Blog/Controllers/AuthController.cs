@@ -68,12 +68,16 @@ namespace Backend_Blog.Controllers
         [Authorize]
         public async Task<IActionResult> CurrentUserOnlyEndpoint()
         {
-            var email = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst("email")?.Value;
-            if (email is null) return Unauthorized();
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(currentUserId) || !Guid.TryParse(currentUserId, out var userId))
+                return Unauthorized();
+
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
             if (user is null) return NotFound();
+
             return Ok(new
-            {   
+            {
                 username = user.Username,
                 email = user.Email,
                 avatar = user.Avatar ?? $"https://ui-avatars.com/api/?name={user.Username}&background=3b82f6&color=fff",
@@ -81,6 +85,7 @@ namespace Backend_Blog.Controllers
                 createdAt = user.CreatedAt.ToString("MMM dd, yyyy")
             });
         }
+
 
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh()

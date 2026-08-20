@@ -14,7 +14,7 @@ namespace Backend_Blog.Controllers
     [ApiController]
     public class EditProfileController(MyBlogContext context) : ControllerBase
     {
-        [HttpPost("edit-profile")]
+        [HttpPut]
         [Authorize]
         public async Task<IActionResult> EditProfile([FromBody] EditProfileDTO request)
         {
@@ -36,17 +36,19 @@ namespace Backend_Blog.Controllers
                 }
             }
 
-            user.Avatar = request.Avatar;
-            user.Username = request.Username;
-            user.Email = request.Email;
-            user.Bio = request.Bio;
+            if (!string.IsNullOrEmpty(request.Username)) user.Username = request.Username;
+            if (!string.IsNullOrEmpty(request.Email)) user.Email = request.Email;
+
+            if (request.Bio != null) user.Bio = request.Bio;
+            if (request.Avatar != null) user.Avatar = request.Avatar;
 
             if (!string.IsNullOrEmpty(request.Password))
             {
                 user.PasswordHash = new PasswordHasher<User>().HashPassword(user, request.Password);
-                user.RefreshToken = null;
+                user.RefreshToken = null;          
                 user.RefreshTokenExpiryTime = null;
             }
+
 
             await context.SaveChangesAsync();
 
