@@ -3,6 +3,7 @@ using Backend_Blog.Entities;
 using Backend_Blog.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -39,7 +40,7 @@ namespace Backend_Blog.Services
 
         public async Task<User?> RegisterAsync(UserDTO request)
         {
-            if(await context.Users.AnyAsync(u => u.Username == request.Username))
+            if (await context.Users.AnyAsync(u => u.Username == request.Username))
             {
                 return null;
             }
