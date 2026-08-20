@@ -18,10 +18,10 @@ namespace Backend_Blog.Controllers
         [Authorize]
         public async Task<IActionResult> EditProfile([FromBody] EditProfileDTO request)
         {
-            var currentEmail = User.FindFirst((ClaimTypes.Email))?.Value ?? User.FindFirst("email")?.Value;
-            if (currentEmail is null) return Unauthorized();
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!Guid.TryParse(currentUserId, out var userId)) return Unauthorized();
 
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == currentEmail);
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
             if (user is null)
             {
                 return NotFound(new { message = "Không tìm thấy người dùng!!" });
