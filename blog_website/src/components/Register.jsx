@@ -6,10 +6,10 @@ import { faGoogle, faGithub, faFacebook } from '@fortawesome/free-brands-svg-ico
 // import * as action from '../context/Actions'
 import { showSuccessAlert, showErrorAlert } from '../utils/alert'
 import ShowHidePass from './ShowHidePass'
+import ClearInputButton from './ClearInputButton'
 import { registerApi } from '../api/auth'
 
 function Register({ setView }) {
-    // const [dispatch] = useContext(Blog_context)
     const [show, setShow] = useState(false)
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
@@ -43,9 +43,10 @@ function Register({ setView }) {
                             value={username}
                             type="text"
                             placeholder="Nguyễn Văn A"
-                            className="auth-input"
+                            className="auth-input pr-10"
                             onChange={(e) => setUsername(e.target.value)}
                         />
+                        <ClearInputButton value={username} onClear={() => setUsername('')} />
                     </div>
                 </div>
 
@@ -57,9 +58,10 @@ function Register({ setView }) {
                             value={email}
                             type="email"
                             placeholder="example@gmail.com"
-                            className="auth-input"
+                            className="auth-input pr-10"
                             onChange={(e) => setEmail(e.target.value)}
                         />
+                        <ClearInputButton value={email} onClear={() => setEmail('')} />
                     </div>
                 </div>
 
@@ -71,9 +73,10 @@ function Register({ setView }) {
                             value={password}
                             type={show ? "text" : "password"}
                             placeholder={show ? "Mật khẩu" : "••••••••"}
-                            className="auth-input pr-12"
+                            className="auth-input pr-20"
                             onChange={(e) => setPassword(e.target.value)}
                         />
+                        <ClearInputButton value={password} onClear={() => setPassword('')} className="right-10" />
                         <ShowHidePass show={show} setShow={setShow} />
                     </div>
                 </div>

@@ -1,12 +1,10 @@
 import {
     LOGIN,
-    REGISTER,
     TOGGLE_DARK_MODE,
     BTN_SIGN_IN_UP,
     TOGGLE_ACCOUNT,
     LOG_OUT,
     TOGGLE_INFO,
-    TOGGLE_MY_POSTS,
     TOGGLE_BOOKMARKS,
     TOGGLE_NOTIFICATIONS,
     TOGGLE_SETTINGS,
@@ -20,19 +18,14 @@ import {
     SORT_BY,
     SEARCH,
     FILTER_STATUS,
-    BOOKMARKS
+    BOOKMARKS,
+    SET_POSTS,
+    SET_CATEGORIES
 } from "./Constant";
 
 export const loginAction = (payload) => {
     return {
         type: LOGIN,
-        payload
-    }
-}
-
-export const registerAction = (payload) => {
-    return {
-        type: REGISTER,
         payload
     }
 }
@@ -69,13 +62,6 @@ export const logOutAction = () => {
 export const toggleInfoAction = (payload) => {
     return {
         type: TOGGLE_INFO,
-        payload
-    }
-}
-
-export const toggleMyPostsAction = (payload) => {
-    return {
-        type: TOGGLE_MY_POSTS,
         payload
     }
 }
@@ -174,6 +160,20 @@ export const filterAction = (payload) => {
 export const bookmarksAction = (payload) => {
     return {
         type: BOOKMARKS,
+        payload
+    }
+}
+
+export const setPostsAction = (payload) => {
+    return {
+        type: SET_POSTS,
+        payload
+    }
+}
+
+export const setCategoriesAction = (payload) => {
+    return {
+        type: SET_CATEGORIES,
         payload
     }
 }

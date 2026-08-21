@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMoon, faSun, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import * as action from '../context/Actions'
 import AccountTool from '../pages/AccountTool'
+import ClearInputButton from './ClearInputButton'
 
 function Header() {
     const [state, dispatch] = useContext(Blog_context)
@@ -14,8 +15,19 @@ function Header() {
                 <h1 className="font-pixel font-bold text-2xl text-gray-900 dark:text-white">My Blog</h1>
                 <p className="text-gray-500 dark:text-gray-400">Nơi chia sẻ kiến thức và kinh nghiệm</p>
             </div>
-            <div className="col-span-1">
-                <input className="w-full h-full rounded-full border border-gray-300 dark:border-gray-700 px-4 py-2 bg-white dark:bg-dark-bg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5" type="text" placeholder="Tìm kiếm..." />
+            <div className="col-span-1 relative flex items-center">
+                <input
+                    value={state.search || ''}
+                    onChange={(e) => dispatch(action.searchAction(e.target.value))}
+                    className="w-full h-full rounded-full border border-gray-300 dark:border-gray-700 pl-4 pr-10 py-2 bg-white dark:bg-dark-bg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+                    type="text"
+                    placeholder="Tìm kiếm..."
+                />
+                <ClearInputButton
+                    value={state.search}
+                    onClear={() => dispatch(action.searchAction(''))}
+                    className="right-3.5"
+                />
             </div>
             <div className="col-span-1 flex justify-end items-center gap-4">
                 <button

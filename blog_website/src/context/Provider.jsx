@@ -3,6 +3,8 @@ import Blog_context from './Blog_Context'
 import reducer, { initialState } from './Reducer'
 import * as action from './Actions'
 import { getMeApi } from '../api/auth'
+import { getAllPost } from '../api/post'
+import { getAllCategories } from '../api/category'
 
 function Provider({ children }) {
     const [state, dispatch] = useReducer(reducer, initialState)
@@ -34,6 +36,31 @@ function Provider({ children }) {
         };
         verifyToken();
     }, [])
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const data = await getAllPost();
+                dispatch(action.setPostsAction(data));
+            } catch (error) {
+                console.error("Lỗi khi tải danh sách bài viết từ Database:", error);
+            }
+        };
+        fetchPosts();
+    }, [])
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const data = await getAllCategories();
+                dispatch(action.setCategoriesAction(data));
+            } catch (error) {
+                console.error("Lỗi khi tải danh sách chuyên mục từ Database:", error);
+            }
+        };
+        fetchCategories();
+    }, [])
+
     return (
         <Blog_context.Provider value={[state, dispatch]}>
             {children}

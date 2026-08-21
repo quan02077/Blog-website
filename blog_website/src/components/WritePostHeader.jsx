@@ -86,10 +86,11 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
                 <button
                     type="button"
                     onClick={handleSaveDraft}
+                    disabled={loading}
                     className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors cursor-pointer"
                 >
                     <FontAwesomeIcon icon={faFloppyDisk} />
-                    {isEdit ? 'Cập nhật nháp' : 'Lưu nháp'}
+                    {loading ? 'Đang lưu...' : (isEdit ? 'Cập nhật nháp' : 'Lưu nháp')}
                 </button>
                 <button
                     type="button"
