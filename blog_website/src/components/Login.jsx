@@ -6,6 +6,7 @@ import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 import { showErrorAlert, showSuccessAlert } from '../utils/alert'
 import ShowHidePass from './ShowHidePass'
+import ClearInputButton from './ClearInputButton'
 import { loginApi } from '../api/auth'
 
 function Login({ setView }) {
@@ -47,9 +48,10 @@ function Login({ setView }) {
                             value={email}
                             type="email"
                             placeholder="example@gmail.com"
-                            className="auth-input"
+                            className="auth-input pr-10"
                             onChange={(e) => setEmail(e.target.value)}
                         />
+                        <ClearInputButton value={email} onClear={() => setEmail('')} />
                     </div>
                 </div>
 
@@ -70,9 +72,10 @@ function Login({ setView }) {
                             value={password}
                             type={show ? "text" : "password"}
                             placeholder={show ? "Mật khẩu" : "••••••••"}
-                            className="auth-input pr-12"
+                            className="auth-input pr-20"
                             onChange={(e) => setPassword(e.target.value)}
                         />
+                        <ClearInputButton value={password} onClear={() => setPassword('')} className="right-10" />
                         <ShowHidePass show={show} setShow={setShow} />
                     </div>
                 </div>

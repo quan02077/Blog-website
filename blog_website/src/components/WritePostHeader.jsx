@@ -1,14 +1,18 @@
-import { useContext } from 'react'
+import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faFloppyDisk, faPaperPlane, faEye } from '@fortawesome/free-solid-svg-icons'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
-import { showSuccessAlert, showConfirmAlert } from '../utils/alert'
+import { showSuccessAlert, showConfirmAlert, showErrorAlert } from '../utils/alert'
+import { writePost } from '../api/post'
+import { uploadToCloudinary } from '../api/cloudinary'
 
-function WritePostHeader({ postData, onPreview, isEdit = false }) {
+
+function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
     const [, dispatch] = useContext(Blog_context)
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     const handleSaveDraft = async () => {
         const message = isEdit ? 'Bạn có chắc chắn muốn cập nhật bản nháp này?' : 'Bạn có chắc chắn muốn lưu nháp bài viết này?'
@@ -27,12 +31,39 @@ function WritePostHeader({ postData, onPreview, isEdit = false }) {
 
     const handlePublishPost = async () => {
         const result = await showConfirmAlert('Thông báo', 'Bạn có chắc chắn muốn đăng bài viết này?')
-        if (result.isConfirmed) {
-            dispatch(action.publishPostAction(postData))
-            await showSuccessAlert('Thông báo', 'Bài viết đã được đăng thành công')
+        if (!result.isConfirmed) return;
+
+        setLoading(true)
+        try {
+            let finalImageUrl = "";
+            if (image instanceof File) {
+                console.log("Đang upload ảnh bìa lên Cloudinary...");
+                finalImageUrl = await uploadToCloudinary(image)
+            } else if (typeof image === 'string') {
+                finalImageUrl = image;
+            }
+
+            const newPost = { ...postData, coverImage: finalImageUrl };
+            const data = await writePost(newPost);
+            dispatch(action.publishPostAction(data));
+            showSuccessAlert('Thông báo', 'Bài viết đã được đăng thành công')
             navigate('/')
+                const newPost = {
+                    ...postData,
+                    coverImage: finalImageUrl
+                };
+                const data = await writePost(newPost);
+                dispatch(action.publishPostAction(data));
+                showSuccessAlert('Thông báo', 'Bài viết đã được đăng thành công')
+                navigate('/')
+            }
+        } catch (error) {
+            showErrorAlert('Thông báo', error.message)
+        } finally {
+            setLoading(false)
         }
     }
+
 
     return (
         <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center justify-between">
@@ -61,18 +92,20 @@ function WritePostHeader({ postData, onPreview, isEdit = false }) {
                 <button
                     type="button"
                     onClick={handleSaveDraft}
+                    disabled={loading}
                     className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors cursor-pointer"
                 >
                     <FontAwesomeIcon icon={faFloppyDisk} />
-                    {isEdit ? 'Cập nhật nháp' : 'Lưu nháp'}
+                    {loading ? 'Đang lưu...' : (isEdit ? 'Cập nhật nháp' : 'Lưu nháp')}
                 </button>
                 <button
                     type="button"
                     className="flex items-center gap-2 text-sm font-semibold text-white bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 px-4 py-2 rounded-xl transition-colors cursor-pointer"
                     onClick={handlePublishPost}
+                    disabled={loading}
                 >
                     <FontAwesomeIcon icon={faPaperPlane} />
-                    Đăng bài
+                    {loading ? 'Đang đăng...' : 'Đăng bài'}
                 </button>
             </div>
         </div>

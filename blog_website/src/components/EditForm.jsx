@@ -78,7 +78,18 @@ function EditForm({ currentUser, dispatch, onClose }) {
                     />
 
                     <div className="space-y-1.5">
-                        <label className="text-xs font-semibold text-gray-700 dark:text-gray-300">Tiểu sử (Bio)</label>
+                        <div className="flex justify-between items-center">
+                            <label className="text-xs font-semibold text-gray-700 dark:text-gray-300">Tiểu sử (Bio)</label>
+                            {bio && (
+                                <button
+                                    type="button"
+                                    onClick={() => setBio('')}
+                                    className="text-xs text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                                >
+                                    Xóa
+                                </button>
+                            )}
+                        </div>
                         <textarea
                             value={bio}
                             onChange={(e) => setBio(e.target.value)}

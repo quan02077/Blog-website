@@ -1,4 +1,4 @@
-﻿using Backend_Blog.Data;
+using Backend_Blog.Data;
 using Backend_Blog.Entities;
 using Backend_Blog.Models;
 using Backend_Blog.Services;
@@ -152,8 +152,10 @@ namespace Backend_Blog.Controllers
             user.PasswordHash = new PasswordHasher<User>().HashPassword(user, request.newPassword);
 
             user.ResetToken = null;
-
+            user.ResetTokenExpiryTime = null;
+            user.RefreshToken = null;
             user.RefreshTokenExpiryTime = null;
+
             await context.SaveChangesAsync();
 
             return Ok(new { message = "Đặt lại mật khẩu thành công! Hãy đăng nhập bằng mật khẩu mới." });

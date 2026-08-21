@@ -5,6 +5,7 @@ import CoverUpload from '../components/CoverUpload'
 import PostMeta from '../components/PostMeta'
 import MarkdownEditor from '../components/MarkdownEditor'
 import PreviewModal from '../components/PreviewModal'
+import ClearInputButton from '../components/ClearInputButton'
 import Blog_context from '../context/Blog_Context'
 
 function WritePostContent({ currentDraft, id }) {
@@ -46,21 +47,24 @@ function WritePostContent({ currentDraft, id }) {
     return (
         <div className="flex flex-col gap-6 pb-10">
 
-            <WritePostHeader postData={postData} onPreview={() => setIsPreviewOpen(true)} isEdit={isEdit} />
+            <WritePostHeader postData={postData} onPreview={() => setIsPreviewOpen(true)} isEdit={isEdit} image={image} />
 
             <CoverUpload image={image} setImage={setImage} />
 
             {/* Post Title */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Tiêu đề</label>
-                <input
-                    value={title}
-                    type="text"
-                    maxLength="120"
-                    placeholder="Nhập tiêu đề bài viết..."
-                    className="w-full text-2xl font-bold text-gray-900 dark:text-white placeholder-gray-300 dark:placeholder-gray-600 border-none outline-none bg-transparent"
-                    onChange={(e) => setTitle(e.target.value)}
-                />
+                <div className="relative">
+                    <input
+                        value={title}
+                        type="text"
+                        maxLength="120"
+                        placeholder="Nhập tiêu đề bài viết..."
+                        className="w-full text-2xl font-bold text-gray-900 dark:text-white placeholder-gray-300 dark:placeholder-gray-600 border-none outline-none bg-transparent pr-8"
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                    <ClearInputButton value={title} onClear={() => setTitle('')} className="right-0" />
+                </div>
                 <div className="mt-2 h-px bg-gray-100 dark:bg-gray-800" />
                 <div className="flex justify-end mt-1.5">
                     <span className="text-xs text-gray-400">{title.length}/120 ký tự</span>
@@ -69,7 +73,18 @@ function WritePostContent({ currentDraft, id }) {
 
             {/* Excerpt */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Mô tả ngắn</label>
+                <div className="flex justify-between items-center mb-3">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Mô tả ngắn</label>
+                    {summary && (
+                        <button
+                            type="button"
+                            onClick={() => setSummary('')}
+                            className="text-xs text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                        >
+                            Xóa hết
+                        </button>
+                    )}
+                </div>
                 <textarea
                     value={summary}
                     placeholder="Tóm tắt ngắn về bài viết của bạn..."

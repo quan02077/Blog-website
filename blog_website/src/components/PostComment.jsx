@@ -21,13 +21,25 @@ function PostComment({ commentText, setCommentText, commentsList }) {
                     className="w-10 h-10 rounded-full ring-2 ring-gray-200 dark:ring-gray-700 shrink-0"
                 />
                 <div className="flex-1 flex flex-col gap-2">
-                    <textarea
-                        rows={3}
-                        value={commentText}
-                        onChange={(e) => setCommentText(e.target.value)}
-                        placeholder="Viết suy nghĩ của bạn về bài viết này..."
-                        className="w-full text-sm bg-gray-50 dark:bg-dark-bg text-gray-900 dark:text-white placeholder-gray-400 border border-gray-200 dark:border-gray-700 rounded-2xl p-3.5 outline-none focus:border-blue-500 transition-colors resize-none"
-                    />
+                    <div className="relative">
+                        <textarea
+                            rows={3}
+                            value={commentText}
+                            onChange={(e) => setCommentText(e.target.value)}
+                            placeholder="Viết suy nghĩ của bạn về bài viết này..."
+                            className="w-full text-sm bg-gray-50 dark:bg-dark-bg text-gray-900 dark:text-white placeholder-gray-400 border border-gray-200 dark:border-gray-700 rounded-2xl p-3.5 pr-8 outline-none focus:border-blue-500 transition-colors resize-none"
+                        />
+                        {commentText && (
+                            <button
+                                type="button"
+                                onClick={() => setCommentText('')}
+                                className="absolute right-3 top-3 text-gray-400 hover:text-red-500 transition-colors cursor-pointer text-xs"
+                                title="Xóa hết"
+                            >
+                                Xóa
+                            </button>
+                        )}
+                    </div>
                     <div className="flex justify-end">
                         <button
                             type="button"

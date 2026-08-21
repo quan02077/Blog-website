@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { showErrorAlert, showSuccessAlert } from '../utils/alert';
+import ClearInputButton from './ClearInputButton';
 import { forgotPasswordApi, resetPasswordApi } from '../api/auth';
 
 function ForgotPassword({ setView }) {
@@ -63,10 +64,11 @@ function ForgotPassword({ setView }) {
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="auth-input pl-10"
+                                className="auth-input pl-10 pr-10"
                                 placeholder="example@gmail.com"
                                 required
                             />
+                            <ClearInputButton value={email} onClear={() => setEmail('')} />
                         </div>
                     </div>
                     <button type="submit" disabled={loading} className="auth-btn-main mt-4 disabled:opacity-70 disabled:cursor-not-allowed">
@@ -84,10 +86,11 @@ function ForgotPassword({ setView }) {
                                 type="password"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
-                                className="auth-input pl-10"
+                                className="auth-input pl-10 pr-10"
                                 placeholder="••••••••"
                                 required
                             />
+                            <ClearInputButton value={newPassword} onClear={() => setNewPassword('')} />
                         </div>
                     </div>
                     <button type="submit" disabled={loading} className="auth-btn-main mt-4 disabled:opacity-70 disabled:cursor-not-allowed">

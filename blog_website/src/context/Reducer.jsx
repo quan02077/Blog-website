@@ -1,12 +1,10 @@
 import {
     LOGIN,
-    REGISTER,
     TOGGLE_DARK_MODE,
     BTN_SIGN_IN_UP,
     TOGGLE_ACCOUNT,
     LOG_OUT,
     TOGGLE_INFO,
-    TOGGLE_MY_POSTS,
     TOGGLE_BOOKMARKS,
     TOGGLE_NOTIFICATIONS,
     TOGGLE_SETTINGS,
@@ -20,10 +18,10 @@ import {
     SORT_BY,
     SEARCH,
     FILTER_STATUS,
-    BOOKMARKS
+    BOOKMARKS,
+    SET_POSTS,
+    SET_CATEGORIES
 } from "./Constant";
-import { initialPosts } from "../data/initialPosts";
-
 export const initialState = {
     isSignIn: localStorage.getItem('isSignIn') === 'true',
     currentUser: JSON.parse(localStorage.getItem('currentUser')) || null,
@@ -31,13 +29,12 @@ export const initialState = {
     btnSignInUp: false,
     btnAccount: false,
     btnInfo: false,
-    btnMyPosts: false,
     btnBookmarks: false,
     btnNotifications: false,
     btnSettings: false,
-    posts: (JSON.parse(localStorage.getItem('posts')) && JSON.parse(localStorage.getItem('posts')).length > 0) ? JSON.parse(localStorage.getItem('posts')) : initialPosts,
+    posts: [],
     drafts: JSON.parse(localStorage.getItem('drafts')) || [],
-    categories: JSON.parse(localStorage.getItem('categories')) || [],
+    categories: [],
     search: '',
     sortBy: 'latest',
     filter: 'all',
@@ -99,11 +96,6 @@ function reducer(state, action) {
                 btnSignInUp: false // Tắt modal form đi
             }
         }
-        case REGISTER:
-            return {
-                ...state,
-                btnSignInUp: false // Đăng ký xong thì tắt modal đi
-            }
         case TOGGLE_ACCOUNT:
             return {
                 ...state,
@@ -123,11 +115,6 @@ function reducer(state, action) {
             return {
                 ...state,
                 btnInfo: action.payload
-            }
-        case TOGGLE_MY_POSTS:
-            return {
-                ...state,
-                btnMyPosts: action.payload
             }
         case TOGGLE_BOOKMARKS:
             return {
@@ -154,6 +141,16 @@ function reducer(state, action) {
                     currentUser: updatedUser,
                     btnInfo: false
                 }
+            }
+        case SET_POSTS:
+            return {
+                ...state,
+                posts: action.payload
+            }
+        case SET_CATEGORIES:
+            return {
+                ...state,
+                categories: action.payload
             }
         case PUBLISH_POST:
             {

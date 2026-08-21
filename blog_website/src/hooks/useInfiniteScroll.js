@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-export default function useInfiniteScroll(onLoadMore, hasMore, options = { threshold: 0.5, rootMargin: '100px' }) {
+export default function useInfiniteScroll(onLoadMore, hasMore, { threshold = 0.5, rootMargin = '100px' } = {}) {
     const observerRef = useRef(null)
     const callbackRef = useRef(onLoadMore)
 
@@ -15,7 +15,7 @@ export default function useInfiniteScroll(onLoadMore, hasMore, options = { thres
             if (entry.isIntersecting) {
                 callbackRef.current()
             }
-        }, options)
+        }, { threshold, rootMargin })
 
         const currentTarget = observerRef.current
         if (currentTarget) {
@@ -28,7 +28,7 @@ export default function useInfiniteScroll(onLoadMore, hasMore, options = { thres
             }
             observer.disconnect()
         }
-    }, [hasMore, options.rootMargin, options.threshold])
+    }, [hasMore, rootMargin, threshold])
 
     return observerRef
 }

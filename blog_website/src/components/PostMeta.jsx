@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag, faClock, faChevronDown, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
+import ClearInputButton from './ClearInputButton'
 
 function PostMeta({ newCategory, setNewCategory, selectedCategory, setSelectedCategory, isAddingNew, setIsAddingNew, tag, setTag, readTime }) {
     const [state, dispatch] = useContext(Blog_context)
@@ -38,14 +39,17 @@ function PostMeta({ newCategory, setNewCategory, selectedCategory, setSelectedCa
 
                 {isAddingNew ? (
                     <div className="flex gap-2">
-                        <input
-                            type="text"
-                            value={newCategory}
-                            onChange={(e) => setNewCategory(e.target.value)}
-                            placeholder="Tên chuyên mục mới..."
-                            className="w-full text-sm text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 outline-none bg-white dark:bg-dark-bg"
-                            onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCategory())}
-                        />
+                        <div className="relative flex-1">
+                            <input
+                                type="text"
+                                value={newCategory}
+                                onChange={(e) => setNewCategory(e.target.value)}
+                                placeholder="Tên chuyên mục mới..."
+                                className="w-full text-sm text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-xl px-3 pr-8 py-2 outline-none bg-white dark:bg-dark-bg"
+                                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCategory())}
+                            />
+                            <ClearInputButton value={newCategory} onClear={() => setNewCategory('')} className="right-2.5" />
+                        </div>
                         <button
                             type="button"
                             onClick={handleAddCategory}
@@ -77,14 +81,17 @@ function PostMeta({ newCategory, setNewCategory, selectedCategory, setSelectedCa
                     <FontAwesomeIcon icon={faTag} className="text-gray-400 dark:text-gray-500" />
                     Tags
                 </label>
-                <input
-                    value={tag}
-                    onChange={(e) => setTag(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault())}
-                    type="text"
-                    placeholder="react, javascript, css..."
-                    className="w-full text-sm text-gray-600 dark:text-gray-300 placeholder-gray-300 dark:placeholder-gray-600 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 outline-none bg-white dark:bg-dark-bg"
-                />
+                <div className="relative">
+                    <input
+                        value={tag}
+                        onChange={(e) => setTag(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault())}
+                        type="text"
+                        placeholder="react, javascript, css..."
+                        className="w-full text-sm text-gray-600 dark:text-gray-300 placeholder-gray-300 dark:placeholder-gray-600 border border-gray-200 dark:border-gray-700 rounded-xl px-3 pr-8 py-2.5 outline-none bg-white dark:bg-dark-bg"
+                    />
+                    <ClearInputButton value={tag} onClear={() => setTag('')} className="right-3" />
+                </div>
                 <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">Phân cách bằng dấu phẩy, tối đa 5 tags</p>
             </div>
 

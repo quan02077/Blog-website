@@ -1,4 +1,6 @@
-﻿namespace Backend_Blog.Entities
+﻿using Backend_Blog.Models;
+
+namespace Backend_Blog.Entities
 {
     public class User
     {
@@ -13,5 +15,7 @@
         public DateTime? RefreshTokenExpiryTime { get; set; }
         public string? ResetToken { get; set; }
         public DateTime? ResetTokenExpiryTime { get; set; }
+
+        public ICollection<Post> Posts { get; set; } = new List<Post>();
     }
 }
