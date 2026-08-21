@@ -12,6 +12,7 @@ namespace Backend_Blog.Models
         public string AuthorName { get; set; } = string.Empty;
         public int? CategoryId { get; set; }
         public string? CategoryName { get; set; }
-        public int Readtime { get; set; }
+        public int ReadTime { get; internal set; }
+        public string? AuthorAvatar { get; set; }
     }
 }

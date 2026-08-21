@@ -30,14 +30,3 @@ export const writePost = async (postData) => {
     }
     return response.json();
 }
-
-export const getAvatarAuthor = async (authorId) => {
-    const response = await request(`/post/avatar-author/${authorId}`, {
-        method: 'GET'
-    });
-    if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Không tìm thấy ảnh đại diện!")
-    }
-    return response.json();
-}

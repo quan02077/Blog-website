@@ -16,12 +16,6 @@ namespace Backend_Blog.Controllers
             var categories = await postService.GetAllCategoriesAsync();
             return Ok(categories);
         }
-        [HttpGet("avatar-author/{authorId}")]
-        public async Task<IActionResult> GetAvatarAuthor(Guid authorId)
-        {
-            var avatar = await postService.GetAvatarAuthorAsync(authorId);
-            return Ok(avatar);
-        }
         [HttpGet]
         public async Task<IActionResult> GetAllPosts()
         {

@@ -1,41 +1,56 @@
 import { useNavigate } from 'react-router-dom'
-import { useContext, useState, useEffect } from 'react'
+import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faComment, faBookmark, faShareFromSquare } from '@fortawesome/free-regular-svg-icons'
 import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons'
 import { showSuccessAlert } from '../utils/alert'
 import * as action from '../context/Actions'
 import Blog_context from '../context/Blog_Context'
-import { getAvatarAuthor } from '../api/post'
 
 function PostCard({ post }) {
     const [state, dispatch] = useContext(Blog_context)
     const navigate = useNavigate()
-    const [avatar, setAvatar] = useState(post.avatar || '')
 
-    useEffect(() => {
-        const fetchAvatar = async () => {
-            if (!post.authorId) return;
-            try {
-                const data = await getAvatarAuthor(post.authorId);
-                const avatarUrl = data?.avatar || data;
-                if (avatarUrl && typeof avatarUrl === 'string') {
-                    setAvatar(avatarUrl);
-                }
-            } catch (error) {
-                console.error("Lỗi khi tải avatar tác giả:", error);
-            }
-        };
-        fetchAvatar();
-    }, [post.authorId]);
+    // 1. Kiểm tra bài viết có phải của người đang đăng nhập hay không
+    let isCurrentUserAuthor = false;
+    if (state?.currentUser) {
+        const currentUserId = String(state.currentUser.id || state.currentUser.Id || '').toLowerCase();
+        const currentUserUsername = String(state.currentUser.username || '').toLowerCase();
 
-    const isCurrentUserAuthor = state?.currentUser && (
-        (post?.authorId && String(post.authorId).toLowerCase() === String(state.currentUser.id || state.currentUser.Id || '').toLowerCase()) ||
-        (post?.authorName && String(post.authorName).toLowerCase() === String(state.currentUser.username || '').toLowerCase()) ||
-        (post?.author && String(post.author).toLowerCase() === String(state.currentUser.username || '').toLowerCase())
-    );
-    const displayAuthor = post.authorName || (isCurrentUserAuthor ? state.currentUser.username : (post.author?.username || post.author || 'Tác giả'));
-    const displayAvatar = isCurrentUserAuthor ? state.currentUser.avatar : (avatar || `https://ui-avatars.com/api/?name=${displayAuthor}`);
+        const postAuthorId = String(post?.authorId || '').toLowerCase();
+        const postAuthorName = String(post?.authorName || '').toLowerCase();
+        const postAuthor = String(post?.author || '').toLowerCase();
+
+        if (postAuthorId && postAuthorId === currentUserId) {
+            isCurrentUserAuthor = true;
+        } else if (postAuthorName && postAuthorName === currentUserUsername) {
+            isCurrentUserAuthor = true;
+        } else if (postAuthor && postAuthor === currentUserUsername) {
+            isCurrentUserAuthor = true;
+        }
+    }
+
+    // 2. Xác định tên tác giả hiển thị
+    let displayAuthor = 'Tác giả';
+    if (post.authorName) {
+        displayAuthor = post.authorName;
+    } else if (isCurrentUserAuthor && state.currentUser?.username) {
+        displayAuthor = state.currentUser.username;
+    } else if (post.author?.username) {
+        displayAuthor = post.author.username;
+    } else if (post.author && typeof post.author === 'string') {
+        displayAuthor = post.author;
+    }
+
+    // 3. Xác định avatar tác giả hiển thị
+    let displayAvatar = `https://ui-avatars.com/api/?name=${displayAuthor}`;
+    if (post.authorAvatar) {
+        displayAvatar = post.authorAvatar;
+    } else if (post.avatar) {
+        displayAvatar = post.avatar;
+    } else if (isCurrentUserAuthor && state.currentUser?.avatar) {
+        displayAvatar = state.currentUser.avatar;
+    }
 
     const isBookmarked = state.bookmarks?.some(b => String(b.id) === String(post.id))
 

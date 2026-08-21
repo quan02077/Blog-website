@@ -28,7 +28,7 @@ namespace Backend_Blog.Services
                 AuthorId = userId,
                 CreatedAt = DateTime.UtcNow,
                 IsDeleted = false,
-                ReadTime = request.ReadTime
+                ReadTime = request.ReadTime 
             };
 
             context.Posts.Add(post);
@@ -49,13 +49,17 @@ namespace Backend_Blog.Services
                 CoverImage = post.CoverImage,
                 Tags = post.Tags,
                 CreatedAt = post.CreatedAt,
+                ReadTime = post.ReadTime,
+
                 AuthorId = user.Id,
                 AuthorName = user.Username,
+                AuthorAvatar = user.Avatar, 
+
                 CategoryId = post.CategoryId,
-                CategoryName = categoryName,
-                Readtime = post.ReadTime
+                CategoryName = categoryName
             };
         }
+
 
         public async Task<List<CategoryDTO>> GetAllCategoriesAsync()
         {
@@ -73,45 +77,39 @@ namespace Backend_Blog.Services
         public async Task<List<PostDto>> GetAllPostsAsync()
         {
             var posts = await context.Posts
+                .Include(p => p.Author)      
+                .Include(p => p.Category)    
                 .Where(p => !p.IsDeleted)
                 .OrderByDescending(p => p.CreatedAt)
-                .Select(p => new PostDto
-                {
-                    Id = p.Id,
-                    Title = p.Title,
-                    CoverImage = p.CoverImage,
-                    CreatedAt = p.CreatedAt,
-                    AuthorId = p.AuthorId,
-                    AuthorName = p.Author.Username,
-                    CategoryId = p.CategoryId,
-                    CategoryName = p.Category != null ? p.Category.Name : null,
-                    Tags = p.Tags
-                })
                 .ToListAsync();
 
-            return posts; 
+            return posts.Select(post => new PostDto
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Content = post.Content,
+                CoverImage = post.CoverImage,
+                Tags = post.Tags,
+                CreatedAt = post.CreatedAt,
+                ReadTime = post.ReadTime,
+
+                AuthorId = post.AuthorId,
+                AuthorName = post.Author != null ? post.Author.Username : "Tác giả",
+                AuthorAvatar = post.Author != null ? post.Author.Avatar : null, 
+
+                CategoryId = post.CategoryId,
+                CategoryName = post.Category != null ? post.Category.Name : null
+            }).ToList();
         }
 
-        public async Task<string> GetAvatarAuthorAsync(Guid authorId)
-        {   
-            var avatar = await context.Users
-                .Where(u => u.Id == authorId)
-                .Select(u => u.Avatar)
-                .FirstOrDefaultAsync();
-            return avatar ?? string.Empty;
-        }
-
-        public async Task<PostDto?> GetPostByIdAsync(Guid postId)
+        public async Task<PostDto> GetPostByIdAsync(Guid id)
         {
             var post = await context.Posts
-                .Include(p => p.Author)
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(p => p.Id == postId && !p.IsDeleted);
+                .Include(p => p.Author)    
+                .Include(p => p.Category)  
+                .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted);
 
-            if (post is null)
-            {
-                return null;
-            }
+            if (post == null) return null;
 
             return new PostDto
             {
@@ -121,11 +119,16 @@ namespace Backend_Blog.Services
                 CoverImage = post.CoverImage,
                 Tags = post.Tags,
                 CreatedAt = post.CreatedAt,
+                ReadTime = post.ReadTime,
+
                 AuthorId = post.AuthorId,
-                AuthorName = post.Author.Username,
+                AuthorName = post.Author != null ? post.Author.Username : "Tác giả",
+                AuthorAvatar = post.Author != null ? post.Author.Avatar : null, 
+
                 CategoryId = post.CategoryId,
-                CategoryName = post.Category?.Name
+                CategoryName = post.Category != null ? post.Category.Name : null
             };
         }
+
     }
 }
