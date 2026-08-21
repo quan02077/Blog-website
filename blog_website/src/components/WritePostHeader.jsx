@@ -30,6 +30,9 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
     }
 
     const handlePublishPost = async () => {
+        const result = await showConfirmAlert('Thông báo', 'Bạn có chắc chắn muốn đăng bài viết này?')
+        if (!result.isConfirmed) return;
+
         setLoading(true)
         try {
             let finalImageUrl = "";
@@ -40,8 +43,11 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
                 finalImageUrl = image;
             }
 
-            const result = await showConfirmAlert('Thông báo', 'Bạn có chắc chắn muốn đăng bài viết này?')
-            if (result.isConfirmed) {
+            const newPost = { ...postData, coverImage: finalImageUrl };
+            const data = await writePost(newPost);
+            dispatch(action.publishPostAction(data));
+            showSuccessAlert('Thông báo', 'Bài viết đã được đăng thành công')
+            navigate('/')
                 const newPost = {
                     ...postData,
                     coverImage: finalImageUrl
