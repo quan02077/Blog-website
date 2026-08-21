@@ -1,9 +1,15 @@
+import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faComment,
     faPaperPlane
 } from '@fortawesome/free-solid-svg-icons'
+import Blog_context from '../context/Blog_Context'
+
 function PostComment({ commentText, setCommentText, commentsList }) {
+    const [state] = useContext(Blog_context)
+    const { currentUser } = state || {}
+
     return (
         <section className="bg-white dark:bg-dark-surface rounded-3xl border border-gray-200 dark:border-gray-800 p-6 sm:p-8 flex flex-col gap-6 shadow-sm">
             <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-4">
@@ -16,9 +22,9 @@ function PostComment({ commentText, setCommentText, commentsList }) {
             {/* Form gửi bình luận mẫu */}
             <div className="flex gap-3 items-start">
                 <img
-                    src="https://ui-avatars.com/api/?name=User"
+                    src={currentUser?.avatar || `https://ui-avatars.com/api/?name=${currentUser?.username || 'User'}`}
                     alt="Avatar"
-                    className="w-10 h-10 rounded-full ring-2 ring-gray-200 dark:ring-gray-700 shrink-0"
+                    className="w-10 h-10 rounded-full ring-2 ring-gray-200 dark:ring-gray-700 shrink-0 object-cover"
                 />
                 <div className="flex-1 flex flex-col gap-2">
                     <div className="relative">

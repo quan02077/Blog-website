@@ -7,11 +7,7 @@ function CoverUpload({ image, setImage }) {
     const handleFileSelect = (e => {
         const file = e.target.files[0]
         if (file) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setImage(reader.result)
-            }
-            reader.readAsDataURL(file)
+            setImage(file)
         }
     })
     return (
@@ -19,7 +15,7 @@ function CoverUpload({ image, setImage }) {
             <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Ảnh bìa</label>
             {image ? (
                 <div className="relative">
-                    <img src={image} alt="cover" className="w-full h-64 object-cover rounded-xl" />
+                    <img src={image instanceof File ? URL.createObjectURL(image) : image} alt="cover" className="w-full h-64 object-cover rounded-xl" />
                     <button
                         type="button"
                         className="absolute top-4 right-4 bg-white dark:bg-gray-800 rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"

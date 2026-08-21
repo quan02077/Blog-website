@@ -35,12 +35,10 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
 
         setLoading(true)
         try {
-            let finalImageUrl = "";
+            let finalImageUrl = image;
             if (image instanceof File) {
-                console.log("Đang upload ảnh bìa lên Cloudinary...");
-                finalImageUrl = await uploadToCloudinary(image)
-            } else if (typeof image === 'string') {
-                finalImageUrl = image;
+                console.log("Đang upload ảnh bìa mới lên Cloudinary...");
+                finalImageUrl = await uploadToCloudinary(image);
             }
 
             const newPost = { ...postData, coverImage: finalImageUrl };

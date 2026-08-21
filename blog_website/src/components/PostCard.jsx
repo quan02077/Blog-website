@@ -11,46 +11,8 @@ function PostCard({ post }) {
     const [state, dispatch] = useContext(Blog_context)
     const navigate = useNavigate()
 
-    // 1. Kiểm tra bài viết có phải của người đang đăng nhập hay không
-    let isCurrentUserAuthor = false;
-    if (state?.currentUser) {
-        const currentUserId = String(state.currentUser.id || state.currentUser.Id || '').toLowerCase();
-        const currentUserUsername = String(state.currentUser.username || '').toLowerCase();
-
-        const postAuthorId = String(post?.authorId || '').toLowerCase();
-        const postAuthorName = String(post?.authorName || '').toLowerCase();
-        const postAuthor = String(post?.author || '').toLowerCase();
-
-        if (postAuthorId && postAuthorId === currentUserId) {
-            isCurrentUserAuthor = true;
-        } else if (postAuthorName && postAuthorName === currentUserUsername) {
-            isCurrentUserAuthor = true;
-        } else if (postAuthor && postAuthor === currentUserUsername) {
-            isCurrentUserAuthor = true;
-        }
-    }
-
-    // 2. Xác định tên tác giả hiển thị
-    let displayAuthor = 'Tác giả';
-    if (post.authorName) {
-        displayAuthor = post.authorName;
-    } else if (isCurrentUserAuthor && state.currentUser?.username) {
-        displayAuthor = state.currentUser.username;
-    } else if (post.author?.username) {
-        displayAuthor = post.author.username;
-    } else if (post.author && typeof post.author === 'string') {
-        displayAuthor = post.author;
-    }
-
-    // 3. Xác định avatar tác giả hiển thị
-    let displayAvatar = `https://ui-avatars.com/api/?name=${displayAuthor}`;
-    if (post.authorAvatar) {
-        displayAvatar = post.authorAvatar;
-    } else if (post.avatar) {
-        displayAvatar = post.avatar;
-    } else if (isCurrentUserAuthor && state.currentUser?.avatar) {
-        displayAvatar = state.currentUser.avatar;
-    }
+    const displayAuthor = post.authorName || 'Tác giả';
+    const displayAvatar = post.authorAvatar || `https://ui-avatars.com/api/?name=${displayAuthor}`;
 
     const isBookmarked = state.bookmarks?.some(b => String(b.id) === String(post.id))
 

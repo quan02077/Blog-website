@@ -1,58 +1,15 @@
-import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faClock,
     faCalendar,
     faUserCheck
 } from '@fortawesome/free-solid-svg-icons'
-import Blog_context from '../context/Blog_Context'
 
 function HeaderTitlePost({ post }) {
-    const [state] = useContext(Blog_context)
-
-    // 1. Kiểm tra bài viết có phải của người đang đăng nhập hay không
-    let isCurrentUserAuthor = false;
-    if (state?.currentUser) {
-        const currentUserId = String(state.currentUser.id || state.currentUser.Id || '').toLowerCase();
-        const currentUserUsername = String(state.currentUser.username || '').toLowerCase();
-
-        const postAuthorId = String(post?.authorId || '').toLowerCase();
-        const postAuthorName = String(post?.authorName || '').toLowerCase();
-        const postAuthor = String(post?.author || '').toLowerCase();
-
-        if (postAuthorId && postAuthorId === currentUserId) {
-            isCurrentUserAuthor = true;
-        } else if (postAuthorName && postAuthorName === currentUserUsername) {
-            isCurrentUserAuthor = true;
-        } else if (postAuthor && postAuthor === currentUserUsername) {
-            isCurrentUserAuthor = true;
-        }
-    }
-
-    // 2. Xác định tên tác giả hiển thị
-    let displayAuthor = 'Tác giả';
-    if (post?.authorName) {
-        displayAuthor = post.authorName;
-    } else if (isCurrentUserAuthor && state.currentUser?.username) {
-        displayAuthor = state.currentUser.username;
-    } else if (post?.author?.username) {
-        displayAuthor = post.author.username;
-    } else if (post?.author && typeof post.author === 'string') {
-        displayAuthor = post.author;
-    }
-
+    const displayAuthor = post?.authorName || 'Tác giả'
     const displayDate = post?.date || (post?.createdAt ? new Date(post.createdAt).toLocaleDateString('vi-VN') : 'Mới đây')
     const displayReadTime = post?.readTime ? `${post.readTime} phút đọc` : '1 phút đọc'
-
-    // 3. Xác định avatar tác giả hiển thị
-    let displayAvatar = `https://ui-avatars.com/api/?name=${displayAuthor}`;
-    if (post?.authorAvatar) {
-        displayAvatar = post.authorAvatar;
-    } else if (post?.avatar) {
-        displayAvatar = post.avatar;
-    } else if (isCurrentUserAuthor && state.currentUser?.avatar) {
-        displayAvatar = state.currentUser.avatar;
-    }
+    const displayAvatar = post?.authorAvatar || post?.avatar || `https://ui-avatars.com/api/?name=${displayAuthor}`
 
     return (
         <>
