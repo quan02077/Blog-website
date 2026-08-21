@@ -46,7 +46,7 @@ function WritePostContent({ currentDraft, id }) {
     return (
         <div className="flex flex-col gap-6 pb-10">
 
-            <WritePostHeader postData={postData} onPreview={() => setIsPreviewOpen(true)} isEdit={isEdit} />
+            <WritePostHeader postData={postData} onPreview={() => setIsPreviewOpen(true)} isEdit={isEdit} image={image} />
 
             <CoverUpload image={image} setImage={setImage} />
 

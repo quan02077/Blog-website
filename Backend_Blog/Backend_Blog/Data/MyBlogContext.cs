@@ -14,8 +14,15 @@ namespace Backend_Blog.Data
                 .WithMany(u => u.Posts)
                 .HasForeignKey(p => p.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Category>().HasData(
+                new Category { Id = 1, Name = "Lập trình" },
+                new Category { Id = 2, Name = "Công nghệ" },
+                new Category { Id = 3, Name = "Đời sống" }
+            );
         }
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Post> Posts { get; set; } = null!;
+        public DbSet<Category> Categories { get; set; } = null!;
     }
 }

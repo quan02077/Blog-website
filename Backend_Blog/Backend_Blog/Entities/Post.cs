@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Backend_Blog.Entities
 {
@@ -13,15 +13,20 @@ namespace Backend_Blog.Entities
         [Required]
         public string Content { get; set; } = string.Empty;
 
-        public string? CoverImage { get; set; } 
+        public string? CoverImage { get; set; }
+
+        public string? Tags { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime? UpdatedAt { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         public Guid AuthorId { get; set; }
         public User Author { get; set; } = null!;
+
+        public int? CategoryId { get; set; }
+        public Category? Category { get; set; }
     }
 }
