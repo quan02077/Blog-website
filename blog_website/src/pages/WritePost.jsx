@@ -15,7 +15,7 @@ function WritePostContent({ currentDraft, id }) {
     const [summary, setSummary] = useState(currentDraft?.summary || currentDraft?.description || '')
     const [image, setImage] = useState(currentDraft?.image || null)
     const [newCategory, setNewCategory] = useState('')
-    const [selectedCategory, setSelectedCategory] = useState(currentDraft?.category || '')
+    const [selectedCategory, setSelectedCategory] = useState(currentDraft?.categoryId || currentDraft?.category || '')
     const [isAddingNew, setIsAddingNew] = useState(false)
     const [tag, setTag] = useState(
         currentDraft?.tag || (Array.isArray(currentDraft?.tags) ? currentDraft.tags.join(', ') : '')
@@ -38,7 +38,8 @@ function WritePostContent({ currentDraft, id }) {
         title,
         summary,
         image,
-        category: isAddingNew ? newCategory : selectedCategory,
+        categoryId: isAddingNew ? undefined : selectedCategory,
+        category: isAddingNew ? newCategory : undefined,
         tag,
         content,
         readTime: calculateReadTime(content)

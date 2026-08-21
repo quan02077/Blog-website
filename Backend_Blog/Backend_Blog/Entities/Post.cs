@@ -22,6 +22,7 @@ namespace Backend_Blog.Entities
         public DateTime? UpdatedAt { get; set; }
 
         public bool IsDeleted { get; set; } = false;
+        public int ReadTime { get; set; }
 
         public Guid AuthorId { get; set; }
         public User Author { get; set; } = null!;

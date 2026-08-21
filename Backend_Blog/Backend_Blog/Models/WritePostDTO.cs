@@ -10,5 +10,6 @@
         public string? Tags { get; set; }
         public int? CategoryId { get; set; }
         public string AuthorName { get; set; } = string.Empty;
+        public int ReadTime { get; set; }
     }
 }

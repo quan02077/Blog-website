@@ -1,15 +1,41 @@
 import { useNavigate } from 'react-router-dom'
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faComment, faBookmark, faShareFromSquare } from '@fortawesome/free-regular-svg-icons'
 import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons'
 import { showSuccessAlert } from '../utils/alert'
 import * as action from '../context/Actions'
 import Blog_context from '../context/Blog_Context'
+import { getAvatarAuthor } from '../api/post'
 
 function PostCard({ post }) {
     const [state, dispatch] = useContext(Blog_context)
     const navigate = useNavigate()
+    const [avatar, setAvatar] = useState(post.avatar || '')
+
+    useEffect(() => {
+        const fetchAvatar = async () => {
+            if (!post.authorId) return;
+            try {
+                const data = await getAvatarAuthor(post.authorId);
+                const avatarUrl = data?.avatar || data;
+                if (avatarUrl && typeof avatarUrl === 'string') {
+                    setAvatar(avatarUrl);
+                }
+            } catch (error) {
+                console.error("Lỗi khi tải avatar tác giả:", error);
+            }
+        };
+        fetchAvatar();
+    }, [post.authorId]);
+
+    const isCurrentUserAuthor = state?.currentUser && (
+        (post?.authorId && String(post.authorId).toLowerCase() === String(state.currentUser.id || state.currentUser.Id || '').toLowerCase()) ||
+        (post?.authorName && String(post.authorName).toLowerCase() === String(state.currentUser.username || '').toLowerCase()) ||
+        (post?.author && String(post.author).toLowerCase() === String(state.currentUser.username || '').toLowerCase())
+    );
+    const displayAuthor = post.authorName || (isCurrentUserAuthor ? state.currentUser.username : (post.author?.username || post.author || 'Tác giả'));
+    const displayAvatar = isCurrentUserAuthor ? state.currentUser.avatar : (avatar || `https://ui-avatars.com/api/?name=${displayAuthor}`);
 
     const isBookmarked = state.bookmarks?.some(b => String(b.id) === String(post.id))
 
@@ -28,17 +54,19 @@ function PostCard({ post }) {
         }
     }
 
+
+
     return (
         <article className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-lg transition-shadow duration-300">
             {/* Post Image */}
             <div className="relative overflow-hidden cursor-pointer" onClick={handleGoDetail}>
                 <img
-                    src={post.image}
+                    src={post.coverImage || post.image}
                     alt={post.title}
                     className="w-full h-48 object-cover hover:scale-105 transition-transform duration-500"
                 />
                 <span className="absolute top-3 left-3 bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                    {post.category}
+                    {post.categoryName || post.category}
                 </span>
             </div>
 
@@ -47,13 +75,15 @@ function PostCard({ post }) {
                 {/* Author & Date */}
                 <div className="flex items-center gap-3 mb-3">
                     <img
-                        src={post.avatar}
-                        alt={post.author}
-                        className="w-8 h-8 rounded-full"
+                        src={displayAvatar}
+                        alt={displayAuthor}
+                        className="w-8 h-8 rounded-full object-cover"
                     />
                     <div className="flex flex-col">
-                        <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">{post.author}</span>
-                        <span className="text-xs text-gray-400">{post.date} · {post.readTime}</span>
+                        <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">{displayAuthor}</span>
+                        <span className="text-xs text-gray-400">
+                            {post.date || (post.createdAt ? new Date(post.createdAt).toLocaleDateString('vi-VN') : 'Mới đây')} · {post.readTime ? (typeof post.readTime === 'string' && post.readTime.includes('phút') ? post.readTime : `${post.readTime} phút đọc`) : '1 phút đọc'}
+                        </span>
                     </div>
                 </div>
 

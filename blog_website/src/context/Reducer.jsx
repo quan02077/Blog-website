@@ -168,11 +168,6 @@ function reducer(state, action) {
                     readTime: `${action.payload?.readTime || 1} phút đọc`
                 };
                 const newPosts = [newPost, ...state.posts];
-                try {
-                    localStorage.setItem('posts', JSON.stringify(newPosts));
-                } catch (error) {
-                    console.warn('LocalStorage bị đầy, không thể lưu thêm bài viết:', error);
-                }
                 return {
                     ...state,
                     posts: newPosts,
@@ -218,11 +213,6 @@ function reducer(state, action) {
             {
                 const targetIds = Array.isArray(action.payload) ? action.payload : [action.payload];
                 const newPosts = state.posts.filter(post => !targetIds.includes(post.id));
-                try {
-                    localStorage.setItem('posts', JSON.stringify(newPosts));
-                } catch (error) {
-                    console.warn('LocalStorage error:', error);
-                }
                 return {
                     ...state,
                     posts: newPosts,

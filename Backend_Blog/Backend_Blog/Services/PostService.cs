@@ -27,7 +27,8 @@ namespace Backend_Blog.Services
                 CategoryId = request.CategoryId,
                 AuthorId = userId,
                 CreatedAt = DateTime.UtcNow,
-                IsDeleted = false
+                IsDeleted = false,
+                ReadTime = request.ReadTime
             };
 
             context.Posts.Add(post);
@@ -51,8 +52,22 @@ namespace Backend_Blog.Services
                 AuthorId = user.Id,
                 AuthorName = user.Username,
                 CategoryId = post.CategoryId,
-                CategoryName = categoryName
+                CategoryName = categoryName,
+                Readtime = post.ReadTime
             };
+        }
+
+        public async Task<List<CategoryDTO>> GetAllCategoriesAsync()
+        {
+            var categories = await context.Categories
+                .Select(c => new CategoryDTO
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToListAsync();
+
+            return categories;
         }
 
         public async Task<List<PostDto>> GetAllPostsAsync()
@@ -75,6 +90,15 @@ namespace Backend_Blog.Services
                 .ToListAsync();
 
             return posts; 
+        }
+
+        public async Task<string> GetAvatarAuthorAsync(Guid authorId)
+        {   
+            var avatar = await context.Users
+                .Where(u => u.Id == authorId)
+                .Select(u => u.Avatar)
+                .FirstOrDefaultAsync();
+            return avatar ?? string.Empty;
         }
 
         public async Task<PostDto?> GetPostByIdAsync(Guid postId)

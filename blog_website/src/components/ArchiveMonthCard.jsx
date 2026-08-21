@@ -27,7 +27,7 @@ function ArchiveMonthCard({ monthBlock, handleGoDetail }) {
                             className="flex items-center gap-4 p-4 group cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
                         >
                             <img
-                                src={post.image}
+                                src={post.coverImage || post.image}
                                 alt={post.title}
                                 className="w-12 h-12 rounded-xl object-cover shrink-0 group-hover:opacity-80 transition-opacity border border-gray-100 dark:border-gray-800"
                             />

@@ -6,7 +6,7 @@ export function FeaturedPopularPost({ post, handleGoDetail }) {
         <article className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden group cursor-pointer hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300">
             <div className="relative overflow-hidden h-72 sm:h-[400px]" onClick={handleGoDetail}>
                 <img
-                    src={post.image}
+                    src={post.coverImage || post.image}
                     alt={post.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
@@ -81,7 +81,7 @@ export function CompactPopularPost({ post, handleGoDetail }) {
 
             {/* Optional: Small thumbnail for visual variety (only visible on sm and up) */}
             <div className="hidden sm:block shrink-0">
-                <img src={post.image} alt={post.title} className="w-24 h-24 rounded-lg object-cover group-hover:opacity-90 transition-opacity border border-gray-100 dark:border-gray-800" />
+                <img src={post.coverImage || post.image} alt={post.title} className="w-24 h-24 rounded-lg object-cover group-hover:opacity-90 transition-opacity border border-gray-100 dark:border-gray-800" />
             </div>
         </div>
     )

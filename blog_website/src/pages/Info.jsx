@@ -24,9 +24,12 @@ function Info() {
     }
 
     // Danh sách bài viết của User
-    const userPosts = posts.filter(p =>
-        p.authorEmail ? p.authorEmail === currentUser?.email : p.author === currentUser?.username
-    )
+    const userPosts = posts.filter(p => {
+        const isAuthorIdMatch = p.authorId && currentUser && String(p.authorId).toLowerCase() === String(currentUser.id || currentUser.Id || '').toLowerCase();
+        const isEmailMatch = p.authorEmail && p.authorEmail === currentUser?.email;
+        const isNameMatch = (p.authorName || p.author) && String(p.authorName || p.author).toLowerCase() === String(currentUser?.username || '').toLowerCase();
+        return isAuthorIdMatch || isEmailMatch || isNameMatch;
+    })
     const userPostsCount = userPosts.length
 
     const joinedDate = currentUser?.createdAt || currentUser?.joinedDate || "Jul 22, 2026"

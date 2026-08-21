@@ -69,23 +69,6 @@ namespace Backend_Blog.Services
 
         }
 
-        private string GenerateResetPasswordToken()
-        {
-            var randomNumber = new Byte[32];
-            using var rng = RandomNumberGenerator.Create();
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
-        }
-
-        private async Task<string> GenerateAndSaveResetToken(User user)
-        {
-            var resetToken = GenerateResetPasswordToken();
-            user.ResetToken = resetToken;
-            user.ResetTokenExpiryTime = DateTime.UtcNow.Date.AddMinutes(15);
-            await context.SaveChangesAsync();
-            return resetToken;
-        }
-
         private string GenerateRefreshToken()
         {
             var randomNumber = new Byte[32];

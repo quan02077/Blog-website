@@ -73,9 +73,14 @@ function Drafts() {
                         <option value="all">Tất cả chuyên mục</option>
                         {categories.map((category, index) => {
                             if (category !== null) {
-                                return <option key={`category-${index}-${category}`} value={category}>{category}</option>
+                                const catName = category?.name || category;
+                                return (
+                                    <option key={`category-${index}-${category?.id || category}`} value={catName}>
+                                        {catName}
+                                    </option>
+                                );
                             }
-                            return null
+                            return null;
                         })}
 
                     </select>

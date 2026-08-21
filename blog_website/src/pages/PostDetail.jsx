@@ -1,4 +1,4 @@
-import { useState, useContext, useMemo } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import ToolBarPostDetail from '../components/ToolBarPostDetail'
 import HeaderTitlePost from '../components/HeaderTitlePost'
@@ -7,15 +7,14 @@ import PostComment from '../components/PostComment'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 import { showSuccessAlert } from '../utils/alert'
-import { popularPosts } from '../data/popularPosts'
+import { getPostByID } from '../api/post'
 
 function PostDetail() {
     const [state, dispatch] = useContext(Blog_context)
-    const { posts, bookmarks } = state
+    const { bookmarks } = state
     const { id } = useParams()
-    const post = useMemo(() => posts.find((p) => String(p.id) === String(id)) ||
-        bookmarks.find((b) => String(b.id) === String(id)) ||
-        popularPosts.find((pop) => String(pop.id) === String(id)), [posts, bookmarks, id])
+    const [post, setPost] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     const [isLiked, setIsLiked] = useState(false)
     const [commentText, setCommentText] = useState('')
@@ -36,6 +35,21 @@ function PostDetail() {
         }
     ])
 
+    useEffect(() => {
+        const fetchPostDetail = async () => {
+            setLoading(true);
+            try {
+                const data = await getPostByID(id);
+                setPost(data);
+            } catch (error) {
+                console.error("Lỗi khi tải chi tiết bài viết:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchPostDetail();
+    }, [id]);
+
     const isBookmarked = bookmarks?.some(b => String(b.id) === String(post?.id))
 
     const handleBookmark = () => {
@@ -46,6 +60,14 @@ function PostDetail() {
         } else {
             showSuccessAlert('Thông báo', 'Lưu bài viết thành công!')
         }
+    }
+
+    if (loading) {
+        return (
+            <div className="p-8 text-center text-gray-500 dark:text-gray-400">
+                Đang tải chi tiết bài viết...
+            </div>
+        )
     }
 
     if (!post) {

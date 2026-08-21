@@ -48,15 +48,6 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
             dispatch(action.publishPostAction(data));
             showSuccessAlert('Thông báo', 'Bài viết đã được đăng thành công')
             navigate('/')
-                const newPost = {
-                    ...postData,
-                    coverImage: finalImageUrl
-                };
-                const data = await writePost(newPost);
-                dispatch(action.publishPostAction(data));
-                showSuccessAlert('Thông báo', 'Bài viết đã được đăng thành công')
-                navigate('/')
-            }
         } catch (error) {
             showErrorAlert('Thông báo', error.message)
         } finally {

@@ -28,7 +28,7 @@ function ToolBarPostDetail({ isLiked, setIsLiked, isBookmarked, post, handleBook
                 </span>
                 <span className="hidden sm:flex items-center gap-1.5 text-xs text-gray-400">
                     <FontAwesomeIcon icon={faClock} />
-                    {post.readTime}
+                    {post.readTime ? (typeof post.readTime === 'string' && post.readTime.includes('phút') ? post.readTime : `${post.readTime} phút đọc`) : '1 phút đọc'}
                 </span>
             </div>
 
@@ -42,7 +42,7 @@ function ToolBarPostDetail({ isLiked, setIsLiked, isBookmarked, post, handleBook
                         }`}
                 >
                     <FontAwesomeIcon icon={isLiked ? faHeart : faHeartRegular} className={isLiked ? 'text-red-500' : ''} />
-                    <span>{isLiked ? post.likes + 1 : post.likes}</span>
+                    <span>{isLiked ? (Number(post.likes) || 0) + 1 : (Number(post.likes) || 0)}</span>
                 </button>
 
                 <button
