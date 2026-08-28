@@ -21,8 +21,26 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
                 dispatch(action.updateDraftsAction(postData))
                 await showSuccessAlert('Thông báo', 'Cập nhật bản nháp thành công')
             } else {
-                dispatch(action.saveDraftsAction(postData))
-                await showSuccessAlert('Thông báo', 'Bài viết đã được lưu vào bản nháp thành công')
+                try {
+                    const formData = new FormData();
+                    formData.append("title", postData.title);
+                    formData.append("readTime", postData.readTime);
+                    if (postData.content) formData.append("content", postData.content);
+                    if (postData.summary) formData.append("summary", postData.summary);
+                    if (postData.categoryId) formData.append("categoryId", postData.categoryId);
+                    if (postData.tag) formData.append("tags", postData.tag);
+                    if (image) formData.append("coverImage", image);
+                    if (postData.category) formData.append("category", postData.category);
+                    formData.append("isDraft", "true");
+                    const data = await writePost(formData);
+                    dispatch(action.addDraftAction(data));
+                    await showSuccessAlert('Thông báo', 'Bài viết đã được lưu vào bản nháp thành công');
+                    dispatch(action.isDirtyAction(false));
+                } catch (error) {
+                    showErrorAlert('Lỗi', error.message);
+                } finally {
+                    setLoading(false);
+                }
             }
             dispatch(action.isDirtyAction(false));
             navigate('/drafts')
@@ -54,6 +72,7 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
             if (postData.tag) formData.append("tags", postData.tag);
             if (image) formData.append("coverImage", image);
             if (postData.category) formData.append("category", postData.category);
+            formData.append("isDraft", "false");
 
             const data = await writePost(formData);
             dispatch(action.publishPostAction(data));

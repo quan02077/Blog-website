@@ -7,6 +7,17 @@ export const getAllPost = async () => {
     return response.json();
 }
 
+export const getDraftPost = async () => {
+    const response = await request('/post/drafts', {
+        method: 'GET'
+    });
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Không tìm thấy bản nháp nào!")
+    }
+    return response.json();
+}
+
 export const getPostByID = async (id) => {
     const response = await request(`/post/${id}`, {
         method: 'GET'

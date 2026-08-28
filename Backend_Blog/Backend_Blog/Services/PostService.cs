@@ -108,6 +108,11 @@ namespace Backend_Blog.Services
             }).ToList();
         }
 
+        public Task<List<PostDto>> GetMyDraftsAsync(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<PostDto> GetPostByIdAsync(Guid id)
         {
             var post = await context.Posts
@@ -133,7 +138,7 @@ namespace Backend_Blog.Services
                 AuthorAvatar = post.Author != null ? post.Author.Avatar : null, 
 
                 CategoryId = post.CategoryId,
-                CategoryName = post.Category != null ? post.Category.Name : null
+                CategoryName = post.Category != null ? post.Category.Name : null,
             };
         }
 

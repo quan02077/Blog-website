@@ -38,6 +38,18 @@ function Provider({ children }) {
     }, [])
 
     useEffect(() => {
+        const fetchDrafts = async () => {
+            try {
+                const data = await getAllPost();
+                dispatch(action.setDraftsAction(data));
+            } catch (error) {
+                console.error("Lỗi khi tải danh sách bản nháp từ Database:", error);
+            }
+        };
+        fetchDrafts();
+    }, [])
+
+    useEffect(() => {
         const fetchPosts = async () => {
             try {
                 const data = await getAllPost();

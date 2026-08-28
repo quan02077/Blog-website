@@ -15,5 +15,6 @@ namespace Backend_Blog.Models
         public string? CategoryName { get; set; }
         public int ReadTime { get; internal set; }
         public string? AuthorAvatar { get; set; }
+        public bool IsDraft { get; set; } = false;
     }
 }
