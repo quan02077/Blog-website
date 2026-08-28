@@ -14,6 +14,7 @@ namespace Backend_Blog.Entities
         public string Content { get; set; } = string.Empty;
 
         public string? CoverImage { get; set; }
+        public string? Summary { get; set; }
 
         public string? Tags { get; set; }
 

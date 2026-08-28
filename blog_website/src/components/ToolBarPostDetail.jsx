@@ -24,7 +24,7 @@ function ToolBarPostDetail({ isLiked, setIsLiked, isBookmarked, post, handleBook
 
             <div className="flex items-center gap-3">
                 <span className="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                    {post.category}
+                    {post.categoryName || post.category}
                 </span>
                 <span className="hidden sm:flex items-center gap-1.5 text-xs text-gray-400">
                     <FontAwesomeIcon icon={faClock} />

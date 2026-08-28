@@ -22,7 +22,6 @@ function HeaderTitlePost({ post }) {
                     {post.summary}
                 </p>
 
-                {/* Thẻ Thông tin Tác giả */}
                 <div className="flex items-center justify-between flex-wrap gap-4 pt-4 border-t border-gray-100 dark:border-gray-800">
                     <div className="flex items-center gap-3.5">
                         <img
