@@ -6,7 +6,6 @@ import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 import { showSuccessAlert, showConfirmAlert, showErrorAlert } from '../utils/alert'
 import { writePost } from '../api/post'
-import { uploadToCloudinary } from '../api/cloudinary'
 
 
 function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
@@ -35,13 +34,7 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
 
         setLoading(true)
         try {
-            let finalImageUrl = image;
-            if (image instanceof File) {
-                console.log("Đang upload ảnh bìa mới lên Cloudinary...");
-                finalImageUrl = await uploadToCloudinary(image);
-            }
-
-            const newPost = { ...postData, coverImage: finalImageUrl };
+            const newPost = { ...postData, coverImage: image };
             const data = await writePost(newPost);
             dispatch(action.publishPostAction(data));
             showSuccessAlert('Thông báo', 'Bài viết đã được đăng thành công')

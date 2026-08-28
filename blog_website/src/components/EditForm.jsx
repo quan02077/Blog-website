@@ -6,7 +6,6 @@ import FormInfo from "./FormInfo"
 import * as action from "../context/Actions"
 import { showSuccessAlert, showErrorAlert } from "../utils/alert"
 import { editProfile } from "../api/editProfile"
-import { uploadToCloudinary } from "../api/cloudinary";
 
 
 function EditForm({ currentUser, dispatch, onClose }) {
@@ -20,18 +19,12 @@ function EditForm({ currentUser, dispatch, onClose }) {
     const handleSave = async () => {
         setLoading(true);
         try {
-            let finalAvatarUrl = avatar;
-            if (avatar instanceof File) {
-                console.log("Đang upload ảnh đại diện mới lên Cloudinary...");
-                finalAvatarUrl = await uploadToCloudinary(avatar);
-            }
-
             const updatedUser = {
                 username,
                 bio,
                 email,
                 password,
-                avatar: finalAvatarUrl
+                avatar: avatar
             };
 
             const data = await editProfile(updatedUser);
