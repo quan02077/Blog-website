@@ -20,7 +20,8 @@ import {
     FILTER_STATUS,
     BOOKMARKS,
     SET_POSTS,
-    SET_CATEGORIES
+    SET_CATEGORIES,
+    IS_DIRTY
 } from "./Constant";
 
 export const loginAction = (payload) => {
@@ -174,6 +175,13 @@ export const setPostsAction = (payload) => {
 export const setCategoriesAction = (payload) => {
     return {
         type: SET_CATEGORIES,
+        payload
+    }
+}
+
+export const isDirtyAction = (payload) => {
+    return {
+        type: IS_DIRTY,
         payload
     }
 }

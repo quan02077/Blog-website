@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import WritePostHeader from '../components/WritePostHeader'
 import CoverUpload from '../components/CoverUpload'
@@ -7,8 +7,10 @@ import MarkdownEditor from '../components/MarkdownEditor'
 import PreviewModal from '../components/PreviewModal'
 import ClearInputButton from '../components/ClearInputButton'
 import Blog_context from '../context/Blog_Context'
+import * as action from '../context/Actions'
 
 function WritePostContent({ currentDraft, id }) {
+    const [, dispatch] = useContext(Blog_context)
     const isEdit = Boolean(id)
 
     const [title, setTitle] = useState(currentDraft?.title || '')
@@ -22,6 +24,15 @@ function WritePostContent({ currentDraft, id }) {
     )
     const [content, setContent] = useState(currentDraft?.content || '')
     const [isPreviewOpen, setIsPreviewOpen] = useState(false)
+
+    useEffect(() => {
+        if (title.trim() !== '' || content.trim() !== '') {
+            dispatch(action.isDirtyAction(true))
+        } else {
+            dispatch(action.isDirtyAction(false))
+        }
+    }, [title, content]);
+
 
     const calculateReadTime = (content) => {
         if (!content || content.trim() === '') return 1;

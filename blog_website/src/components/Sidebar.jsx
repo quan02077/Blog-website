@@ -1,10 +1,14 @@
+import { useContext } from "react"
 import { NavLink, useLocation } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faGithub, faYoutube, faLinkedin } from '@fortawesome/free-brands-svg-icons'
+import Blog_context from "../context/Blog_Context"
+import * as action from '../context/Actions'
 
 function Sidebar() {
     const location = useLocation()
     const { pathname } = location
+    const [state, dispatch] = useContext(Blog_context)
 
     // Logic kiểm tra Active thông minh cho từng mục:
     const isAllPostsActive = pathname === '/posts' || pathname.startsWith('/post/')
@@ -16,33 +20,44 @@ function Sidebar() {
 
     const getBtnClass = (isActive) => `sideBar ${isActive ? 'isActive' : 'isNoActive'}`
 
+    const handleNavClick = (e) => {
+        if (state.isDirty) {
+            const confirmleave = window.confirm("Bài viết của bạn chưa được lưu, bạn có chắc muốn rời trang?")
+            if (confirmleave) {
+                dispatch(action.setDirtyAction(false))
+            } else {
+                e.preventDefault()
+            }
+        }
+    }
+
     return (
         <div className="w-full h-full bg-white dark:bg-dark-surface border border-gray-200 dark:border-gray-800 rounded-xl p-4 custom-scrollbar">
             <nav className="flex flex-col gap-1">
                 {/* DISCOVER SECTION */}
                 <div className="titleSideBar">Discover</div>
-                <NavLink to="/posts" className={getBtnClass(isAllPostsActive)}>
+                <NavLink to="/posts" className={getBtnClass(isAllPostsActive)} onClick={handleNavClick}>
                     All Posts
                 </NavLink>
-                <NavLink to="/popular" className={getBtnClass(isPopularActive)}>
+                <NavLink to="/popular" className={getBtnClass(isPopularActive)} onClick={handleNavClick}>
                     Popular Posts
                 </NavLink>
 
                 {/* ORGANIZE SECTION */}
                 <div className="titleSideBar">Organize</div>
-                <NavLink to="/categories" className={getBtnClass(isCategoriesActive)}>
+                <NavLink to="/categories" className={getBtnClass(isCategoriesActive)} onClick={handleNavClick}>
                     Categories
                 </NavLink>
-                <NavLink to="/archives" className={getBtnClass(isArchivesActive)}>
+                <NavLink to="/archives" className={getBtnClass(isArchivesActive)} onClick={handleNavClick}>
                     Archives
                 </NavLink>
 
                 {/* AUTHOR SECTION */}
                 <div className="titleSideBar">AUTHOR</div>
-                <NavLink to="/write" className={getBtnClass(isWriteActive)}>
+                <NavLink to="/write" className={getBtnClass(isWriteActive)} onClick={handleNavClick}>
                     Write a New Post
                 </NavLink>
-                <NavLink to="/drafts" className={getBtnClass(isDraftsActive)}>
+                <NavLink to="/drafts" className={getBtnClass(isDraftsActive)} onClick={handleNavClick}>
                     Drafts
                 </NavLink>
 

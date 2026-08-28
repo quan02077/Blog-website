@@ -20,7 +20,8 @@ import {
     FILTER_STATUS,
     BOOKMARKS,
     SET_POSTS,
-    SET_CATEGORIES
+    SET_CATEGORIES,
+    IS_DIRTY
 } from "./Constant";
 export const initialState = {
     isSignIn: localStorage.getItem('isSignIn') === 'true',
@@ -39,6 +40,7 @@ export const initialState = {
     sortBy: 'latest',
     filter: 'all',
     bookmarks: JSON.parse(localStorage.getItem('bookmarks')) || [],
+    isDirty: false
 }
 
 function reducer(state, action) {
@@ -298,6 +300,11 @@ function reducer(state, action) {
                     ...state,
                     bookmarks: newBookmarks
                 }
+            }
+        case IS_DIRTY:
+            return {
+                ...state,
+                isDirty: action.payload
             }
         default:
             throw new Error('Invalid action');

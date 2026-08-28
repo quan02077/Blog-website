@@ -10,16 +10,18 @@ function PreviewModal({ isOpen, onClose, postData }) {
 
     if (!isOpen) return null
 
-    // Tạo object bài viết mẫu cho PostCard
+    const foundCategory = state.categories?.find(c => String(c.id) === String(postData?.categoryId))
+    const categoryDisplayName = foundCategory?.name || postData?.category || 'Chưa chọn chuyên mục'
+
     const previewPost = {
         id: postData?.id || 'preview',
-        author: currentUser?.username || 'Bạn',
-        avatar: currentUser?.avatar,
+        authorName: currentUser?.username || 'Bạn',
+        authorAvatar: currentUser?.avatar,
         date: 'Vừa xong',
-        category: postData?.category || 'Chưa chọn chuyên mục',
+        categoryName: categoryDisplayName,
         title: postData?.title || 'Tiêu đề bài viết sẽ hiển thị ở đây',
         description: postData?.summary || 'Tóm tắt ngắn về bài viết của bạn sẽ hiển thị ở đây...',
-        image: postData?.image || 'https://picsum.photos/seed/blog-preview/800/400',
+        coverImage: postData?.image instanceof File ? URL.createObjectURL(postData.image) : (postData?.image || 'https://picsum.photos/seed/blog-preview/800/400'),
         likes: 0,
         comments: 0,
         readTime: `${postData?.readTime || 1} phút đọc`
@@ -34,7 +36,6 @@ function PreviewModal({ isOpen, onClose, postData }) {
                 className="bg-white dark:bg-dark-surface rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 w-full max-w-2xl p-6 animate-in slide-in-from-top-2 fade-in duration-200 flex flex-col max-h-[85vh]"
                 onClick={(e) => e.stopPropagation()}
             >
-                {/* --- HEADER --- */}
                 <div className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-700">
                     <div className="flex items-center gap-2">
                         <FontAwesomeIcon icon={faEye} className="text-blue-500 text-xl" />
@@ -49,12 +50,10 @@ function PreviewModal({ isOpen, onClose, postData }) {
                     </button>
                 </div>
 
-                {/* --- NỘI DUNG XEM TRƯỚC (POST CARD) --- */}
-                <div className="flex-1 overflow-y-auto my-4 pr-1">
+                <div className="flex-1 overflow-y-auto my-4 pr-1 pointer-events-none select-none">
                     <PostCard post={previewPost} />
                 </div>
 
-                {/* --- FOOTER --- */}
                 <div className="pt-3 border-t border-gray-200 dark:border-gray-700 text-center">
                     <button
                         type="button"
