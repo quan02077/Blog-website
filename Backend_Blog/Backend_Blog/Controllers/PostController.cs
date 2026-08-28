@@ -36,7 +36,7 @@ namespace Backend_Blog.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreatePost([FromBody] WritePostDTO request)
+        public async Task<IActionResult> CreatePost([FromForm] WritePostDTO request)
         {   
             if (string.IsNullOrWhiteSpace(request.Title) || string.IsNullOrWhiteSpace(request.Content))
             {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using CloudinaryDotNet;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,8 +41,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<IUploadPhotoService, UploadPhotoService>();
 
 builder.Services.AddDbContext<MyBlogContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+var cloudName = builder.Configuration["CloudinarySettings:CloudName"];
+var apiKey = builder.Configuration["CloudinarySettings:ApiKey"];   
+var apiSecret = builder.Configuration["CloudinarySettings:ApiSecret"];
+
+var cloudinary = new Cloudinary(new Account(cloudName, apiKey, apiSecret));
+
+builder.Services.AddSingleton(cloudinary);
 
 var app = builder.Build();
 

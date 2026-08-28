@@ -1,13 +1,15 @@
 using Backend_Blog.Data;
 using Backend_Blog.Entities;
 using Backend_Blog.Models;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend_Blog.Services
 {
-    public class PostService(MyBlogContext context) : IPostService
+    public class PostService(MyBlogContext context, IUploadPhotoService uploadPhoto) : IPostService
     {
         public async Task<PostDto> CreatePostAsync(WritePostDTO request, Guid userId)
         {
@@ -17,12 +19,13 @@ namespace Backend_Blog.Services
                 throw new KeyNotFoundException("Không tìm thấy người dùng!");
             }
 
+            string sercureUrl = await uploadPhoto.UploadPhotoAsync(request.CoverImage, "blog_posts");
             var post = new Post
             {
                 Id = Guid.NewGuid(),
                 Title = request.Title,
                 Content = request.Content,
-                CoverImage = request.CoverImage,
+                CoverImage = sercureUrl,
                 Tags = request.Tags,
                 CategoryId = request.CategoryId,
                 AuthorId = userId,

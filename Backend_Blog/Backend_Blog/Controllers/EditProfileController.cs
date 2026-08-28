@@ -12,11 +12,11 @@ namespace Backend_Blog.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EditProfileController(MyBlogContext context) : ControllerBase
+    public class EditProfileController(MyBlogContext context, IUploadPhotoService uploadPhoto) : ControllerBase
     {
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> EditProfile([FromBody] EditProfileDTO request)
+        public async Task<IActionResult> EditProfile([FromForm] EditProfileDTO request)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (!Guid.TryParse(currentUserId, out var userId)) return Unauthorized();
@@ -40,7 +40,11 @@ namespace Backend_Blog.Controllers
             if (!string.IsNullOrEmpty(request.Email)) user.Email = request.Email;
 
             if (request.Bio != null) user.Bio = request.Bio;
-            if (request.Avatar != null) user.Avatar = request.Avatar;
+            if (request.Avatar != null)
+            {
+                string sercureUrl = await uploadPhoto.UploadPhotoAsync(request.Avatar, "blog_posts");
+                user.Avatar = sercureUrl;
+            }
 
             if (!string.IsNullOrEmpty(request.Password))
             {
