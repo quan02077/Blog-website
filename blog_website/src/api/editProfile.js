@@ -3,7 +3,7 @@ import { request } from './client';
 export const editProfile = async (profileData) => {
     const reponse = await request('/editprofile', {
         method: 'PUT',
-        body: JSON.stringify(profileData)
+        body: profileData
     })
     if (!reponse.ok) {
         const error = await reponse.json();

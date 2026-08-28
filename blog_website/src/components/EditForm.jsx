@@ -19,14 +19,32 @@ function EditForm({ currentUser, dispatch, onClose }) {
     const handleSave = async () => {
         setLoading(true);
         try {
-            const updatedUser = {
-                username,
-                bio,
-                email,
-                password,
-                avatar: avatar
-            };
-
+            let hasChanges = false;
+            const updatedUser = new FormData();
+            if (username !== currentUser.username) {
+                updatedUser.append('username', username);
+                hasChanges = true;
+            }
+            if (bio !== currentUser.bio) {
+                updatedUser.append('bio', bio);
+                hasChanges = true;
+            }
+            if (email !== currentUser.email) {
+                updatedUser.append('email', email);
+                hasChanges = true;
+            }
+            if (password !== currentUser.password) {
+                updatedUser.append('password', password);
+                hasChanges = true;
+            }
+            if (avatar !== currentUser.avatar) {
+                updatedUser.append('avatar', avatar);
+                hasChanges = true;
+            }
+            if (!hasChanges) {
+                showErrorAlert('Lỗi', 'Không có thay đổi nào!');
+                return;
+            }
             const data = await editProfile(updatedUser);
             dispatch(action.updateInfoAction(data));
             showSuccessAlert('Thông báo', 'Cập nhật thông tin tài khoản thành công!');
