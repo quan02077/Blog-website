@@ -29,23 +29,42 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
     }
 
     const handlePublishPost = async () => {
-        const result = await showConfirmAlert('Thông báo', 'Bạn có chắc chắn muốn đăng bài viết này?')
+        if (!postData.title.trim() || !postData.content.trim()) {
+            showErrorAlert('Lỗi', 'Vui lòng nhập tiêu đề và nội dung bài viết!');
+            return;
+        }
+
+        const result = await showConfirmAlert(
+            'Thông báo',
+            'Bạn có chắc chắn muốn đăng bài viết này?'
+        );
+
         if (!result.isConfirmed) return;
 
-        setLoading(true)
-        try {
-            const newPost = { ...postData, coverImage: image };
-            const data = await writePost(newPost);
-            dispatch(action.publishPostAction(data));
-            showSuccessAlert('Thông báo', 'Bài viết đã được đăng thành công')
-            navigate('/')
-        } catch (error) {
-            showErrorAlert('Thông báo', error.message)
-        } finally {
-            setLoading(false)
-        }
-    }
+        setLoading(true);
 
+        try {
+            const formData = new FormData();
+            formData.append("title", postData.title);
+            formData.append("readTime", postData.readTime);
+            if (postData.content) formData.append("content", postData.content);
+            if (postData.summary) formData.append("summary", postData.summary);
+            if (postData.categoryId) formData.append("categoryId", postData.categoryId);
+            if (postData.tag) formData.append("tags", postData.tag);
+            if (image) formData.append("coverImage", image);
+            if (postData.category) formData.append("category", postData.category);
+
+            const data = await writePost(formData);
+            dispatch(action.publishPostAction(data));
+            dispatch(action.deleteDraftsAction(postData));
+            await showSuccessAlert('Thông báo', 'Bài viết đã được đăng thành công');
+            navigate('/');
+        } catch (error) {
+            showErrorAlert('Lỗi', error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center justify-between">

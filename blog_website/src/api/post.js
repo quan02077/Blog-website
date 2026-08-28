@@ -21,7 +21,7 @@ export const getPostByID = async (id) => {
 export const writePost = async (postData) => {
     const response = await request('/post', {
         method: 'POST',
-        body: JSON.stringify(postData)
+        body: postData
     });
 
     if (!response.ok) {
