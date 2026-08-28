@@ -2,11 +2,14 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComments } from '@fortawesome/free-solid-svg-icons'
+import useDirtyCheck from "../hooks/useDirtyCheck"
 
 function Discussions({ hotDiscussions = [] }) {
     const navigate = useNavigate()
+    const confirmNavigation = useDirtyCheck()
+
     const handleGoDetail = (id) => {
-        navigate(`/post/${id}`)
+        confirmNavigation(() => navigate(`/post/${id}`))
     }
 
     return (

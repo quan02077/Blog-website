@@ -24,6 +24,7 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
                 dispatch(action.saveDraftsAction(postData))
                 await showSuccessAlert('Thông báo', 'Bài viết đã được lưu vào bản nháp thành công')
             }
+            dispatch(action.isDirtyAction(false));
             navigate('/drafts')
         }
     }
@@ -58,6 +59,7 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
             dispatch(action.publishPostAction(data));
             dispatch(action.deleteDraftsAction(postData));
             await showSuccessAlert('Thông báo', 'Bài viết đã được đăng thành công');
+            dispatch(action.isDirtyAction(false));
             navigate('/');
         } catch (error) {
             showErrorAlert('Lỗi', error.message);

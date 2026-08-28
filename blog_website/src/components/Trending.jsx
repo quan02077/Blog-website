@@ -1,11 +1,15 @@
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFire } from '@fortawesome/free-solid-svg-icons'
+import useDirtyCheck from "../hooks/useDirtyCheck"
+
 function Trending({ trendingTags }) {
     const navigate = useNavigate()
+    const confirmNavigation = useDirtyCheck()
+
     const handleGoPosts = (tag) => {
         if (tag) {
-            navigate(`/posts/tag/${tag}`)
+            confirmNavigation(() => navigate(`/posts/tag/${tag}`))
         }
     }
     return (

@@ -1,14 +1,12 @@
-import { useContext } from "react"
 import { NavLink, useLocation } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram, faGithub, faYoutube, faLinkedin } from '@fortawesome/free-brands-svg-icons'
-import Blog_context from "../context/Blog_Context"
-import * as action from '../context/Actions'
+import useDirtyCheck from "../hooks/useDirtyCheck"
 
 function Sidebar() {
     const location = useLocation()
     const { pathname } = location
-    const [state, dispatch] = useContext(Blog_context)
+    const confirmNavigation = useDirtyCheck()
 
     // Logic kiểm tra Active thông minh cho từng mục:
     const isAllPostsActive = pathname === '/posts' || pathname.startsWith('/post/')
@@ -21,13 +19,9 @@ function Sidebar() {
     const getBtnClass = (isActive) => `sideBar ${isActive ? 'isActive' : 'isNoActive'}`
 
     const handleNavClick = (e) => {
-        if (state.isDirty) {
-            const confirmleave = window.confirm("Bài viết của bạn chưa được lưu, bạn có chắc muốn rời trang?")
-            if (confirmleave) {
-                dispatch(action.setDirtyAction(false))
-            } else {
-                e.preventDefault()
-            }
+        const proceed = confirmNavigation()
+        if (!proceed) {
+            e.preventDefault()
         }
     }
 

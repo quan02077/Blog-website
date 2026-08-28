@@ -5,10 +5,22 @@ import { faCircleInfo, faGear, faBookBookmark, faBell } from "@fortawesome/free-
 import Blog_context from "../context/Blog_Context"
 import * as action from "../context/Actions"
 import { showConfirmAlert, showSuccessAlert } from "../utils/alert"
+import useDirtyCheck from "../hooks/useDirtyCheck"
+
 function AccountTool() {
     const [state, dispatch] = useContext(Blog_context)
     const { currentUser } = state
+    const confirmNavigation = useDirtyCheck()
+
     if (!state.btnAccount) return null
+
+    const handleAction = (toggleActionFn) => {
+        confirmNavigation(() => {
+            dispatch(toggleActionFn(true))
+            dispatch(action.toggleAccountAction(false))
+        })
+    }
+
     return (
         <div className="absolute right-0 top-full mt-2 w-56 z-50 animate-in slide-in-from-top-2 fade-in duration-200">
             <div className='bg-white dark:bg-dark-surface rounded-2xl p-4 shadow-xl border border-gray-200 dark:border-gray-700'>
@@ -22,31 +34,19 @@ function AccountTool() {
                 </h3>
                 <hr className='border-gray-200 dark:border-gray-700 my-3' />
                 <div className="flex flex-col my-4">
-                    <button onClick={() => {
-                        dispatch(action.toggleInfoAction(true))
-                        dispatch(action.toggleAccountAction(false))
-                    }} className='btnTool'>
+                    <button onClick={() => handleAction(action.toggleInfoAction)} className='btnTool'>
                         <FontAwesomeIcon icon={faCircleInfo} className="text-gray-500" />
                         <span>Thông tin tài khoản</span>
                     </button>
-                    <button onClick={() => {
-                        dispatch(action.toggleBookmarksAction(true))
-                        dispatch(action.toggleAccountAction(false))
-                    }} className='btnTool'>
+                    <button onClick={() => handleAction(action.toggleBookmarksAction)} className='btnTool'>
                         <FontAwesomeIcon icon={faBookBookmark} className="text-gray-500" />
                         <span>Bookmarks</span>
                     </button>
-                    <button onClick={() => {
-                        dispatch(action.toggleNotificationsAction(true))
-                        dispatch(action.toggleAccountAction(false))
-                    }} className='btnTool'>
+                    <button onClick={() => handleAction(action.toggleNotificationsAction)} className='btnTool'>
                         <FontAwesomeIcon icon={faBell} className="text-gray-500" />
                         <span>Thông báo</span>
                     </button>
-                    <button onClick={() => {
-                        dispatch(action.toggleSettingsAction(true))
-                        dispatch(action.toggleAccountAction(false))
-                    }} className='btnTool'>
+                    <button onClick={() => handleAction(action.toggleSettingsAction)} className='btnTool'>
                         <FontAwesomeIcon icon={faGear} className="text-gray-500" />
                         <span>Cài đặt</span>
                     </button>

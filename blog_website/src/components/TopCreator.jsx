@@ -3,9 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrophy } from '@fortawesome/free-solid-svg-icons'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
+import useDirtyCheck from "../hooks/useDirtyCheck"
 
 function TopCreators({ topCreators = [] }) {
     const [, dispatch] = useContext(Blog_context)
+    const confirmNavigation = useDirtyCheck()
     return (
         <div className='bg-white dark:bg-dark-surface rounded-3xl p-4 mt-5 border border-transparent dark:border-gray-800'>
             <h3 className='font-bold text-gray-800 dark:text-gray-200 flex items-center gap-2'>
@@ -18,7 +20,7 @@ function TopCreators({ topCreators = [] }) {
                     <React.Fragment key={index}>
                         <div
                             className='flex flex-col p-4 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 hover:rounded-2xl hover:-translate-y-1.5 duration-200 hover:transition-all'
-                            onClick={() => dispatch(action.toggleInfoAction(true))}
+                            onClick={() => confirmNavigation(() => dispatch(action.toggleInfoAction(true)))}
                         >
                             <div className='flex justify-between items-center mt-2 gap-3'>
                                 <img className='w-10 h-10 rounded-full object-cover' src={creator.avatar} alt={creator.name} />

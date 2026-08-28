@@ -1,13 +1,23 @@
 import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Blog_context from '../context/Blog_Context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMoon, faSun, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import * as action from '../context/Actions'
 import AccountTool from '../pages/AccountTool'
 import ClearInputButton from './ClearInputButton'
+import useDirtyCheck from "../hooks/useDirtyCheck"
 
 function Header() {
     const [state, dispatch] = useContext(Blog_context)
+    const navigate = useNavigate()
+    const confirmNavigation = useDirtyCheck()
+
+    const handleSearchKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            confirmNavigation(() => navigate('/posts'))
+        }
+    }
 
     return (
         <header className="grid grid-cols-3 gap-4 p-4 border-b border-gray-300 dark:border-gray-800 shadow-md sticky top-0 bg-white dark:bg-dark-surface z-10 shrink-0">
@@ -19,6 +29,7 @@ function Header() {
                 <input
                     value={state.search || ''}
                     onChange={(e) => dispatch(action.searchAction(e.target.value))}
+                    onKeyDown={handleSearchKeyDown}
                     className="w-full h-full rounded-full border border-gray-300 dark:border-gray-700 pl-4 pr-10 py-2 bg-white dark:bg-dark-bg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
                     type="text"
                     placeholder="Tìm kiếm..."
