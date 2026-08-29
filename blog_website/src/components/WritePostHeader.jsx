@@ -5,46 +5,49 @@ import { faPenToSquare, faFloppyDisk, faPaperPlane, faEye } from '@fortawesome/f
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 import { showSuccessAlert, showConfirmAlert, showErrorAlert } from '../utils/alert'
-import { writePost } from '../api/post'
+import { writePost, updatePost } from '../api/post'
 
 
 function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
     const [, dispatch] = useContext(Blog_context)
     const navigate = useNavigate()
-    const [loading, setLoading] = useState(false)
+    const [saveLoading, setSaveLoading] = useState(false)
+    const [publishLoading, setPublishLoading] = useState(false)
 
     const handleSaveDraft = async () => {
         const message = isEdit ? 'Bạn có chắc chắn muốn cập nhật bản nháp này?' : 'Bạn có chắc chắn muốn lưu nháp bài viết này?'
         const result = await showConfirmAlert('Thông báo', message)
         if (result.isConfirmed) {
-            if (isEdit) {
-                dispatch(action.updateDraftsAction(postData))
-                await showSuccessAlert('Thông báo', 'Cập nhật bản nháp thành công')
-            } else {
-                setLoading(true);
-                try {
-                    const formData = new FormData();
-                    formData.append("title", postData.title);
-                    formData.append("readTime", postData.readTime);
-                    if (postData.content) formData.append("content", postData.content);
-                    if (postData.summary) formData.append("summary", postData.summary);
-                    if (postData.categoryId) formData.append("categoryId", postData.categoryId);
-                    if (postData.tag) formData.append("tags", postData.tag);
-                    if (image) formData.append("coverImage", image);
-                    if (postData.category) formData.append("category", postData.category);
-                    formData.append("isDraft", "true");
-                    const data = await writePost(formData);
+            setSaveLoading(true);
+            try {
+                const formData = new FormData();
+                formData.append("title", postData.title);
+                formData.append("readTime", postData.readTime);
+                if (postData.content) formData.append("content", postData.content);
+                if (postData.summary) formData.append("summary", postData.summary);
+                if (postData.categoryId) formData.append("categoryId", postData.categoryId);
+                if (postData.tag) formData.append("tags", postData.tag);
+                if (image instanceof File) formData.append("coverImage", image);
+                if (postData.category) formData.append("category", postData.category);
+                formData.append("isDraft", "true");
+
+                let data;
+                if (isEdit) {
+                    data = await updatePost(postData.id, formData);
+                    dispatch(action.updateDraftsAction(data));
+                    await showSuccessAlert('Thông báo', 'Cập nhật bản nháp thành công');
+                } else {
+                    data = await writePost(formData);
                     dispatch(action.saveDraftsAction(data));
                     await showSuccessAlert('Thông báo', 'Bài viết đã được lưu vào bản nháp thành công');
-                    dispatch(action.isDirtyAction(false));
-                } catch (error) {
-                    showErrorAlert('Lỗi', error.message);
-                } finally {
-                    setLoading(false);
                 }
+                dispatch(action.isDirtyAction(false));
+                navigate('/drafts');
+            } catch (error) {
+                showErrorAlert('Lỗi', error.message);
+            } finally {
+                setSaveLoading(false);
             }
-            dispatch(action.isDirtyAction(false));
-            navigate('/drafts')
         }
     }
 
@@ -61,7 +64,7 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
 
         if (!result.isConfirmed) return;
 
-        setLoading(true);
+        setPublishLoading(true);
 
         try {
             const formData = new FormData();
@@ -71,20 +74,26 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
             if (postData.summary) formData.append("summary", postData.summary);
             if (postData.categoryId) formData.append("categoryId", postData.categoryId);
             if (postData.tag) formData.append("tags", postData.tag);
-            if (image) formData.append("coverImage", image);
+            if (image instanceof File) formData.append("coverImage", image);
             if (postData.category) formData.append("category", postData.category);
             formData.append("isDraft", "false");
 
-            const data = await writePost(formData);
-            dispatch(action.publishPostAction(data));
-            dispatch(action.deleteDraftsAction(postData));
+            let data;
+            if (isEdit) {
+                data = await updatePost(postData.id, formData);
+                dispatch(action.publishPostAction(data));
+                dispatch(action.deleteDraftsAction(postData.id));
+            } else {
+                data = await writePost(formData);
+                dispatch(action.publishPostAction(data));
+            }
             await showSuccessAlert('Thông báo', 'Bài viết đã được đăng thành công');
             dispatch(action.isDirtyAction(false));
             navigate('/');
         } catch (error) {
             showErrorAlert('Lỗi', error.message);
         } finally {
-            setLoading(false);
+            setPublishLoading(false);
         }
     };
 
@@ -115,20 +124,20 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
                 <button
                     type="button"
                     onClick={handleSaveDraft}
-                    disabled={loading}
-                    className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors cursor-pointer"
+                    disabled={saveLoading || publishLoading}
+                    className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors cursor-pointer disabled:opacity-50"
                 >
                     <FontAwesomeIcon icon={faFloppyDisk} />
-                    {loading ? 'Đang lưu...' : (isEdit ? 'Cập nhật nháp' : 'Lưu nháp')}
+                    {saveLoading ? 'Đang lưu...' : (isEdit ? 'Cập nhật nháp' : 'Lưu nháp')}
                 </button>
                 <button
                     type="button"
-                    className="flex items-center gap-2 text-sm font-semibold text-white bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 px-4 py-2 rounded-xl transition-colors cursor-pointer"
+                    className="flex items-center gap-2 text-sm font-semibold text-white bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 px-4 py-2 rounded-xl transition-colors cursor-pointer disabled:opacity-50"
                     onClick={handlePublishPost}
-                    disabled={loading}
+                    disabled={saveLoading || publishLoading}
                 >
                     <FontAwesomeIcon icon={faPaperPlane} />
-                    {loading ? 'Đang đăng...' : 'Đăng bài'}
+                    {publishLoading ? 'Đang đăng...' : 'Đăng bài'}
                 </button>
             </div>
         </div>

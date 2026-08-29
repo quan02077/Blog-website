@@ -38,7 +38,7 @@ function PostCard({ post }) {
             {/* Post Image */}
             <div className="relative overflow-hidden cursor-pointer" onClick={handleGoDetail}>
                 <img
-                    src={post.coverImage || post.image}
+                    src={post.coverImage || post.image || 'https://picsum.photos/seed/post/400/200'}
                     alt={post.title}
                     className="w-full h-48 object-cover hover:scale-105 transition-transform duration-500"
                 />

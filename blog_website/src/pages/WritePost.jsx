@@ -15,7 +15,7 @@ function WritePostContent({ currentDraft, id }) {
 
     const [title, setTitle] = useState(currentDraft?.title || '')
     const [summary, setSummary] = useState(currentDraft?.summary || currentDraft?.description || '')
-    const [image, setImage] = useState(currentDraft?.image || null)
+    const [image, setImage] = useState(currentDraft?.coverImage || currentDraft?.image || null)
     const [newCategory, setNewCategory] = useState('')
     const [selectedCategory, setSelectedCategory] = useState(currentDraft?.categoryId || currentDraft?.category || '')
     const [isAddingNew, setIsAddingNew] = useState(false)

@@ -39,6 +39,7 @@ function Provider({ children }) {
 
     useEffect(() => {
         const fetchDrafts = async () => {
+            if (!state.isSignIn) return;
             try {
                 const data = await getDraftPost();
                 dispatch(action.setDraftsAction(data));
@@ -47,7 +48,7 @@ function Provider({ children }) {
             }
         };
         fetchDrafts();
-    }, [])
+    }, [state.isSignIn])
 
     useEffect(() => {
         const fetchPosts = async () => {

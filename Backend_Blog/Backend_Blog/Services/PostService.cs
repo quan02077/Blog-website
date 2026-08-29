@@ -31,7 +31,6 @@ namespace Backend_Blog.Services
                 CategoryId = request.CategoryId,
                 AuthorId = userId,
                 CreatedAt = DateTime.UtcNow,
-                IsDeleted = false,
                 ReadTime = request.ReadTime,
                 IsDraft = request.IsDraft,
             };
@@ -108,7 +107,7 @@ namespace Backend_Blog.Services
             var posts = await context.Posts
                 .Include(p => p.Author)      
                 .Include(p => p.Category)    
-                .Where(p => !p.IsDeleted && !p.IsDraft)
+                .Where(p => !p.IsDraft)
                 .OrderByDescending(p => p.CreatedAt)
                 .ToListAsync();
 
@@ -138,7 +137,7 @@ namespace Backend_Blog.Services
             var post = await context.Posts
                 .Include(p => p.Author)    
                 .Include(p => p.Category)  
-                .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted && !p.IsDraft);
+                .FirstOrDefaultAsync(p => p.Id == id && !p.IsDraft);
 
             if (post == null) return null;
 
@@ -161,6 +160,83 @@ namespace Backend_Blog.Services
                 CategoryName = post.Category != null ? post.Category.Name : null,
                 IsDraft = post.IsDraft
             };
+        }
+
+        public async Task<PostDto> UpdatePostAsync(Guid id, WritePostDTO request, Guid userId)
+        {
+            var post = await context.Posts
+                            .Include(p => p.Category)
+                            .FirstOrDefaultAsync(p => p.Id == id );
+
+            if(post == null)
+            {
+                throw new KeyNotFoundException("Không tìm thấy bài viết này!!");
+            }
+
+            if(post.Id != id)
+            {
+                throw new UnauthorizedAccessException("Bạn không có quyền chỉnh sửa bài viết này!");
+            }
+
+            if(request.CoverImage != null)
+            {
+                string sercureUrl = await uploadPhoto.UploadPhotoAsync(request.CoverImage, "blog_posts");
+                post.CoverImage = sercureUrl;
+            }
+
+            post.Title = request.Title;
+            post.Content = request.Content;
+            post.Summary = request.Summary;
+            post.Tags = request.Tags;
+            post.ReadTime = request.ReadTime;
+            post.CategoryId = request.CategoryId;
+            post.IsDraft = request.IsDraft;
+            post.UpdatedAt = DateTime.UtcNow;
+
+            await context.SaveChangesAsync();
+
+            string? categoryName = null;
+            if (post.CategoryId.HasValue)
+            {
+                var category = await context.Categories.FindAsync(post.CategoryId.Value);
+                if (category != null)
+                {
+                    categoryName = category.Name;
+                }
+            }
+
+            var user = await context.Users.FindAsync(userId);
+            return new PostDto
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Content = post.Content,
+                Summary = post.Summary,
+                CoverImage = post.CoverImage,
+                Tags = post.Tags,
+                CreatedAt = post.CreatedAt,
+                UpdatedAt = post.UpdatedAt,
+                ReadTime = post.ReadTime,
+                AuthorId = post.AuthorId,
+                AuthorName = user?.Username ?? "Tác giả",
+                AuthorAvatar = user?.Avatar,
+                CategoryId = post.CategoryId,
+                CategoryName = categoryName,
+                IsDraft = post.IsDraft
+            };
+        }
+
+        public async Task DeleteDraftAsync(Guid id, Guid userId) 
+        {
+            var post = await context.Posts
+                .FirstOrDefaultAsync(p => p.Id == id && p.AuthorId == userId);
+
+            if (post == null)
+            {
+                throw new KeyNotFoundException("Không tìm thấy bài viết này hoặc bạn không có quyền xóa!");
+            }
+            context.Posts.Remove(post);
+            await context.SaveChangesAsync();
         }
 
     }

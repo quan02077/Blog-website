@@ -1,25 +1,35 @@
 import { useContext, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCakeCandles, faHashtag, faXmark, faUserPen, faUser, faTrashCan } from "@fortawesome/free-solid-svg-icons"
+import { faCakeCandles, faHashtag, faXmark, faUserPen, faUser, faTrashCan, faSpinner } from "@fortawesome/free-solid-svg-icons"
 import { faFileLines, faComments } from "@fortawesome/free-regular-svg-icons"
 import * as action from "../context/Actions"
 import Blog_context from "../context/Blog_Context"
 import EditForm from "../components/EditForm"
 import PostCard from "../components/PostCard"
-import { showConfirmAlert, showSuccessAlert } from "../utils/alert"
+import { showConfirmAlert, showSuccessAlert, showErrorAlert } from "../utils/alert"
+import { deleteDraft_Post } from '../api/post'
 
 function Info() {
     const [state, dispatch] = useContext(Blog_context)
     const { btnInfo, currentUser, posts = [] } = state
     const [isEditing, setIsEditing] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     if (!btnInfo) return null
 
     const handleDelete = async (postId) => {
         const result = await showConfirmAlert('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa bài viết này không?')
         if (result.isConfirmed) {
-            dispatch(action.deletePostsAction(postId))
-            showSuccessAlert('Thành công', 'Đã xóa bài viết thành công!')
+            setLoading(true)
+            try {
+                await deleteDraft_Post(postId)
+                dispatch(action.deletePostsAction(postId))
+                await showSuccessAlert('Thành công', 'Đã xóa bài viết thành công!')
+            } catch (error) {
+                await showErrorAlert('Lỗi', error.message)
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
@@ -120,10 +130,20 @@ function Info() {
                                     <button
                                         type="button"
                                         onClick={() => handleDelete(post.id)}
-                                        className="absolute top-3 right-3 z-10 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1.5 transition-all cursor-pointer"
+                                        disabled={loading}
+                                        className="absolute top-3 right-3 z-10 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
-                                        <FontAwesomeIcon icon={faTrashCan} />
-                                        Xóa bài
+                                        {loading ? (
+                                            <>
+                                                <FontAwesomeIcon icon={faSpinner} className="animate-spin" />
+                                                Đang xóa...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <FontAwesomeIcon icon={faTrashCan} />
+                                                Xóa bài
+                                            </>
+                                        )}
                                     </button>
                                 </div>
                             ))

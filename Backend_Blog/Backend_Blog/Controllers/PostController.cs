@@ -75,16 +75,68 @@ namespace Backend_Blog.Controllers
                 return Unauthorized(new { message = "Bạn cần đăng nhập để lưu bản nháp!" });
             }
 
-            var userIdGuid = Guid.Parse(currentUserId);
-
             try
             {
-                var result = await postService.GetMyDraftsAsync(userIdGuid);
+                var result = await postService.GetMyDraftsAsync(userId);
                 return Ok(result);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, new { message = "Đã xảy ra lỗi khi lấy bản nháp: " + ex.Message });
+            }
+        }
+
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<IActionResult> UpdatePost(Guid id, [FromForm] WritePostDTO request)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(currentUserId) || !Guid.TryParse(currentUserId, out var userId))
+            {
+                return Unauthorized(new { message = "Bạn cần đăng nhập để chỉnh sửa bài viết!" });
+            }
+
+            try
+            {
+                var result = await postService.UpdatePostAsync(id, request, userId);
+                return Ok(result);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Forbid(ex.Message); 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteDraft(Guid id)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(currentUserId) || !Guid.TryParse(currentUserId, out var userId))
+            {
+                return Unauthorized(new { message = "Bạn cần đăng nhập để chỉnh sửa bài viết!" });
+            }
+
+            try
+            {
+                await postService.DeleteDraftAsync(id, userId);
+                return Ok(new { message = "Xóa bản nháp thành công!" });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

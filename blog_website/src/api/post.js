@@ -37,3 +37,26 @@ export const writePost = async (postData) => {
     }
     return response.json();
 }
+
+export const updatePost = async (id, postData) => {
+    const response = await request(`/post/${id}`, {
+        method: 'PUT',
+        body: postData
+    });
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Cập nhật bài viết thất bại!');
+    }
+    return response.json();
+}
+
+export const deleteDraft_Post = async (id) => {
+    const response = await request(`/post/${id}`, {
+        method: 'DELETE'
+    });
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Xóa bản nháp thất bại!');
+    }
+    return response.json();
+}
