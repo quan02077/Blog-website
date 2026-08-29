@@ -32,7 +32,8 @@ namespace Backend_Blog.Services
                 AuthorId = userId,
                 CreatedAt = DateTime.UtcNow,
                 IsDeleted = false,
-                ReadTime = request.ReadTime 
+                ReadTime = request.ReadTime,
+                IsDraft = request.IsDraft,
             };
 
             context.Posts.Add(post);
@@ -61,10 +62,33 @@ namespace Backend_Blog.Services
                 AuthorAvatar = user.Avatar, 
 
                 CategoryId = post.CategoryId,
-                CategoryName = categoryName
+                CategoryName = categoryName,
+                IsDraft = post.IsDraft
             };
         }
 
+        public async Task<IEnumerable<PostDto>> GetMyDraftsAsync(Guid userId)
+        {
+            return await context.Posts
+                            .Where(d => d.IsDraft == true && d.AuthorId == userId)
+                            .Select(d => new PostDto
+                            {
+                                Id = d.Id,
+                                Title = d.Title,
+                                Summary = d.Summary,
+                                Content = d.Content,
+                                CoverImage = d.CoverImage,
+                                ReadTime = d.ReadTime,
+                                CategoryName = d.Category != null ? d.Category.Name : null,
+                                AuthorId = d.AuthorId,
+                                CreatedAt= d.CreatedAt,
+                                UpdatedAt = d.UpdatedAt,
+                                AuthorName = d.Author != null ? d.Author.Username : null,
+                                AuthorAvatar = d.Author != null ? d.Author.Avatar : null,
+                                Tags = d.Tags,
+                                IsDraft = d.IsDraft
+                            }).ToListAsync();
+        }
 
         public async Task<List<CategoryDTO>> GetAllCategoriesAsync()
         {
@@ -84,7 +108,7 @@ namespace Backend_Blog.Services
             var posts = await context.Posts
                 .Include(p => p.Author)      
                 .Include(p => p.Category)    
-                .Where(p => !p.IsDeleted)
+                .Where(p => !p.IsDeleted && !p.IsDraft)
                 .OrderByDescending(p => p.CreatedAt)
                 .ToListAsync();
 
@@ -104,13 +128,9 @@ namespace Backend_Blog.Services
                 AuthorAvatar = post.Author != null ? post.Author.Avatar : null, 
 
                 CategoryId = post.CategoryId,
-                CategoryName = post.Category != null ? post.Category.Name : null
+                CategoryName = post.Category != null ? post.Category.Name : null,
+                IsDraft = post.IsDraft
             }).ToList();
-        }
-
-        public Task<List<PostDto>> GetMyDraftsAsync(Guid userId)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<PostDto> GetPostByIdAsync(Guid id)
@@ -118,7 +138,7 @@ namespace Backend_Blog.Services
             var post = await context.Posts
                 .Include(p => p.Author)    
                 .Include(p => p.Category)  
-                .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted);
+                .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted && !p.IsDraft);
 
             if (post == null) return null;
 
@@ -139,6 +159,7 @@ namespace Backend_Blog.Services
 
                 CategoryId = post.CategoryId,
                 CategoryName = post.Category != null ? post.Category.Name : null,
+                IsDraft = post.IsDraft
             };
         }
 

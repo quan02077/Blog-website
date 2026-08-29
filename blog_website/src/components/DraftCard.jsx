@@ -47,7 +47,7 @@ function DraftCard({ draft }) {
             {/* Cover Image */}
             <div className="sm:w-52 sm:shrink-0 overflow-hidden">
                 <img
-                    src={draft.image || 'https://picsum.photos/seed/draft/400/200'}
+                    src={draft.coverImage || draft.image || 'https://picsum.photos/seed/draft/400/200'}
                     alt={draft.title || 'Bản nháp'}
                     className="w-full h-40 sm:h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -59,7 +59,7 @@ function DraftCard({ draft }) {
                     {/* Category + Tags */}
                     <div className="flex flex-wrap items-center gap-2 mb-2">
                         <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400">
-                            {draft.category || 'Chưa phân loại'}
+                            {draft.categoryName || draft.category || 'Chưa phân loại'}
                         </span>
                         {tagsList.map((tag, idx) => (
                             <span key={`tag-${tag}-${idx}`} className="text-[10px] font-medium text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">

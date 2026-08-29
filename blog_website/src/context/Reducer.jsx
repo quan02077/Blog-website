@@ -21,6 +21,7 @@ import {
     BOOKMARKS,
     SET_POSTS,
     SET_CATEGORIES,
+    SET_DRAFTS,
     IS_DIRTY
 } from "./Constant";
 export const initialState = {
@@ -34,7 +35,7 @@ export const initialState = {
     btnNotifications: false,
     btnSettings: false,
     posts: [],
-    drafts: JSON.parse(localStorage.getItem('drafts')) || [],
+    drafts: [],
     categories: [],
     search: '',
     sortBy: 'latest',
@@ -299,6 +300,13 @@ function reducer(state, action) {
                 return {
                     ...state,
                     bookmarks: newBookmarks
+                }
+            }
+        case SET_DRAFTS:
+            {
+                return {
+                    ...state,
+                    drafts: action.payload
                 }
             }
         case IS_DIRTY:

@@ -63,5 +63,29 @@ namespace Backend_Blog.Controllers
                 return StatusCode(500, new { message = "Đã xảy ra lỗi khi tạo bài viết: " + ex.Message });
             }
         }
+
+        [HttpGet("my-drafts")]
+        [Authorize]
+        public async Task<IActionResult> GetMyDrafts()
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(currentUserId) || !Guid.TryParse(currentUserId, out var userId))
+            {
+                return Unauthorized(new { message = "Bạn cần đăng nhập để lưu bản nháp!" });
+            }
+
+            var userIdGuid = Guid.Parse(currentUserId);
+
+            try
+            {
+                var result = await postService.GetMyDraftsAsync(userIdGuid);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Đã xảy ra lỗi khi lấy bản nháp: " + ex.Message });
+            }
+        }
     }
 }

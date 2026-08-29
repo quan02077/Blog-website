@@ -8,13 +8,9 @@ export const getAllPost = async () => {
 }
 
 export const getDraftPost = async () => {
-    const response = await request('/post/drafts', {
+    const response = await request('/post/my-drafts', {
         method: 'GET'
     });
-    if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Không tìm thấy bản nháp nào!")
-    }
     return response.json();
 }
 

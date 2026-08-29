@@ -3,7 +3,7 @@ import Blog_context from './Blog_Context'
 import reducer, { initialState } from './Reducer'
 import * as action from './Actions'
 import { getMeApi } from '../api/auth'
-import { getAllPost } from '../api/post'
+import { getAllPost, getDraftPost } from '../api/post'
 import { getAllCategories } from '../api/category'
 
 function Provider({ children }) {
@@ -40,7 +40,7 @@ function Provider({ children }) {
     useEffect(() => {
         const fetchDrafts = async () => {
             try {
-                const data = await getAllPost();
+                const data = await getDraftPost();
                 dispatch(action.setDraftsAction(data));
             } catch (error) {
                 console.error("Lỗi khi tải danh sách bản nháp từ Database:", error);

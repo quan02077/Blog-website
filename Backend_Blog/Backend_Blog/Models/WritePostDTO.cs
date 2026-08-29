@@ -11,5 +11,6 @@
         public int? CategoryId { get; set; }
         public string AuthorName { get; set; } = string.Empty;
         public int ReadTime { get; set; }
+        public bool IsDraft { get; set; }
     }
 }

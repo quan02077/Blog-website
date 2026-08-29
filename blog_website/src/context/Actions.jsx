@@ -21,7 +21,8 @@ import {
     BOOKMARKS,
     SET_POSTS,
     SET_CATEGORIES,
-    IS_DIRTY
+    IS_DIRTY,
+    SET_DRAFTS
 } from "./Constant";
 
 export const loginAction = (payload) => {
@@ -182,6 +183,13 @@ export const setCategoriesAction = (payload) => {
 export const isDirtyAction = (payload) => {
     return {
         type: IS_DIRTY,
+        payload
+    }
+}
+
+export const setDraftsAction = (payload) => {
+    return {
+        type: SET_DRAFTS,
         payload
     }
 }

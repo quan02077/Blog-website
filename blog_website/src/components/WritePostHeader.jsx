@@ -21,6 +21,7 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
                 dispatch(action.updateDraftsAction(postData))
                 await showSuccessAlert('Thông báo', 'Cập nhật bản nháp thành công')
             } else {
+                setLoading(true);
                 try {
                     const formData = new FormData();
                     formData.append("title", postData.title);
@@ -33,7 +34,7 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
                     if (postData.category) formData.append("category", postData.category);
                     formData.append("isDraft", "true");
                     const data = await writePost(formData);
-                    dispatch(action.addDraftAction(data));
+                    dispatch(action.saveDraftsAction(data));
                     await showSuccessAlert('Thông báo', 'Bài viết đã được lưu vào bản nháp thành công');
                     dispatch(action.isDirtyAction(false));
                 } catch (error) {

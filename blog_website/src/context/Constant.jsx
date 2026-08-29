@@ -20,4 +20,5 @@ export const FILTER_STATUS = "filter_status";
 export const BOOKMARKS = "bookmarks";
 export const SET_POSTS = "set_posts";
 export const SET_CATEGORIES = "set_categories";
-export const IS_DIRTY = "is_dirty"
+export const IS_DIRTY = "is_dirty";
+export const SET_DRAFTS = "set_drafts";

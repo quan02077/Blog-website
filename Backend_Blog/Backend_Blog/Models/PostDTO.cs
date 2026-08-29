@@ -9,6 +9,7 @@ namespace Backend_Blog.Models
         public string? CoverImage { get; set; }
         public string? Tags { get; set; }
         public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public Guid AuthorId { get; set; }
         public string AuthorName { get; set; } = string.Empty;
         public int? CategoryId { get; set; }
