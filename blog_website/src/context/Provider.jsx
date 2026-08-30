@@ -53,14 +53,14 @@ function Provider({ children }) {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const data = await getAllPost();
+                const data = await getAllPost(state.search);
                 dispatch(action.setPostsAction(data));
             } catch (error) {
                 console.error("Lỗi khi tải danh sách bài viết từ Database:", error);
             }
         };
         fetchPosts();
-    }, [])
+    }, [state.search])
 
     useEffect(() => {
         const fetchCategories = async () => {
