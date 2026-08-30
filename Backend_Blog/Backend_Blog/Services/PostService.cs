@@ -66,11 +66,35 @@ namespace Backend_Blog.Services
             };
         }
 
-        public async Task<IEnumerable<PostDto>> GetMyDraftsAsync(Guid userId)
+        public async Task<IEnumerable<PostDto>> GetMyDraftsAsync(Guid userId, string? searchTerm, string? category, string? sortBy)
         {
-            return await context.Posts
-                            .Where(d => d.IsDraft == true && d.AuthorId == userId)
-                            .Select(d => new PostDto
+            var query = context.Posts.AsQueryable();
+
+            query = query.Where(p => p.IsDraft && p.AuthorId == userId);
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(p => p.Title.Contains(searchTerm));
+            }
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                query = query.Where(p => p.Category != null && p.Category.Name == category);
+            }
+
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                query = sortBy.ToLower() switch
+                {
+                    "az" => query.OrderBy(p => p.Title),
+                    "za" => query.OrderByDescending(p => p.Title),
+                    "latest" => query.OrderByDescending(p => p.CreatedAt),
+                    "oldest" => query.OrderBy(p => p.CreatedAt),
+                    _ => query
+                };
+            }
+
+            return await query.Select(d => new PostDto
                             {
                                 Id = d.Id,
                                 Title = d.Title,
@@ -102,16 +126,25 @@ namespace Backend_Blog.Services
             return categories;
         }
 
-        public async Task<List<PostDto>> GetAllPostsAsync()
+        public async Task<IEnumerable<PostDto>> GetAllPostsAsync(string? searchTerm, int? year)
         {
-            var posts = await context.Posts
-                .Include(p => p.Author)      
-                .Include(p => p.Category)    
-                .Where(p => !p.IsDraft)
-                .OrderByDescending(p => p.CreatedAt)
-                .ToListAsync();
+            var query = context.Posts.AsQueryable();
 
-            return posts.Select(post => new PostDto
+            query = query.Where(p => !p.IsDraft);
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(p => p.Title.Contains(searchTerm));
+            }
+
+            if(year.HasValue)
+            {
+                query = query.Where(p => p.CreatedAt.Year == year.Value);
+            }
+
+            query = query.OrderByDescending(p => p.CreatedAt);
+
+            return await query.Select(post => new PostDto
             {
                 Id = post.Id,
                 Title = post.Title,
@@ -129,7 +162,7 @@ namespace Backend_Blog.Services
                 CategoryId = post.CategoryId,
                 CategoryName = post.Category != null ? post.Category.Name : null,
                 IsDraft = post.IsDraft
-            }).ToList();
+            }).ToListAsync();
         }
 
         public async Task<PostDto> GetPostByIdAsync(Guid id)
@@ -226,7 +259,7 @@ namespace Backend_Blog.Services
             };
         }
 
-        public async Task DeleteDraftAsync(Guid id, Guid userId) 
+        public async Task DeletePostAsync(Guid id, Guid userId) 
         {
             var post = await context.Posts
                 .FirstOrDefaultAsync(p => p.Id == id && p.AuthorId == userId);

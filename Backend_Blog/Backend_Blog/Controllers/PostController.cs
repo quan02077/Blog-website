@@ -17,9 +17,9 @@ namespace Backend_Blog.Controllers
             return Ok(categories);
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllPosts()
+        public async Task<IActionResult> GetAllPosts([FromQuery] string? searchTerm, [FromQuery] int? year)
         {
-            var posts = await postService.GetAllPostsAsync();
+            var posts = await postService.GetAllPostsAsync(searchTerm, year);
             return Ok(posts);
         }
 
@@ -66,7 +66,7 @@ namespace Backend_Blog.Controllers
 
         [HttpGet("my-drafts")]
         [Authorize]
-        public async Task<IActionResult> GetMyDrafts()
+        public async Task<IActionResult> GetMyDrafts([FromQuery] string? searchTerm, [FromQuery] string? category, [FromQuery] string? sortBy)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -77,7 +77,7 @@ namespace Backend_Blog.Controllers
 
             try
             {
-                var result = await postService.GetMyDraftsAsync(userId);
+                var result = await postService.GetMyDraftsAsync(userId, searchTerm, category, sortBy);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -117,7 +117,7 @@ namespace Backend_Blog.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<IActionResult> DeleteDraft(Guid id)
+        public async Task<IActionResult> DeletePost(Guid id)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(currentUserId) || !Guid.TryParse(currentUserId, out var userId))
@@ -127,8 +127,8 @@ namespace Backend_Blog.Controllers
 
             try
             {
-                await postService.DeleteDraftAsync(id, userId);
-                return Ok(new { message = "Xóa bản nháp thành công!" });
+                await postService.DeletePostAsync(id, userId);
+                return Ok(new { message = "Xóa bài viết thành công!" });
             }
             catch (KeyNotFoundException ex)
             {
