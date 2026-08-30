@@ -36,16 +36,16 @@ function ArchiveMonthCard({ monthBlock, handleGoDetail }) {
                                     {post.title}
                                 </h4>
                                 <div className="flex items-center gap-2 mt-0.5">
-                                    <span className="text-xs text-gray-400">{post.date}</span>
+                                    <span className="text-xs text-gray-400">{post.date || (post.createdAt ? new Date(post.createdAt.endsWith('Z') || post.createdAt.includes('+') ? post.createdAt : post.createdAt + 'Z').toLocaleDateString('vi-VN') : 'Mới đây')}</span>
                                     <span className="text-gray-200 dark:text-gray-700">·</span>
                                     <span className="flex items-center gap-1 text-xs text-gray-400">
                                         <FontAwesomeIcon icon={faClock} />
-                                        {post.readTime}
+                                        {post.readTime} phút đọc
                                     </span>
                                 </div>
                             </div>
                             <span className={`hidden sm:inline-block text-[10px] font-bold px-2.5 py-1 rounded-full shrink-0 ${catColors[post.category] ?? 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'}`}>
-                                {post.category}
+                                {post.categoryName || post.category}
                             </span>
                         </div>
                         {index < monthBlock.posts.length - 1 && (
