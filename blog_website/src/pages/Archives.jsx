@@ -4,13 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faArchive, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import ArchiveMonthCard from '../components/ArchiveMonthCard'
 import Blog_context from '../context/Blog_Context'
-import * as action from '../context/Actions'
 import { getAllPost } from '../api/post'
 
 function Archives() {
-    const [state, dispatch] = useContext(Blog_context)
-    const { posts, search } = state
+    const [state] = useContext(Blog_context)
+    const { posts } = state
     const [selectedYear, setSelectedYear] = useState('all')
+    const [searchTerm, setSearchTerm] = useState('')
     const [archivedPosts, setArchivedPosts] = useState([])
     const [archiveLoading, setArchiveLoading] = useState(false)
 
@@ -26,7 +26,7 @@ function Archives() {
             setArchiveLoading(true);
             try {
                 const y = selectedYear === 'all' ? '' : selectedYear;
-                const data = await getAllPost(search, y);
+                const data = await getAllPost(searchTerm, y);
                 setArchivedPosts(data);
             } catch (error) {
                 console.error("Lỗi khi tải lưu trữ bài viết:", error);
@@ -35,7 +35,7 @@ function Archives() {
             }
         };
         fetchArchived();
-    }, [search, selectedYear]);
+    }, [searchTerm, selectedYear]);
 
     // Tạo danh sách các năm không trùng lặp từ danh sách bài viết gốc
     const uniqueYears = useMemo(() => {
@@ -132,8 +132,8 @@ function Archives() {
                 <div className="relative flex-1 min-w-48">
                     <FontAwesomeIcon icon={faSearch} className="absolute left-3 top-3 text-gray-400 text-sm" />
                     <input
-                        value={search}
-                        onChange={(e) => dispatch(action.searchAction(e.target.value))}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                         type="text"
                         placeholder="Tìm kiếm bài viết..."
                         className="w-full pl-9 pr-4 py-2.5 text-sm bg-white dark:bg-dark-bg text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl outline-none placeholder-gray-300 dark:placeholder-gray-600"

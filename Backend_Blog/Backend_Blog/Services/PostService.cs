@@ -170,7 +170,7 @@ namespace Backend_Blog.Services
             var post = await context.Posts
                 .Include(p => p.Author)    
                 .Include(p => p.Category)  
-                .FirstOrDefaultAsync(p => p.Id == id && !p.IsDraft);
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (post == null) return null;
 
@@ -206,12 +206,13 @@ namespace Backend_Blog.Services
                 throw new KeyNotFoundException("Không tìm thấy bài viết này!!");
             }
 
-            if(post.Id != id)
+            if (post.AuthorId != userId) 
             {
                 throw new UnauthorizedAccessException("Bạn không có quyền chỉnh sửa bài viết này!");
             }
 
-            if(request.CoverImage != null)
+
+            if (request.CoverImage != null)
             {
                 string sercureUrl = await uploadPhoto.UploadPhotoAsync(request.CoverImage, "blog_posts");
                 post.CoverImage = sercureUrl;

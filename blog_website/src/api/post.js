@@ -3,7 +3,7 @@ import { request } from './client';
 export const getAllPost = async (search = '', year = '') => {
     let url = '/post';
     const params = [];
-    if (search) params.push(`search=${encodeURIComponent(search)}`);
+    if (search) params.push(`searchTerm=${encodeURIComponent(search)}`);
     if (year) params.push(`year=${year}`);
     if (params.length > 0) {
         url += `?${params.join('&')}`;
@@ -17,7 +17,7 @@ export const getAllPost = async (search = '', year = '') => {
 export const getDraftPost = async (search = '', category = 'all', sortBy = 'latest') => {
     let url = '/post/my-drafts';
     const params = [];
-    if (search) params.push(`search=${encodeURIComponent(search)}`);
+    if (search) params.push(`searchTerm=${encodeURIComponent(search)}`);
     if (category && category !== 'all') params.push(`category=${encodeURIComponent(category)}`);
     if (sortBy) params.push(`sortBy=${sortBy}`);
     if (params.length > 0) {

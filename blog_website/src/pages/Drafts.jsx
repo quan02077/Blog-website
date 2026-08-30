@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileLines, faSearch, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import DraftCard from '../components/DraftCard'
@@ -9,20 +9,21 @@ import { getDraftPost } from '../api/post'
 
 function Drafts() {
     const [state, dispatch] = useContext(Blog_context)
-    const { drafts, search, sortBy, filter, categories } = state
+    const { drafts, sortBy, filter, categories } = state
+    const [searchTerm, setSearchTerm] = useState('')
     const filterCategory = filter || 'all'
 
     useEffect(() => {
         const fetchFilteredDrafts = async () => {
             try {
-                const data = await getDraftPost(search, filter, sortBy);
+                const data = await getDraftPost(searchTerm, filter, sortBy);
                 dispatch(action.setDraftsAction(data));
             } catch (error) {
                 console.error("Lỗi khi tải danh sách bản nháp:", error);
             }
         };
         fetchFilteredDrafts();
-    }, [search, filter, sortBy, dispatch]);
+    }, [searchTerm, filter, sortBy, dispatch]);
 
     const isEmpty = drafts.length === 0
 
@@ -45,8 +46,8 @@ function Drafts() {
                 <div className="relative flex-1 min-w-48">
                     <FontAwesomeIcon icon={faSearch} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
                     <input
-                        value={search}
-                        onChange={(e) => dispatch(action.searchAction(e.target.value))}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                         type="text"
                         placeholder="Tìm kiếm bản nháp..."
                         className="w-full pl-9 pr-4 py-2.5 text-sm bg-white dark:bg-dark-bg text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl outline-none placeholder-gray-300 dark:placeholder-gray-600"
