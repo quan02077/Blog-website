@@ -4,18 +4,37 @@ import { faTag, faClock, faChevronDown, faPlus, faTimes } from '@fortawesome/fre
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 import ClearInputButton from './ClearInputButton'
+import { createCategory } from '../api/category'
+import { showSuccessAlert, showErrorAlert } from '../utils/alert'
 
 function PostMeta({ newCategory, setNewCategory, selectedCategory, setSelectedCategory, isAddingNew, setIsAddingNew, tag, setTag, readTime }) {
     const [state, dispatch] = useContext(Blog_context)
     const { categories } = state
 
-    const handleAddCategory = () => {
+    const handleAddCategory = async () => {
         if (newCategory.trim() !== '') {
             const trimmed = newCategory.trim()
-            if (!categories.includes(trimmed)) {
-                dispatch(action.createCategoryAction(trimmed))
+
+            // Vì categories là mảng Object [{id, name}] nên dùng .some để kiểm tra trùng tên
+            const isExist = categories.some(cat => (cat?.name || cat).toLowerCase() === trimmed.toLowerCase())
+
+            if (!isExist) {
+                try {
+                    const data = await createCategory(trimmed)
+                    dispatch(action.createCategoryAction(data))
+                    showSuccessAlert('Thêm chuyên mục thành công')
+                    setSelectedCategory(data.id) // Gán bằng ID của danh mục vừa tạo
+                } catch (error) {
+                    showErrorAlert(error.message || 'Không thể tạo chuyên mục')
+                }
+            } else {
+                showErrorAlert('Chuyên mục đã tồn tại')
+                // Nếu đã tồn tại, tìm lại ID của danh mục cũ để tự động chọn
+                const existingCat = categories.find(cat => (cat?.name || cat).toLowerCase() === trimmed.toLowerCase())
+                if (existingCat) {
+                    setSelectedCategory(existingCat?.id || existingCat)
+                }
             }
-            setSelectedCategory(trimmed)
             setNewCategory('')
             setIsAddingNew(false)
         }
