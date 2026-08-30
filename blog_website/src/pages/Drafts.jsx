@@ -11,7 +11,7 @@ function Drafts() {
     const filterCategory = filter || 'all'
     const searchTerm = (search || '').trim().toLowerCase()
     const draftsSort = drafts.filter(draft => {
-        if (filterCategory === 'all' || filterCategory === draft.category) {
+        if (filterCategory === 'all' || filterCategory === draft.category || filterCategory === draft.categoryName) {
             if (searchTerm !== '') {
                 return (draft.title || '').toLowerCase().includes(searchTerm)
             }
