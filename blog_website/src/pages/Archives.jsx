@@ -1,14 +1,18 @@
-import { useContext, useMemo } from "react"
+import { useContext, useMemo, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faArchive, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import ArchiveMonthCard from '../components/ArchiveMonthCard'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
+import { getAllPost } from '../api/post'
 
 function Archives() {
     const [state, dispatch] = useContext(Blog_context)
     const { posts, search } = state
+    const [selectedYear, setSelectedYear] = useState('all')
+    const [archivedPosts, setArchivedPosts] = useState([])
+    const [archiveLoading, setArchiveLoading] = useState(false)
 
     const navigate = useNavigate()
 
@@ -16,28 +20,52 @@ function Archives() {
         navigate(`/post/${id}`)
     }
 
-    const searchTerm = (search || '').trim().toLowerCase()
+    // Tự động tải lại bài viết khi có tìm kiếm hoặc đổi bộ lọc năm
+    useEffect(() => {
+        const fetchArchived = async () => {
+            setArchiveLoading(true);
+            try {
+                const y = selectedYear === 'all' ? '' : selectedYear;
+                const data = await getAllPost(search, y);
+                setArchivedPosts(data);
+            } catch (error) {
+                console.error("Lỗi khi tải lưu trữ bài viết:", error);
+            } finally {
+                setArchiveLoading(false);
+            }
+        };
+        fetchArchived();
+    }, [search, selectedYear]);
 
-    const filteredPosts = posts.filter((post) => {
-        if (searchTerm !== '') {
-            return (post.title || '').toLowerCase().includes(searchTerm)
-        }
-        return true
-    })
+    // Tạo danh sách các năm không trùng lặp từ danh sách bài viết gốc
+    const uniqueYears = useMemo(() => {
+        const years = posts.map(post => {
+            const dateVal = post.date || post.createdAt
+            if (!dateVal) return null
+            const parts = String(dateVal).split('/')
+            if (parts.length === 3) {
+                return parseInt(parts[2], 10)
+            }
+            const d = new Date(dateVal)
+            return !isNaN(d.getTime()) ? d.getFullYear() : null
+        }).filter(y => y !== null)
+        return [...new Set(years)].sort((a, b) => b - a)
+    }, [posts])
 
-    // 🔄 Nhóm bài viết theo NĂM và THÁNG động từ danh sách posts
+    // 🔄 Nhóm bài viết theo NĂM và THÁNG động từ danh sách bài viết đã lọc từ API
     const archiveData = useMemo(() => Object.values(
-        filteredPosts.reduce((acc, post) => {
+        archivedPosts.reduce((acc, post) => {
             let year = new Date().getFullYear()
             let monthName = `Tháng ${new Date().getMonth() + 1}`
 
-            if (post.date) {
-                const parts = post.date.split('/')
+            const dateVal = post.date || post.createdAt
+            if (dateVal) {
+                const parts = String(dateVal).split('/')
                 if (parts.length === 3) {
                     monthName = `Tháng ${parseInt(parts[1], 10)}`
                     year = parseInt(parts[2], 10)
                 } else {
-                    const d = new Date(post.date)
+                    const d = new Date(dateVal)
                     if (!isNaN(d.getTime())) {
                         year = d.getFullYear()
                         monthName = `Tháng ${d.getMonth() + 1}`
@@ -60,7 +88,7 @@ function Archives() {
     ).map((yearBlock) => ({
         year: yearBlock.year,
         months: Object.values(yearBlock.monthsMap)
-    })).sort((a, b) => b.year - a.year), [filteredPosts])
+    })).sort((a, b) => b.year - a.year), [archivedPosts])
 
     // 📊 Thống kê động
     const totalPosts = posts.length
@@ -112,10 +140,14 @@ function Archives() {
                     />
                 </div>
                 <div className="relative">
-                    <select className="appearance-none text-sm text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 pr-8 outline-none bg-white dark:bg-dark-bg cursor-pointer">
-                        <option>Tất cả năm</option>
-                        {archiveData.map(y => (
-                            <option key={y.year}>{y.year}</option>
+                    <select
+                        value={selectedYear}
+                        onChange={(e) => setSelectedYear(e.target.value)}
+                        className="appearance-none text-sm text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 pr-8 outline-none bg-white dark:bg-dark-bg cursor-pointer"
+                    >
+                        <option value="all">Tất cả năm</option>
+                        {uniqueYears.map(year => (
+                            <option key={year} value={year}>{year}</option>
                         ))}
                     </select>
                     <FontAwesomeIcon icon={faChevronDown} className="absolute right-3 top-3 text-gray-400 text-xs pointer-events-none" />
@@ -123,7 +155,11 @@ function Archives() {
             </div>
 
             {/* Timeline */}
-            {archiveData.length === 0 ? (
+            {archiveLoading ? (
+                <div className="bg-white dark:bg-dark-surface rounded-2xl p-8 text-center text-gray-500">
+                    Đang tải dữ liệu lưu trữ...
+                </div>
+            ) : archiveData.length === 0 ? (
                 <div className="bg-white dark:bg-dark-surface rounded-2xl p-8 text-center text-gray-500">
                     Chưa có bài viết nào trong lưu trữ.
                 </div>

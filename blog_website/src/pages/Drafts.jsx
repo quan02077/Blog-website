@@ -1,43 +1,30 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileLines, faSearch, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import DraftCard from '../components/DraftCard'
 import DraftEmptyState from '../components/DraftEmptyState'
 import * as action from '../context/Actions'
 import Blog_context from '../context/Blog_Context'
+import { getDraftPost } from '../api/post'
+
 function Drafts() {
     const [state, dispatch] = useContext(Blog_context)
     const { drafts, search, sortBy, filter, categories } = state
     const filterCategory = filter || 'all'
-    const searchTerm = (search || '').trim().toLowerCase()
-    const draftsSort = drafts.filter(draft => {
-        if (filterCategory === 'all' || filterCategory === draft.category || filterCategory === draft.categoryName) {
-            if (searchTerm !== '') {
-                return (draft.title || '').toLowerCase().includes(searchTerm)
+
+    useEffect(() => {
+        const fetchFilteredDrafts = async () => {
+            try {
+                const data = await getDraftPost(search, filter, sortBy);
+                dispatch(action.setDraftsAction(data));
+            } catch (error) {
+                console.error("Lỗi khi tải danh sách bản nháp:", error);
             }
-            return true
-        }
-        return false
-    })
+        };
+        fetchFilteredDrafts();
+    }, [search, filter, sortBy, dispatch]);
 
-    switch (sortBy) {
-        case "az":
-            draftsSort.sort((a, b) => (a.title || '').toLowerCase().localeCompare((b.title || '').toLowerCase()))
-            break;
-        case "za":
-            draftsSort.sort((a, b) => (b.title || '').toLowerCase().localeCompare((a.title || '').toLowerCase()))
-            break;
-        case "latest":
-            draftsSort.sort((a, b) => new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0))
-            break;
-        case "oldest":
-            draftsSort.sort((a, b) => new Date(a.updatedAt || a.createdAt || 0) - new Date(b.updatedAt || b.createdAt || 0))
-            break;
-        default:
-            break;
-    }
-
-    const isEmpty = draftsSort.length === 0
+    const isEmpty = drafts.length === 0
 
     return (
         <div className="flex flex-col gap-6 pb-10">
@@ -104,7 +91,7 @@ function Drafts() {
                 <DraftEmptyState />
             ) : (
                 <div className="flex flex-col gap-4">
-                    {draftsSort.map((draft, index) => (
+                    {drafts.map((draft, index) => (
                         <DraftCard key={draft.id ? `draft-${draft.id}` : `draft-idx-${index}`} draft={draft} />
                     ))}
 

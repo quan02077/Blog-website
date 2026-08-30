@@ -1,14 +1,29 @@
 import { request } from './client';
 
-export const getAllPost = async () => {
-    const response = await request('/post', {
+export const getAllPost = async (search = '', year = '') => {
+    let url = '/post';
+    const params = [];
+    if (search) params.push(`search=${encodeURIComponent(search)}`);
+    if (year) params.push(`year=${year}`);
+    if (params.length > 0) {
+        url += `?${params.join('&')}`;
+    }
+    const response = await request(url, {
         method: 'GET'
     });
     return response.json();
 }
 
-export const getDraftPost = async () => {
-    const response = await request('/post/my-drafts', {
+export const getDraftPost = async (search = '', category = 'all', sortBy = 'latest') => {
+    let url = '/post/my-drafts';
+    const params = [];
+    if (search) params.push(`search=${encodeURIComponent(search)}`);
+    if (category && category !== 'all') params.push(`category=${encodeURIComponent(category)}`);
+    if (sortBy) params.push(`sortBy=${sortBy}`);
+    if (params.length > 0) {
+        url += `?${params.join('&')}`;
+    }
+    const response = await request(url, {
         method: 'GET'
     });
     return response.json();
