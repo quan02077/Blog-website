@@ -64,6 +64,36 @@ namespace Backend_Blog.Controllers
             }
         }
 
+        [HttpPost("categories")]
+        [Authorize]
+        public async Task<IActionResult> CreateCategory([FromBody] WriteCategoryDTO request)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(currentUserId) || !Guid.TryParse(currentUserId, out var userId))
+            {
+                return Unauthorized(new { message = "Bạn cần đăng nhập để tạo danh mục!" });
+            }
+
+            try
+            {
+                var result = await postService.CreateCategoryAsync(request, userId);
+                return Ok(result); 
+            }
+            catch (InvalidOperationException ex) 
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Đã xảy ra lỗi khi tạo danh mục: " + ex.Message });
+            }
+        }
+
+
         [HttpGet("my-drafts")]
         [Authorize]
         public async Task<IActionResult> GetMyDrafts([FromQuery] string? searchTerm, [FromQuery] string? category, [FromQuery] string? sortBy)

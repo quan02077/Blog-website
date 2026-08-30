@@ -67,7 +67,7 @@ function PostCard({ post }) {
                     <div className="flex flex-col">
                         <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">{displayAuthor}</span>
                         <span className="text-xs text-gray-400">
-                            {post.date || (post.createdAt ? new Date(post.createdAt).toLocaleDateString('vi-VN') : 'Mới đây')} · {post.readTime ? (typeof post.readTime === 'string' && post.readTime.includes('phút') ? post.readTime : `${post.readTime} phút đọc`) : '1 phút đọc'}
+                            {post.date || (post.createdAt ? new Date(post.createdAt.endsWith('Z') || post.createdAt.includes('+') ? post.createdAt : post.createdAt + 'Z').toLocaleDateString('vi-VN') : 'Mới đây')} · {post.readTime ? (typeof post.readTime === 'string' && post.readTime.includes('phút') ? post.readTime : `${post.readTime} phút đọc`) : '1 phút đọc'}
                         </span>
                     </div>
                 </div>

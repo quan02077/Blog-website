@@ -9,6 +9,7 @@ namespace Backend_Blog.Services
         Task<List<CategoryDTO>> GetAllCategoriesAsync();
         Task<PostDto?> GetPostByIdAsync(Guid postId);
         Task<PostDto> CreatePostAsync(WritePostDTO request, Guid userId);
+        Task<CategoryDTO> CreateCategoryAsync(WriteCategoryDTO request, Guid userId);
         Task<PostDto> UpdatePostAsync(Guid id, WritePostDTO request, Guid userId);
         Task DeletePostAsync(Guid id, Guid userId);
     }

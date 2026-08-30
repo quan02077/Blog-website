@@ -18,9 +18,18 @@ function DraftCard({ draft }) {
             : []
 
     const excerptText = draft.excerpt || draft.summary || draft.description || ''
-    const dateText = draft.lastEdited || draft.date || 'Mới đây'
-    const timeText = (draft.updatedAt || draft.createdAt)
-        ? new Date(draft.updatedAt || draft.createdAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })
+    
+    const rawDateStr = draft.updatedAt || draft.createdAt
+    const dateVal = rawDateStr 
+        ? new Date(rawDateStr.endsWith('Z') || rawDateStr.includes('+') ? rawDateStr : rawDateStr + 'Z')
+        : null
+
+    const dateText = dateVal 
+        ? dateVal.toLocaleDateString('vi-VN') 
+        : (draft.lastEdited || draft.date || 'Mới đây')
+
+    const timeText = dateVal
+        ? dateVal.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })
         : ''
 
     const handleDelete = async (draftID) => {

@@ -1,8 +1,8 @@
 ﻿namespace Backend_Blog.Models
 {
-    public class CategoryDTO
+    public class WriteCategoryDTO
     {
-        public Gui Id { get; set; }
+        public int Id { get; set; }
         public string? Name { get; set; }
     }
 }

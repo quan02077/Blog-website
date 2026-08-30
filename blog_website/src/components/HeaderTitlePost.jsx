@@ -7,7 +7,7 @@ import {
 
 function HeaderTitlePost({ post }) {
     const displayAuthor = post?.authorName || 'Tác giả'
-    const displayDate = post?.date || (post?.createdAt ? new Date(post.createdAt).toLocaleDateString('vi-VN') : 'Mới đây')
+    const displayDate = post?.date || (post?.createdAt ? new Date(post.createdAt.endsWith('Z') || post.createdAt.includes('+') ? post.createdAt : post.createdAt + 'Z').toLocaleDateString('vi-VN') : 'Mới đây')
     const displayReadTime = post?.readTime ? `${post.readTime} phút đọc` : '1 phút đọc'
     const displayAvatar = post?.authorAvatar || post?.avatar || `https://ui-avatars.com/api/?name=${displayAuthor}`
 

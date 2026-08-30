@@ -11,6 +11,35 @@ namespace Backend_Blog.Services
 {
     public class PostService(MyBlogContext context, IUploadPhotoService uploadPhoto) : IPostService
     {
+        public async Task<CategoryDTO> CreateCategoryAsync(WriteCategoryDTO request, Guid userId)
+        {
+            var user = await context.Users.FindAsync(userId);
+            if (user is null)
+            {
+                throw new KeyNotFoundException("Không tìm thấy người dùng!");
+            }
+
+            var isExist = await context.Categories.AnyAsync(c => c.Name.ToLower() == request.Name.ToLower());
+            if (isExist)
+            {
+                throw new InvalidOperationException("Chuyên mục này đã tồn tại!");
+            }
+
+            var category = new Category
+            {
+                Name = request.Name
+            };
+
+            await context.Categories.AddAsync(category);
+            await context.SaveChangesAsync();
+
+            return new CategoryDTO
+            {
+                Id = category.Id,
+                Name = category.Name
+            };
+        }
+
         public async Task<PostDto> CreatePostAsync(WritePostDTO request, Guid userId)
         {
             var user = await context.Users.FindAsync(userId);
@@ -273,5 +302,6 @@ namespace Backend_Blog.Services
             await context.SaveChangesAsync();
         }
 
+        
     }
 }
