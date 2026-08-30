@@ -15,7 +15,6 @@ function PostDetail() {
     const { id } = useParams()
     const [post, setPost] = useState(null)
     const [loading, setLoading] = useState(true)
-
     const [isLiked, setIsLiked] = useState(false)
     const [commentText, setCommentText] = useState('')
     const [commentsList] = useState([

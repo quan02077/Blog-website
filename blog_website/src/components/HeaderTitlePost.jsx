@@ -18,9 +18,11 @@ function HeaderTitlePost({ post }) {
                     {post.title}
                 </h1>
 
-                <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-normal italic border-l-4 border-blue-500 pl-4 py-1">
-                    {post.summary}
-                </p>
+                {(post.summary || post.description) && (
+                    <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-normal italic border-l-4 border-blue-500 pl-4 py-1">
+                        {post.summary || post.description}
+                    </p>
+                )}
 
                 <div className="flex items-center justify-between flex-wrap gap-4 pt-4 border-t border-gray-100 dark:border-gray-800">
                     <div className="flex items-center gap-3.5">

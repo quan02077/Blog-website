@@ -14,6 +14,14 @@ function PostCard({ post }) {
     const displayAuthor = post.authorName || 'Tác giả';
     const displayAvatar = post.authorAvatar || `https://ui-avatars.com/api/?name=${displayAuthor}`;
 
+    const tagsList = Array.isArray(post.tags)
+        ? post.tags
+        : typeof post.tags === 'string' && post.tags.trim() !== ''
+            ? post.tags.split(',').map(t => t.trim()).filter(Boolean)
+            : typeof post.tag === 'string' && post.tag.trim() !== ''
+                ? post.tag.split(',').map(t => t.trim()).filter(Boolean)
+                : []
+
     const isBookmarked = state.bookmarks?.some(b => String(b.id) === String(post.id))
 
     const handleGoDetail = () => {
@@ -72,8 +80,22 @@ function PostCard({ post }) {
                     {post.title}
                 </h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4 cursor-pointer" onClick={handleGoDetail}>
-                    {post.description}
+                    {post.description || post.summary}
                 </p>
+
+                {/* Tags List */}
+                {tagsList.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-1.5 mb-4">
+                        {tagsList.map((tag, idx) => (
+                            <span
+                                key={`tag-${tag}-${idx}`}
+                                className="text-[10px] font-medium text-blue-500 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/30 px-2.5 py-0.5 rounded-full"
+                            >
+                                #{tag}
+                            </span>
+                        ))}
+                    </div>
+                )}
 
                 {/* Action Bar */}
                 <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
