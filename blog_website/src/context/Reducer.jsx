@@ -22,7 +22,8 @@ import {
     SET_POSTS,
     SET_CATEGORIES,
     SET_DRAFTS,
-    IS_DIRTY
+    IS_DIRTY,
+    SET_BOOKMARKS
 } from "./Constant";
 export const initialState = {
     isSignIn: localStorage.getItem('isSignIn') === 'true',
@@ -313,6 +314,11 @@ function reducer(state, action) {
             return {
                 ...state,
                 isDirty: action.payload
+            }
+        case SET_BOOKMARKS:
+            return {
+                ...state,
+                bookmarks: action.payload
             }
         default:
             throw new Error('Invalid action');

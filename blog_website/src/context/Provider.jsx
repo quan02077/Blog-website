@@ -3,7 +3,7 @@ import Blog_context from './Blog_Context'
 import reducer, { initialState } from './Reducer'
 import * as action from './Actions'
 import { getMeApi } from '../api/auth'
-import { getAllPost, getDraftPost } from '../api/post'
+import { getAllPost, getDraftPost, getBookmarkPost } from '../api/post'
 import { getAllCategories } from '../api/category'
 
 function Provider({ children }) {
@@ -73,6 +73,19 @@ function Provider({ children }) {
         };
         fetchCategories();
     }, [])
+
+    useEffect(() => {
+        const fetchBookmarks = async () => {
+            if (!state.isSignIn) return;
+            try {
+                const data = await getBookmarkPost();
+                dispatch(action.setBookmarksAction(data));
+            } catch (error) {
+                console.error("Lỗi khi tải danh sách bài viết đã lưu:", error);
+            }
+        };
+        fetchBookmarks();
+    }, [state.isSignIn])
 
     return (
         <Blog_context.Provider value={[state, dispatch]}>

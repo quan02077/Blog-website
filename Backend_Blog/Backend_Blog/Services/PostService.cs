@@ -95,6 +95,47 @@ namespace Backend_Blog.Services
             };
         }
 
+        public async Task<IEnumerable<PostDto>> GetMyBookmarksAsync(Guid userId)
+        {
+            var bookmarkPost = await context.Posts
+                .Where(p => p.isBookmarked && p.AuthorId == userId)
+                .ToListAsync();
+
+            return bookmarkPost.Select(d => new PostDto
+            {
+                Id = d.Id,
+                Title = d.Title,
+                Summary = d.Summary,
+                Content = d.Content,
+                CoverImage = d.CoverImage,
+                ReadTime = d.ReadTime,
+                CategoryName = d.Category != null ? d.Category.Name : null,
+                AuthorId = d.AuthorId,
+                CreatedAt= d.CreatedAt,
+                UpdatedAt = d.UpdatedAt,
+                AuthorName = d.Author != null ? d.Author.Username : null,
+                AuthorAvatar = d.Author != null ? d.Author.Avatar : null,
+                Tags = d.Tags,
+                IsDraft = d.IsDraft,
+                IsBookmarked = d.isBookmarked
+            });
+        }
+
+        public async Task<bool> ToggleBookmarkAsync(Guid id, Guid userId)
+        {
+            var post = await context.Posts.FirstOrDefaultAsync(p => p.Id == id);
+            if (post == null)
+            {
+                throw new KeyNotFoundException("Không tìm thấy bài viết!");
+            }
+
+            post.isBookmarked = !post.isBookmarked;
+
+            await context.SaveChangesAsync();
+            return post.isBookmarked;
+        }
+
+
         public async Task<IEnumerable<PostDto>> GetMyDraftsAsync(Guid userId, string? searchTerm, string? category, string? sortBy)
         {
             var query = context.Posts.AsQueryable();
@@ -138,8 +179,9 @@ namespace Backend_Blog.Services
                                 AuthorName = d.Author != null ? d.Author.Username : null,
                                 AuthorAvatar = d.Author != null ? d.Author.Avatar : null,
                                 Tags = d.Tags,
-                                IsDraft = d.IsDraft
-                            }).ToListAsync();
+                                IsDraft = d.IsDraft,
+                                IsBookmarked = d.isBookmarked
+            }).ToListAsync();
         }
 
         public async Task<List<CategoryDTO>> GetAllCategoriesAsync()
@@ -190,7 +232,8 @@ namespace Backend_Blog.Services
 
                 CategoryId = post.CategoryId,
                 CategoryName = post.Category != null ? post.Category.Name : null,
-                IsDraft = post.IsDraft
+                IsDraft = post.IsDraft,
+                IsBookmarked = post.isBookmarked
             }).ToListAsync();
         }
 
@@ -220,7 +263,8 @@ namespace Backend_Blog.Services
 
                 CategoryId = post.CategoryId,
                 CategoryName = post.Category != null ? post.Category.Name : null,
-                IsDraft = post.IsDraft
+                IsDraft = post.IsDraft,
+                IsBookmarked = post.isBookmarked
             };
         }
 
@@ -285,7 +329,8 @@ namespace Backend_Blog.Services
                 AuthorAvatar = user?.Avatar,
                 CategoryId = post.CategoryId,
                 CategoryName = categoryName,
-                IsDraft = post.IsDraft
+                IsDraft = post.IsDraft,
+                IsBookmarked = post.isBookmarked
             };
         }
 
@@ -298,10 +343,14 @@ namespace Backend_Blog.Services
             {
                 throw new KeyNotFoundException("Không tìm thấy bài viết này hoặc bạn không có quyền xóa!");
             }
+
+            if(post.isBookmarked == true)
+            {
+                post.isBookmarked = false;
+            }
+
             context.Posts.Remove(post);
             await context.SaveChangesAsync();
         }
-
-        
     }
 }

@@ -116,6 +116,57 @@ namespace Backend_Blog.Controllers
             }
         }
 
+        [HttpGet("my-bookmarks")]
+        [Authorize]
+        public async Task<IActionResult> GetMyBookmarked()
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(currentUserId) || !Guid.TryParse(currentUserId, out var userId))
+            {
+                return Unauthorized(new { message = "Bạn cần đăng nhập để xem bài viết đã lưu!" });
+            }
+            try
+            {
+                var result = await postService.GetMyBookmarksAsync(userId);
+                return Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Đã xảy ra lỗi khi lấy bài viết đã lưu: " + ex.Message });
+            }
+        }
+
+        [HttpPost("{id}/bookmark")]
+        [Authorize]
+        public async Task<IActionResult> ToggleBookmark(Guid id)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(currentUserId) || !Guid.TryParse(currentUserId, out var userId))
+            {
+                return Unauthorized(new { message = "Bạn cần đăng nhập để lưu bài viết!" });
+            }
+
+            try
+            {
+                var isBookmarked = await postService.ToggleBookmarkAsync(id, userId);
+                return Ok(new
+                {
+                    isBookmarked,
+                    message = isBookmarked ? "Lưu bài viết thành công!" : "Đã bỏ lưu bài viết!"
+                });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Lỗi hệ thống: " + ex.Message });
+            }
+        }
+
+
         [HttpPut("{id}")]
         [Authorize]
         public async Task<IActionResult> UpdatePost(Guid id, [FromForm] WritePostDTO request)

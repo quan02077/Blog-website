@@ -30,5 +30,6 @@ namespace Backend_Blog.Entities
         public int? CategoryId { get; set; }
         public Category? Category { get; set; }
         public bool IsDraft { get; set; } = false;
+        public bool isBookmarked { get; set; } = false;
     }
 }

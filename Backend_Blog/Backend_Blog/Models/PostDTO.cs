@@ -17,5 +17,6 @@ namespace Backend_Blog.Models
         public int ReadTime { get; internal set; }
         public string? AuthorAvatar { get; set; }
         public bool IsDraft { get; set; } = false;
+        public bool IsBookmarked { get; set; }
     }
 }

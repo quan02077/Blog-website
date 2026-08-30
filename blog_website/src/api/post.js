@@ -75,3 +75,20 @@ export const deleteDraft_Post = async (id) => {
     }
     return response.json();
 }
+
+export const getBookmarkPost = async () => {
+    const response = await request('/post/my-bookmarks', { method: 'GET' });
+    return response.json();
+}
+
+export const toggleBookmarkPost = async (id) => {
+    const response = await request(`/post/${id}/bookmark`, {
+        method: 'POST'
+    });
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Không thể thực hiện thao tác!");
+    }
+    return response.json();
+}
+

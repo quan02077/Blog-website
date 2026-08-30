@@ -6,8 +6,8 @@ import PostContent from '../components/PostContent'
 import PostComment from '../components/PostComment'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
-import { showSuccessAlert } from '../utils/alert'
-import { getPostByID } from '../api/post'
+import { showSuccessAlert, showErrorAlert } from '../utils/alert'
+import { getPostByID, toggleBookmarkPost } from '../api/post'
 
 function PostDetail() {
     const [state, dispatch] = useContext(Blog_context)
@@ -51,13 +51,18 @@ function PostDetail() {
 
     const isBookmarked = bookmarks?.some(b => String(b.id) === String(post?.id))
 
-    const handleBookmark = () => {
+    const handleBookmark = async () => {
         if (!post) return
-        dispatch(action.bookmarksAction(post))
-        if (isBookmarked) {
-            showSuccessAlert('Thông báo', 'Đã bỏ lưu bài viết!')
-        } else {
-            showSuccessAlert('Thông báo', 'Lưu bài viết thành công!')
+        try {
+            await toggleBookmarkPost(post.id);
+            dispatch(action.bookmarksAction(post));
+            if (isBookmarked) {
+                showSuccessAlert('Thông báo', 'Đã bỏ lưu bài viết!')
+            } else {
+                showSuccessAlert('Thông báo', 'Lưu bài viết thành công!')
+            }
+        } catch (error) {
+            showErrorAlert('Lỗi', error.message);
         }
     }
 

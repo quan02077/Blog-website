@@ -3,9 +3,10 @@ import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faComment, faBookmark, faShareFromSquare } from '@fortawesome/free-regular-svg-icons'
 import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons'
-import { showSuccessAlert } from '../utils/alert'
+import { showSuccessAlert, showErrorAlert } from '../utils/alert'
 import * as action from '../context/Actions'
 import Blog_context from '../context/Blog_Context'
+import { toggleBookmarkPost } from '../api/post'
 
 function PostCard({ post }) {
     const [state, dispatch] = useContext(Blog_context)
@@ -30,20 +31,18 @@ function PostCard({ post }) {
         }
     }
 
-    const handleBookmark = () => {
-        dispatch(action.bookmarksAction(post))
-        if (isBookmarked) {
-            showSuccessAlert('Thông báo', 'Đã bỏ lưu bài viết!')
-        } else {
-            showSuccessAlert('Thông báo', 'Lưu bài viết thành công!')
+    const handleBookmark = async () => {
+        try {
+            const result = await toggleBookmarkPost(post.id);
+            dispatch(action.bookmarksAction(post));
+            showSuccessAlert('Thông báo', result.message);
+        } catch (error) {
+            showErrorAlert('Lỗi', error.message);
         }
     }
 
-
-
     return (
         <article className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-lg transition-shadow duration-300">
-            {/* Post Image */}
             <div className="relative overflow-hidden cursor-pointer" onClick={handleGoDetail}>
                 <img
                     src={post.coverImage || post.image || 'https://picsum.photos/seed/post/400/200'}
