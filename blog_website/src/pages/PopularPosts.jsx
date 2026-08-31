@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowTrendUp } from "@fortawesome/free-solid-svg-icons"
 import { CompactPopularPost } from '../components/Popular'
 import { getPopularPost } from '../api/post'
 
@@ -21,7 +19,7 @@ function PopularPosts() {
             setLoading(true);
             try {
                 const data = await getPopularPost();
-                
+
                 // Đồng bộ cấu trúc DTO từ C# Backend sang các thuộc tính giao diện yêu cầu
                 const mappedData = data.map((item, index) => ({
                     ...item,
@@ -30,13 +28,13 @@ function PopularPosts() {
                     description: item.summary || item.description,
                     author: item.authorName || item.author,
                     avatar: item.authorAvatar || item.avatar || `https://ui-avatars.com/api/?name=${item.authorName || 'User'}`,
-                    date: item.createdAt 
-                        ? new Date(item.createdAt.endsWith('Z') || item.createdAt.includes('+') ? item.createdAt : item.createdAt + 'Z').toLocaleDateString('vi-VN') 
+                    date: item.createdAt
+                        ? new Date(item.createdAt.endsWith('Z') || item.createdAt.includes('+') ? item.createdAt : item.createdAt + 'Z').toLocaleDateString('vi-VN')
                         : (item.date || 'Mới đây'),
                     likes: item.likes ?? 0,
                     comments: item.comments ?? 0
                 }));
-                
+
                 setPosts(mappedData);
             } catch (error) {
                 console.error("Lỗi khi tải bài viết phổ biến:", error);

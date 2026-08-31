@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import Blog_context from '../context/Blog_Context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import PopularCategoryCard from '../components/PopularCategoryCard'
 // import { popularCategories } from '../data/categoriesData'
 

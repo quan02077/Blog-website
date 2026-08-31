@@ -26,7 +26,11 @@ function PostCard({ post }) {
     const isBookmarked = state.bookmarks?.some(b => String(b.id) === String(post.id))
 
     const handleGoDetail = () => {
-        if (post?.id) navigate(`/post/${post.id}`)
+        if (post?.id) {
+            dispatch(action.toggleInfoAction(false))
+            dispatch(action.toggleAccountAction(false))
+            navigate(`/post/${post.id}`)
+        }
     }
 
     const handleBookmark = async () => {

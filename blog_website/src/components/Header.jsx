@@ -19,9 +19,13 @@ function Header() {
         }
     }
 
+    const handleReload = () => {
+        navigate("/posts")
+    }
+
     return (
         <header className="grid grid-cols-3 gap-4 p-4 border-b border-gray-300 dark:border-gray-800 shadow-md sticky top-0 bg-white dark:bg-dark-surface z-10 shrink-0">
-            <div className="col-span-1">
+            <div className="col-span-1 cursor-pointer hover:opacity-80 hover:transition-all" onClick={handleReload}>
                 <h1 className="font-pixel font-bold text-2xl text-gray-900 dark:text-white">My Blog</h1>
                 <p className="text-gray-500 dark:text-gray-400">Nơi chia sẻ kiến thức và kinh nghiệm</p>
             </div>

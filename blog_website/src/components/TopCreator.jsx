@@ -1,6 +1,4 @@
 import React, { useContext } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrophy } from '@fortawesome/free-solid-svg-icons'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 import useDirtyCheck from "../hooks/useDirtyCheck"
