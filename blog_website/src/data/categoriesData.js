@@ -1,29 +1,6 @@
 import { faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import { faReact, faJs, faCss3Alt, faNodeJs } from '@fortawesome/free-brands-svg-icons'
 
-export const featuredCategories = [
-    {
-        id: 1,
-        name: "React",
-        icon: faReact,
-        posts: 24,
-        description: "Component-based UI, hooks, state management và React ecosystem.",
-        color: "from-blue-500 to-cyan-400 dark:from-blue-600 dark:to-cyan-600",
-        badge: "Phổ biến nhất",
-        badgeColor: "bg-blue-500 dark:bg-blue-600",
-    },
-    {
-        id: 2,
-        name: "JavaScript",
-        icon: faJs,
-        posts: 38,
-        description: "ES6+, async/await, DOM manipulation và các pattern hiện đại.",
-        color: "from-yellow-400 to-amber-500 dark:from-yellow-500 dark:to-amber-600",
-        badge: "Nhiều bài nhất",
-        badgeColor: "bg-yellow-500 dark:bg-yellow-600",
-    },
-]
-
 export const popularCategories = [
     {
         id: 1,

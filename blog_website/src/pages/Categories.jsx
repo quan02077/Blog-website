@@ -1,9 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
-import FeaturedCategoryCard from '../components/FeaturedCategoryCard'
 import PopularCategoryCard from '../components/PopularCategoryCard'
-import { featuredCategories, popularCategories } from '../data/categoriesData'
+import { popularCategories } from '../data/categoriesData'
 
 function Categories() {
     const navigate = useNavigate()
@@ -36,16 +35,6 @@ function Categories() {
                         readOnly
                         className="w-full pl-11 pr-4 py-3 text-sm bg-white dark:bg-dark-bg text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl outline-none placeholder-gray-300 dark:placeholder-gray-600"
                     />
-                </div>
-            </div>
-
-            {/* Featured */}
-            <div>
-                <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 px-1">⭐ Nổi bật</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {featuredCategories.map((cat) => (
-                        <FeaturedCategoryCard key={cat.id} cat={cat} handleGoPosts={() => handleGoPosts(cat.name)} />
-                    ))}
                 </div>
             </div>
 
