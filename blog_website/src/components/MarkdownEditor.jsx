@@ -1,6 +1,6 @@
 function MarkdownEditor({ content, setContent }) {
     return (
-        <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+        <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden ">
             <textarea
                 placeholder={"\n## Tiêu đề phần\n\nNhập nội dung ở đây..."}
                 rows={20}

@@ -247,6 +247,9 @@ namespace Backend_Blog.Services
 
             if (post == null) return null;
 
+            post.ViewCount += 1;
+            await context.SaveChangesAsync();
+
             return new PostDto
             {
                 Id = post.Id,
@@ -352,6 +355,38 @@ namespace Backend_Blog.Services
 
             context.Posts.Remove(post);
             await context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<PostDto>> GetPopularPostAsync()
+        {
+            var popularPosts = await context.Posts
+                .Include(p => p.Author)
+                .Include(p => p.Category)
+                .Where(p => !p.IsDraft)
+                .OrderByDescending(p => p.ViewCount)
+                .Take(5)
+                .Select(post => new PostDto
+                {
+                    Id = post.Id,
+                    Title = post.Title,
+                    Content = post.Content,
+                    Summary = post.Summary,
+                    CoverImage = post.CoverImage,
+                    Tags = post.Tags,
+                    CreatedAt = post.CreatedAt,
+                    ReadTime = post.ReadTime,
+
+                    AuthorId = post.AuthorId,
+                    AuthorName = post.Author != null ? post.Author.Username : "Tác giả",
+                    AuthorAvatar = post.Author != null ? post.Author.Avatar : null,
+
+                    CategoryId = post.CategoryId,
+                    CategoryName = post.Category != null ? post.Category.Name : null,
+                    IsDraft = post.IsDraft,
+                    IsBookmarked = post.isBookmarked,
+                    ViewCount = post.ViewCount
+                }).ToListAsync();
+            return popularPosts;
         }
     }
 }

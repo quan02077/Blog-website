@@ -220,5 +220,20 @@ namespace Backend_Blog.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("popular-posts")]
+        public async Task<IActionResult> GetPopularPosts()
+        {
+            try
+            {
+                var result = await postService.GetPopularPostAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Đã xảy ra lỗi khi lấy bài viết phổ biến: " + ex.Message });
+            }
+        }
+
     }
 }

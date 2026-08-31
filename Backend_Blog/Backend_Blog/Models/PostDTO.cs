@@ -18,5 +18,6 @@ namespace Backend_Blog.Models
         public string? AuthorAvatar { get; set; }
         public bool IsDraft { get; set; } = false;
         public bool IsBookmarked { get; set; }
+        public int ViewCount { get; set; } = 0;
     }
 }

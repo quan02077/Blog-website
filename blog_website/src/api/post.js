@@ -92,3 +92,14 @@ export const toggleBookmarkPost = async (id) => {
     return response.json();
 }
 
+export const getPopularPost = async () => {
+    const response = await request('/post/popular-posts', {
+        method: 'GET'
+    });
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Không tìm thấy bài viết!");
+    }
+    return response.json();
+}
+

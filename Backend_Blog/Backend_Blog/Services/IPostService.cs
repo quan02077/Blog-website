@@ -7,6 +7,7 @@ namespace Backend_Blog.Services
         Task<IEnumerable<PostDto>> GetAllPostsAsync(string? searchTerm, int? year);
         Task<IEnumerable<PostDto>> GetMyDraftsAsync(Guid userId, string? searchTerm, string? category, string? sortBy);
         Task<IEnumerable<PostDto>> GetMyBookmarksAsync(Guid userId);
+        Task<IEnumerable<PostDto>> GetPopularPostAsync();
         Task<bool> ToggleBookmarkAsync(Guid id, Guid userId);
         Task<List<CategoryDTO>> GetAllCategoriesAsync();
         Task<PostDto?> GetPostByIdAsync(Guid postId);
