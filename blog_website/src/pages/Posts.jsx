@@ -11,10 +11,10 @@ import Loader from '../animation/Loader'
 function FilterBanner({ title, type, count }) {
     return (
         <div className="info-badge">
-            <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">
+            <span className="text-sm font-semibold text-gray-800 dark:text-blue-300">
                 Đang xem {type}: <strong className="uppercase">{title}</strong> ({count} bài viết)
             </span>
-            <Link to="/posts" className="text-xs font-bold text-blue-600 hover:underline">
+            <Link to="/posts" className="text-xs font-bold text-gray-700 dark:text-blue-400 hover:underline">
                 Xem tất cả
             </Link>
         </div>

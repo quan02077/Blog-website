@@ -1,7 +1,7 @@
 import { useContext, useMemo, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faArchive, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import ArchiveMonthCard from '../components/ArchiveMonthCard'
 import Blog_context from '../context/Blog_Context'
 import { getAllPost } from '../api/post'
@@ -107,12 +107,9 @@ function Archives() {
         <div className="flex flex-col gap-6 pb-10">
 
             {/* Page Header */}
-            <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-300">
-                    <FontAwesomeIcon icon={faArchive} />
-                </div>
+            <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
                 <div>
-                    <h1 className="text-xl font-extrabold text-gray-900 dark:text-white leading-none mb-0.5">Lưu trữ</h1>
+                    <h1 className="text-xl font-extrabold text-gray-900 dark:text-white leading-none mb-1">Lưu trữ</h1>
                     <p className="text-sm text-gray-500 dark:text-gray-400">Toàn bộ bài viết được sắp xếp theo thời gian</p>
                 </div>
             </div>
@@ -121,7 +118,7 @@ function Archives() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {dynamicStats.map((stat) => (
                     <div key={stat.label} className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-4 text-center hover:shadow-md transition-shadow">
-                        <p className="text-2xl font-black text-blue-500 dark:text-blue-400 mb-1">{stat.value}</p>
+                        <p className="text-2xl font-black text-gray-900 dark:text-white mb-1">{stat.value}</p>
                         <p className="text-xs text-gray-400 dark:text-gray-500 font-medium">{stat.label}</p>
                     </div>
                 ))}

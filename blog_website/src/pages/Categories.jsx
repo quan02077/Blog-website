@@ -19,12 +19,9 @@ function Categories() {
         <div className="flex flex-col gap-6 pb-10">
 
             {/* Page Header */}
-            <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-500 dark:text-blue-400">
-                    <FontAwesomeIcon icon={faLayerGroup} />
-                </div>
+            <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
                 <div>
-                    <h1 className="text-xl font-extrabold text-gray-900 dark:text-white leading-none mb-0.5">Chuyên mục</h1>
+                    <h1 className="text-xl font-extrabold text-gray-900 dark:text-white leading-none mb-1">Chuyên mục</h1>
                     <p className="text-sm text-gray-500 dark:text-gray-400">Khám phá tất cả các chủ đề và chuyên mục bài viết</p>
                 </div>
             </div>
@@ -44,7 +41,7 @@ function Categories() {
 
             {/* All Categories */}
             <div>
-                <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 px-1">📚 Tất cả chuyên mục</h2>
+                <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 px-1">Tất cả chuyên mục</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {categories.map((cat, index) => (
                         <PopularCategoryCard key={cat.id || index} cat={cat} handleGoPosts={() => handleGoPosts(cat.name)} />

@@ -38,7 +38,7 @@ function PreviewModal({ isOpen, onClose, postData }) {
             >
                 <div className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-700">
                     <div className="flex items-center gap-2">
-                        <FontAwesomeIcon icon={faEye} className="text-blue-500 text-xl" />
+                        <FontAwesomeIcon icon={faEye} className="text-gray-900 dark:text-white text-xl" />
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white">Xem trước bài viết (Preview)</h3>
                     </div>
                     <button

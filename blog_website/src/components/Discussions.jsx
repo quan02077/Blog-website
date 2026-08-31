@@ -14,8 +14,7 @@ function Discussions({ hotDiscussions = [] }) {
 
     return (
         <div className='bg-white dark:bg-dark-surface rounded-3xl p-4 mt-5 border border-transparent dark:border-gray-800'>
-            <h3 className='font-bold text-gray-800 dark:text-gray-200 flex items-center gap-2'>
-                <FontAwesomeIcon icon={faComments} className="text-blue-500" />
+            <h3 className='font-bold text-gray-800 dark:text-gray-200'>
                 Hot Discussions
             </h3>
             <hr className='border-gray-200 dark:border-gray-800 mt-2' />

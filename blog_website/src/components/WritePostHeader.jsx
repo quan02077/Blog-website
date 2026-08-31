@@ -100,9 +100,6 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
     return (
         <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-500 dark:text-blue-400">
-                    <FontAwesomeIcon icon={faPenToSquare} />
-                </div>
                 <div>
                     <h1 className="text-xl font-extrabold text-gray-900 dark:text-white leading-none mb-0.5">
                         {isEdit ? 'Chỉnh sửa bản nháp' : 'Viết bài mới'}
@@ -132,7 +129,7 @@ function WritePostHeader({ postData, onPreview, isEdit = false, image }) {
                 </button>
                 <button
                     type="button"
-                    className="flex items-center gap-2 text-sm font-semibold text-white bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 px-4 py-2 rounded-xl transition-colors cursor-pointer disabled:opacity-50"
+                    className="flex items-center gap-2 text-sm font-semibold text-white bg-gray-900 dark:bg-gray-800 hover:bg-gray-800 dark:hover:bg-gray-700 px-4 py-2 rounded-xl transition-colors cursor-pointer disabled:opacity-50"
                     onClick={handlePublishPost}
                     disabled={saveLoading || publishLoading}
                 >

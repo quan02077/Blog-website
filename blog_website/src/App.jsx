@@ -10,7 +10,7 @@ import Settings from './pages/Settings'
 function App() {
   return (
     <Provider>
-      <div className="min-h-screen bg-light-bg dark:bg-dark-bg text-gray-900 dark:text-slate-200 flex flex-col font-['Josefin_Sans']">
+      <div className="min-h-screen bg-light-bg dark:bg-dark-bg text-gray-900 dark:text-slate-200 flex flex-col">
         <Header />
         <Content />
         <AuthForm />

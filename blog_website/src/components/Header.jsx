@@ -30,7 +30,7 @@ function Header() {
                     value={state.search || ''}
                     onChange={(e) => dispatch(action.searchAction(e.target.value))}
                     onKeyDown={handleSearchKeyDown}
-                    className="w-full h-full rounded-full border border-gray-300 dark:border-gray-700 pl-4 pr-10 py-2 bg-white dark:bg-dark-bg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+                    className="w-full h-full rounded-full border border-gray-300 dark:border-gray-700 pl-4 pr-10 py-2 bg-white dark:bg-dark-bg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-blue-500 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
                     type="text"
                     placeholder="Tìm kiếm..."
                 />
@@ -65,7 +65,7 @@ function Header() {
                     </div>
                 )}
                 {!state.isSignIn && <button
-                    className="w-fit h-fit rounded-full border border-gray-300 dark:border-blue-500 bg-blue-500 px-4 py-2 text-white font-medium hover:bg-blue-900 hover:transition-all duration-200 hover:-translate-y-1.5 hover:underline cursor-pointer hover:shadow-lg dark:shadow-blue-900/20"
+                    className="w-fit h-fit rounded-full border border-gray-900 dark:border-blue-500 bg-gray-900 dark:bg-blue-500 px-4 py-2 text-white font-medium hover:bg-gray-700 dark:hover:bg-blue-900 hover:transition-all duration-200 hover:-translate-y-1.5 cursor-pointer hover:shadow-lg"
                     onClick={() => dispatch(action.btnSignInUpAction(true))}
                 >
                     Đăng nhập/Đăng ký

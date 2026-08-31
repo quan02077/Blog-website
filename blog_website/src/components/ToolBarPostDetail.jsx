@@ -16,14 +16,14 @@ function ToolBarPostDetail({ isLiked, setIsLiked, isBookmarked, post, handleBook
             <button
                 type="button"
                 onClick={handleBack}
-                className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-3.5 py-2 rounded-xl transition-colors cursor-pointer"
+                className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-200 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 px-3.5 py-2 rounded-xl transition-colors cursor-pointer"
             >
                 <FontAwesomeIcon icon={faArrowLeft} />
                 Quay lại
             </button>
 
             <div className="flex items-center gap-3">
-                <span className="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                <span className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                     {post.categoryName || post.category}
                 </span>
                 <span className="hidden sm:flex items-center gap-1.5 text-xs text-gray-400">
@@ -58,7 +58,7 @@ function ToolBarPostDetail({ isLiked, setIsLiked, isBookmarked, post, handleBook
 
                 <button
                     type="button"
-                    className="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-blue-500 transition-all cursor-pointer"
+                    className="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-200 transition-all cursor-pointer"
                 >
                     <FontAwesomeIcon icon={faShareNodes} />
                 </button>

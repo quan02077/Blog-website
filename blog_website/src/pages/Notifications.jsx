@@ -13,7 +13,7 @@ const initialNotifications = [
         time: "5 phút trước",
         isRead: false,
         icon: faComment,
-        iconColor: "text-blue-500 bg-blue-100 dark:bg-blue-900/40"
+        iconColor: "text-gray-800 bg-gray-100 dark:bg-gray-800/60"
     },
     {
         id: 2,
@@ -86,7 +86,7 @@ function Notifications() {
                         {unreadCount > 0 && (
                             <button
                                 onClick={markAllAsRead}
-                                className="text-xs text-blue-500 hover:text-blue-600 font-semibold flex items-center gap-1 hover:underline cursor-pointer"
+                                className="text-xs text-gray-900 hover:text-black dark:text-gray-200 dark:hover:text-white font-semibold flex items-center gap-1 hover:underline cursor-pointer"
                             >
                                 <FontAwesomeIcon icon={faCheckDouble} />
                                 Đọc tất cả
@@ -113,7 +113,7 @@ function Notifications() {
                                 className={`flex items-start gap-3 p-3.5 rounded-xl border transition-all cursor-pointer ${
                                     item.isRead
                                         ? "bg-white dark:bg-dark-surface border-gray-100 dark:border-gray-800 opacity-75 hover:opacity-100"
-                                        : "bg-blue-50/70 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800/50 shadow-sm hover:bg-blue-100/70"
+                                        : "bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700 shadow-sm hover:bg-gray-100/70"
                                 }`}
                             >
                                 {/* Icon thể loại thông báo */}
@@ -136,7 +136,7 @@ function Notifications() {
 
                                 {/* Chấm xanh đánh dấu CHƯA ĐỌC */}
                                 {!item.isRead && (
-                                    <span className="w-2.5 h-2.5 bg-blue-500 rounded-full shrink-0 mt-1.5 animate-pulse"></span>
+                                    <span className="w-2.5 h-2.5 bg-gray-900 dark:bg-white rounded-full shrink-0 mt-1.5 animate-pulse"></span>
                                 )}
                             </div>
                         ))

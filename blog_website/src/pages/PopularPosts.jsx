@@ -66,10 +66,7 @@ function PopularPosts() {
     return (
         <div className="flex flex-col gap-6 pb-8">
             {/* Page Header */}
-            <div className="bg-white dark:bg-dark-surface rounded-none border border-gray-200 dark:border-gray-800 p-6 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-none bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-500 dark:text-blue-400">
-                    <FontAwesomeIcon icon={faArrowTrendUp} className="text-xl" />
-                </div>
+            <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
                 <div>
                     <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white leading-none mb-1">Phổ biến</h1>
                     <p className="text-sm text-gray-500 dark:text-gray-400">Những bài viết được đọc và tương tác nhiều nhất tuần qua.</p>
@@ -77,7 +74,7 @@ function PopularPosts() {
             </div>
 
             {/* Danh sách bài viết tối giản */}
-            <div className="bg-white dark:bg-dark-surface rounded-none border border-gray-200 dark:border-gray-800 p-2 sm:p-4">
+            <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-2 sm:p-4">
                 {posts.map((post, index) => (
                     <div key={post.id} className="relative">
                         <CompactPopularPost post={post} handleGoDetail={() => handleGoDetail(post.id)} />

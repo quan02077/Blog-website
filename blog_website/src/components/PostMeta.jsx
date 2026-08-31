@@ -49,7 +49,7 @@ function PostMeta({ newCategory, setNewCategory, selectedCategory, setSelectedCa
                     <button
                         type="button"
                         onClick={() => setIsAddingNew(!isAddingNew)}
-                        className="text-xs font-semibold text-blue-500 hover:text-blue-600 dark:text-blue-400 flex items-center gap-1 cursor-pointer transition-colors"
+                        className="text-xs font-semibold text-gray-900 hover:text-black dark:text-gray-200 flex items-center gap-1 cursor-pointer transition-colors"
                     >
                         <FontAwesomeIcon icon={isAddingNew ? faTimes : faPlus} />
                         {isAddingNew ? 'Hủy' : 'Tạo mới'}
@@ -72,7 +72,7 @@ function PostMeta({ newCategory, setNewCategory, selectedCategory, setSelectedCa
                         <button
                             type="button"
                             onClick={handleAddCategory}
-                            className="px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold rounded-xl transition-colors cursor-pointer shrink-0"
+                            className="px-3 py-2 bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold rounded-xl transition-colors cursor-pointer shrink-0"
                         >
                             Thêm
                         </button>
@@ -127,7 +127,7 @@ function PostMeta({ newCategory, setNewCategory, selectedCategory, setSelectedCa
                     Thời gian đọc ước tính
                 </label>
                 <div className="flex items-center justify-between border border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-bg rounded-xl px-4 py-2.5">
-                    <span className="text-2xl font-black text-blue-500 dark:text-blue-400">{readTime}</span>
+                    <span className="text-2xl font-black text-gray-900 dark:text-white">{readTime}</span>
                     <span className="text-sm text-gray-400 dark:text-gray-500">phút đọc</span>
                 </div>
                 <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">Tự động tính từ nội dung</p>

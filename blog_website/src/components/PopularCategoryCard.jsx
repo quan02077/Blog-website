@@ -11,10 +11,10 @@ function PopularCategoryCard({ cat, handleGoPosts }) {
         >
             <div className="flex items-center gap-3.5 min-w-0">
                 {/* Icon mặc định, tối giản */}
-                <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-500 dark:text-blue-400 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300">
+                <div className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-blue-900/20 text-gray-600 dark:text-blue-400 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300">
                     <FontAwesomeIcon icon={faLayerGroup} className="text-lg" />
                 </div>
-                <h3 className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
+                <h3 className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-gray-600 dark:group-hover:text-blue-400 transition-colors truncate">
                     {cat.name}
                 </h3>
             </div>

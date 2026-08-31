@@ -80,7 +80,7 @@ function DraftCard({ draft }) {
                     </div>
 
                     {/* Title */}
-                    <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-1.5 line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-1.5 line-clamp-1 group-hover:text-gray-600 dark:group-hover:text-blue-400 transition-colors">
                         {draft.title || 'Bài viết chưa có tiêu đề'}
                     </h2>
 

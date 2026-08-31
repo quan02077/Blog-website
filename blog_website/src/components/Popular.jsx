@@ -11,7 +11,7 @@ export function CompactPopularPost({ post, handleGoDetail }) {
         >
             {/* Content */}
             <div className="flex-1 min-w-0 flex flex-col gap-1.5">
-                <div className="flex items-center gap-2 text-xs font-semibold text-blue-600 dark:text-blue-400">
+                <div className="flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-400">
                     <span className="uppercase tracking-wider">
                         {post.category}
                     </span>
@@ -22,7 +22,7 @@ export function CompactPopularPost({ post, handleGoDetail }) {
                     )}
                 </div>
 
-                <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100 leading-snug group-hover:underline group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100 leading-snug group-hover:underline group-hover:text-gray-900 dark:group-hover:text-gray-300 transition-colors">
                     {post.title}
                 </h3>
 

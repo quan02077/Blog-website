@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClock } from '@fortawesome/free-solid-svg-icons'
 
 const catColors = {
-    React: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+    React: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
     CSS: "bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400",
     JavaScript: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
     TypeScript: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
@@ -32,7 +32,7 @@ function ArchiveMonthCard({ monthBlock, handleGoDetail }) {
                                 className="w-12 h-12 rounded-xl object-cover shrink-0 group-hover:opacity-80 transition-opacity border border-gray-100 dark:border-gray-800"
                             />
                             <div className="flex-1 min-w-0">
-                                <h4 className="text-sm font-semibold text-gray-800 dark:text-gray-200 line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                <h4 className="text-sm font-semibold text-gray-800 dark:text-gray-200 line-clamp-1 group-hover:text-gray-900 dark:group-hover:text-gray-300 transition-colors">
                                     {post.title}
                                 </h4>
                                 <div className="flex items-center gap-2 mt-0.5">
