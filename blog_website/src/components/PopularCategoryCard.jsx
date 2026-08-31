@@ -1,22 +1,28 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 
 function PopularCategoryCard({ cat, handleGoPosts }) {
+    const postCount = cat.postCount ?? cat.postsCount ?? cat.posts ?? 0
+
     return (
-        <div onClick={handleGoPosts} className={`${cat.color} border rounded-2xl p-5 cursor-pointer group hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 flex items-start gap-4`}>
-            {/* Icon box */}
-            <div className="w-12 h-12 rounded-xl bg-white dark:bg-dark-surface-elevated flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-300">
-                <FontAwesomeIcon icon={cat.icon} className={`text-xl ${cat.iconColor}`} />
+        <div 
+            onClick={handleGoPosts} 
+            className="bg-white dark:bg-dark-surface border border-gray-200 dark:border-gray-800 rounded-2xl p-4 cursor-pointer group hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 flex items-center justify-between gap-4"
+        >
+            <div className="flex items-center gap-3.5 min-w-0">
+                {/* Icon mặc định, tối giản */}
+                <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-500 dark:text-blue-400 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300">
+                    <FontAwesomeIcon icon={faLayerGroup} className="text-lg" />
+                </div>
+                <h3 className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
+                    {cat.name}
+                </h3>
             </div>
 
-            <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between mb-1">
-                    <h3 className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{cat.name}</h3>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${cat.badgeColor}`}>
-                        {cat.posts} bài
-                    </span>
-                </div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">{cat.description}</p>
-            </div>
+            {/* Badge số lượng bài viết */}
+            <span className="text-[10px] font-bold px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 shrink-0">
+                {postCount} bài viết
+            </span>
         </div>
     )
 }

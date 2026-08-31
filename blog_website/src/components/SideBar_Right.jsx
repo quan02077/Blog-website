@@ -5,7 +5,7 @@ import { trendingTags, hotDiscussions, topCreators } from "../data/sideBarRightD
 
 function SideBar_Right() {
     return (
-        <div className='custom-scrollbar group'>
+        <div className='custom-scrollbar'>
             <Trending trendingTags={trendingTags} />
             <Discussions hotDiscussions={hotDiscussions} />
             <TopCreator topCreators={topCreators} />

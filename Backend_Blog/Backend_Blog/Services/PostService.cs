@@ -190,7 +190,8 @@ namespace Backend_Blog.Services
                 .Select(c => new CategoryDTO
                 {
                     Id = c.Id,
-                    Name = c.Name
+                    Name = c.Name,
+                    PostCount = c.Posts.Count(p => !p.IsDraft)
                 })
                 .ToListAsync();
 

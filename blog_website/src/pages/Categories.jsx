@@ -1,11 +1,15 @@
 import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import Blog_context from '../context/Blog_Context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import PopularCategoryCard from '../components/PopularCategoryCard'
-import { popularCategories } from '../data/categoriesData'
+// import { popularCategories } from '../data/categoriesData'
 
 function Categories() {
     const navigate = useNavigate()
+    const [state] = useContext(Blog_context)
+    const { categories } = state
     const handleGoPosts = (category) => {
         if (category) {
             navigate(`/posts/${category}`)
@@ -42,8 +46,8 @@ function Categories() {
             <div>
                 <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 px-1">📚 Tất cả chuyên mục</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {popularCategories.map((cat) => (
-                        <PopularCategoryCard key={cat.id} cat={cat} handleGoPosts={() => handleGoPosts(cat.name)} />
+                    {categories.map((cat, index) => (
+                        <PopularCategoryCard key={cat.id || index} cat={cat} handleGoPosts={() => handleGoPosts(cat.name)} />
                     ))}
                 </div>
             </div>

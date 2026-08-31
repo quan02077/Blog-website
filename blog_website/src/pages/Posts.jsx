@@ -34,13 +34,13 @@ function Posts() {
         const safePosts = posts || []
 
         if (category) {
-            return safePosts.filter(p => p.category?.toLowerCase() === category.toLowerCase())
+            return safePosts.filter(p => (p.categoryName || p.category || '').toLowerCase() === category.toLowerCase())
         }
 
         if (tag) {
             return safePosts.filter(p =>
                 (p.tag || '').toLowerCase().includes(tag.toLowerCase()) ||
-                (p.category || '').toLowerCase() === tag.toLowerCase()
+                (p.categoryName || p.category || '').toLowerCase() === tag.toLowerCase()
             )
         }
 

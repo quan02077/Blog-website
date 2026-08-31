@@ -9,7 +9,7 @@ import PostDetail from "../pages/PostDetail"
 
 function MainContent() {
     return (
-        <div className="custom-scrollbar group">
+        <div className="custom-scrollbar">
             <Routes>
                 <Route path="/" element={<Navigate to="/posts" replace />} />
                 <Route path="/posts" element={<Posts />} />
