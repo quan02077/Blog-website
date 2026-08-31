@@ -10,7 +10,7 @@ function PostContent({ post }) {
 
     return (
         <div className="bg-white dark:bg-dark-surface rounded-3xl border border-gray-200 dark:border-gray-800 p-6 sm:p-10 shadow-sm">
-            <div className="prose dark:prose-invert max-w-none text-gray-800 dark:text-gray-200 leading-relaxed text-base whitespace-pre-line">
+            <div className="prose dark:prose-invert max-w-none text-gray-800 dark:text-gray-200 leading-relaxed text-base whitespace-pre-line break-words">
                 {post?.content}
             </div>
 
