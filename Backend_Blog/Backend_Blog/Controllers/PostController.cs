@@ -26,13 +26,21 @@ namespace Backend_Blog.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPostByID(Guid id)
         {
-            var post = await postService.GetPostByIdAsync(id);
+            Guid? currentUserId = null;
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (Guid.TryParse(userIdClaim, out var parsedId))
+            {
+                currentUserId = parsedId;
+            }
+
+            var post = await postService.GetPostByIdAsync(id, currentUserId);
             if (post is null)
             {
                 return NotFound(new { message = "Không tìm thấy bài viết này!!" });
             }
             return Ok(post);
         }
+
 
         [HttpPost]
         [Authorize]
@@ -233,6 +241,15 @@ namespace Backend_Blog.Controllers
             {
                 return StatusCode(500, new { message = "Đã xảy ra lỗi khi lấy bài viết phổ biến: " + ex.Message });
             }
+        }
+
+        [HttpPost("{id}/like")]
+        [Authorize]
+        public async Task<IActionResult> ToggleLike(Guid id)    
+        {
+            var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var result = await postService.ToggleLikeAsync(id, userId);
+            return Ok(result);
         }
 
     }

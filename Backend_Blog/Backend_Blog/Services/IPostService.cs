@@ -10,10 +10,11 @@ namespace Backend_Blog.Services
         Task<IEnumerable<PostDto>> GetPopularPostAsync();
         Task<bool> ToggleBookmarkAsync(Guid id, Guid userId);
         Task<List<CategoryDTO>> GetAllCategoriesAsync();
-        Task<PostDto?> GetPostByIdAsync(Guid postId);
+        Task<PostDto?> GetPostByIdAsync(Guid id, Guid? currentUserId = null);
         Task<PostDto> CreatePostAsync(WritePostDTO request, Guid userId);
         Task<CategoryDTO> CreateCategoryAsync(WriteCategoryDTO request, Guid userId);
         Task<PostDto> UpdatePostAsync(Guid id, WritePostDTO request, Guid userId);
         Task DeletePostAsync(Guid id, Guid userId);
+        Task<LikeResponseDTO> ToggleLikeAsync(Guid postId, Guid userId);
     }
 }

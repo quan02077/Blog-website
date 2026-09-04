@@ -8,10 +8,11 @@ import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 import { showSuccessAlert, showErrorAlert } from '../utils/alert'
 import { getPostByID, toggleBookmarkPost } from '../api/post'
+import { toggleLikePost } from '../api/post'
 
 function PostDetail() {
     const [state, dispatch] = useContext(Blog_context)
-    const { bookmarks } = state
+    const { bookmarks, currentUser } = state
     const { id } = useParams()
     const [post, setPost] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -40,6 +41,7 @@ function PostDetail() {
             try {
                 const data = await getPostByID(id);
                 setPost(data);
+                setIsLiked(data.isLiked || false);
             } catch (error) {
                 console.error("Lỗi khi tải chi tiết bài viết:", error);
             } finally {
@@ -48,6 +50,24 @@ function PostDetail() {
         };
         fetchPostDetail();
     }, [id]);
+
+
+    const handleLike = async () => {
+        if (!currentUser) {
+            showErrorAlert('Lỗi', 'Bạn cần đăng nhập để thực hiện thao tác!');
+            return;
+        }
+        if (!post) return;
+        try {
+            const data = await toggleLikePost(post.id);
+            setIsLiked(data.isLiked);
+            setPost(prev => ({ ...prev, likesCount: data.likeCount }));
+            dispatch(action.updatePostLikeAction({ id: post.id, likesCount: data.likeCount }));
+        } catch (error) {
+            showErrorAlert('Lỗi', error.message);
+        }
+    };
+
 
     const isBookmarked = bookmarks?.some(b => String(b.id) === String(post?.id))
 
@@ -116,8 +136,8 @@ function PostDetail() {
             <ToolBarPostDetail
                 post={post}
                 isLiked={isLiked}
-                setIsLiked={setIsLiked}
                 isBookmarked={isBookmarked}
+                handleLike={handleLike}
                 handleBookmark={handleBookmark}
                 handleShare={handleShare}
             />

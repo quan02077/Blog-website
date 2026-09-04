@@ -26,11 +26,14 @@ namespace Backend_Blog.Entities
 
         public Guid AuthorId { get; set; }
         public User Author { get; set; } = null!;
-
-        public int? CategoryId { get; set; }
-        public Category? Category { get; set; }
         public bool IsDraft { get; set; } = false;
         public bool isBookmarked { get; set; } = false;
         public int ViewCount { get; set; } = 0;
+
+        public int? CategoryId { get; set; }
+        public Category? Category { get; set; }
+        public ICollection<PostsLike> PostsLikes { get; set; } = new List<PostsLike>();
+
+
     }
 }

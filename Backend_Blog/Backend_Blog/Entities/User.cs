@@ -17,5 +17,7 @@ namespace Backend_Blog.Entities
         public DateTime? ResetTokenExpiryTime { get; set; }
 
         public ICollection<Post> Posts { get; set; } = new List<Post>();
+        public ICollection<PostsLike> LikedPosts { get; set; } = new List<PostsLike>();
+
     }
 }

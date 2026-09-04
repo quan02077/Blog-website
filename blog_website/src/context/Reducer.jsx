@@ -23,7 +23,8 @@ import {
     SET_CATEGORIES,
     SET_DRAFTS,
     IS_DIRTY,
-    SET_BOOKMARKS
+    SET_BOOKMARKS,
+    UPDATE_POST_LIKE
 } from "./Constant";
 export const initialState = {
     isSignIn: localStorage.getItem('isSignIn') === 'true',
@@ -320,6 +321,16 @@ function reducer(state, action) {
                 ...state,
                 bookmarks: action.payload
             }
+        case UPDATE_POST_LIKE: {
+            const { id, likesCount } = action.payload;
+            return {
+                ...state,
+                posts: state.posts.map(p =>
+                    String(p.id) === String(id) ? { ...p, likesCount } : p
+                )
+            };
+        }
+
         default:
             throw new Error('Invalid action');
     }

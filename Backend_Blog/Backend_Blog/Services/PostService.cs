@@ -234,21 +234,25 @@ namespace Backend_Blog.Services
                 CategoryId = post.CategoryId,
                 CategoryName = post.Category != null ? post.Category.Name : null,
                 IsDraft = post.IsDraft,
-                IsBookmarked = post.isBookmarked
+                IsBookmarked = post.isBookmarked,
+                LikesCount = post.PostsLikes.Count
             }).ToListAsync();
         }
 
-        public async Task<PostDto> GetPostByIdAsync(Guid id)
+        public async Task<PostDto> GetPostByIdAsync(Guid id, Guid? currentUserId = null)
         {
             var post = await context.Posts
-                .Include(p => p.Author)    
-                .Include(p => p.Category)  
+                .Include(p => p.Author)
+                .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == id);
-
             if (post == null) return null;
-
             post.ViewCount += 1;
             await context.SaveChangesAsync();
+
+            var likesCount = await context.PostsLikes.CountAsync(pl => pl.PostId == id);
+
+            var isLiked = currentUserId.HasValue &&
+                await context.PostsLikes.AnyAsync(pl => pl.PostId == id && pl.UserId == currentUserId.Value);
 
             return new PostDto
             {
@@ -268,7 +272,9 @@ namespace Backend_Blog.Services
                 CategoryId = post.CategoryId,
                 CategoryName = post.Category != null ? post.Category.Name : null,
                 IsDraft = post.IsDraft,
-                IsBookmarked = post.isBookmarked
+                IsBookmarked = post.isBookmarked,
+                LikesCount = likesCount,
+                IsLiked = isLiked
             };
         }
 
@@ -388,5 +394,39 @@ namespace Backend_Blog.Services
                 }).ToListAsync();
             return popularPosts;
         }
+
+        public async Task<LikeResponseDTO> ToggleLikeAsync(Guid postId, Guid userId)
+        {
+            var currentLikeCount = await context.PostsLikes.CountAsync(like => like.PostId == postId);
+            var existingLike = await context.PostsLikes.FirstOrDefaultAsync(like => like.PostId == postId && like.UserId == userId);
+
+            bool isLiked;
+
+            if (existingLike != null)
+            {
+                context.PostsLikes.Remove(existingLike);
+                currentLikeCount--; 
+                isLiked = false;
+            }
+            else
+            {
+                var newLike = new PostsLike
+                {
+                    PostId = postId,
+                    UserId = userId,
+                    CreatedAt = DateTime.UtcNow
+                };
+                await context.PostsLikes.AddAsync(newLike);
+                currentLikeCount++; 
+                isLiked = true;
+            }
+            await context.SaveChangesAsync();
+            return new LikeResponseDTO
+            {
+                isLiked = isLiked,
+                likeCount = currentLikeCount
+            };
+        }
+
     }
 }

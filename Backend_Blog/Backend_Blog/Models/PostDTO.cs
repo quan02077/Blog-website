@@ -19,5 +19,8 @@ namespace Backend_Blog.Models
         public bool IsDraft { get; set; } = false;
         public bool IsBookmarked { get; set; }
         public int ViewCount { get; set; } = 0;
+        public int LikesCount { get; set; } = 0; 
+        public bool IsLiked { get; set; } = false; 
+
     }
 }

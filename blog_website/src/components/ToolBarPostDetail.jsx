@@ -7,7 +7,7 @@ import {
     faClock
 } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as faHeartRegular, faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons'
-function ToolBarPostDetail({ isLiked, setIsLiked, isBookmarked, post, handleBookmark, handleShare }) {
+function ToolBarPostDetail({ isLiked, handleLike, isBookmarked, post, handleBookmark, handleShare }) {
     const handleBack = () => {
         window.history.back()
     }
@@ -35,14 +35,14 @@ function ToolBarPostDetail({ isLiked, setIsLiked, isBookmarked, post, handleBook
             <div className="flex items-center gap-2">
                 <button
                     type="button"
-                    onClick={() => setIsLiked(!isLiked)}
+                    onClick={handleLike}
                     className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-xl transition-all cursor-pointer ${isLiked
                         ? 'bg-red-50 dark:bg-red-900/30 text-red-500'
                         : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-red-500'
                         }`}
                 >
                     <FontAwesomeIcon icon={isLiked ? faHeart : faHeartRegular} className={isLiked ? 'text-red-500' : ''} />
-                    <span>{isLiked ? (Number(post.likes) || 0) + 1 : (Number(post.likes) || 0)}</span>
+                    <span>{Number(post.likesCount) || 0}</span>
                 </button>
 
                 <button

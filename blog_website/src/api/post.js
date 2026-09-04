@@ -103,3 +103,11 @@ export const getPopularPost = async () => {
     return response.json();
 }
 
+export const toggleLikePost = async (id) => {
+    const res = await request(`/post/${id}/like`, { method: 'POST' });
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || "Không thể thực hiện thao tác!");
+    }
+    return res.json();
+}

@@ -23,3 +23,4 @@ export const SET_CATEGORIES = "set_categories";
 export const IS_DIRTY = "is_dirty";
 export const SET_DRAFTS = "set_drafts";
 export const SET_BOOKMARKS = "set_bookmarks";
+export const UPDATE_POST_LIKE = 'update_post_like';

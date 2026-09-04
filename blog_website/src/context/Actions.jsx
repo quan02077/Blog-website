@@ -23,7 +23,8 @@ import {
     SET_CATEGORIES,
     IS_DIRTY,
     SET_DRAFTS,
-    SET_BOOKMARKS
+    SET_BOOKMARKS,
+    UPDATE_POST_LIKE
 } from "./Constant";
 
 export const loginAction = (payload) => {
@@ -201,3 +202,10 @@ export const setBookmarksAction = (payload) => {
         payload
     }
 }
+
+export const updatePostLikeAction = (payload) => {
+    return {
+        type: UPDATE_POST_LIKE,
+        payload
+    }
+};
