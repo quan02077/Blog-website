@@ -7,7 +7,7 @@ import {
     faClock
 } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as faHeartRegular, faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons'
-function ToolBarPostDetail({ isLiked, setIsLiked, isBookmarked, post, handleBookmark }) {
+function ToolBarPostDetail({ isLiked, setIsLiked, isBookmarked, post, handleBookmark, handleShare }) {
     const handleBack = () => {
         window.history.back()
     }
@@ -59,6 +59,8 @@ function ToolBarPostDetail({ isLiked, setIsLiked, isBookmarked, post, handleBook
                 <button
                     type="button"
                     className="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-200 transition-all cursor-pointer"
+                    onClick={handleShare}
+                    title="Chia sẻ"
                 >
                     <FontAwesomeIcon icon={faShareNodes} />
                 </button>

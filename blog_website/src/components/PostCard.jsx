@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart, faComment, faBookmark, faShareFromSquare } from '@fortawesome/free-regular-svg-icons'
+import { faHeart, faComment, faBookmark } from '@fortawesome/free-regular-svg-icons'
 import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons'
 import { showSuccessAlert, showErrorAlert } from '../utils/alert'
 import * as action from '../context/Actions'
@@ -129,9 +129,6 @@ function PostCard({ post }) {
                             title={isBookmarked ? 'Bỏ lưu' : 'Đọc sau'}
                         >
                             <FontAwesomeIcon icon={isBookmarked ? faBookmarkSolid : faBookmark} />
-                        </button>
-                        <button className="p-1.5 rounded-md text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                            <FontAwesomeIcon icon={faShareFromSquare} />
                         </button>
                     </div>
                 </div>

@@ -66,6 +66,34 @@ function PostDetail() {
         }
     }
 
+    const handleShare = async () => {
+        const shareUrl = window.location.href;
+        const shareData = {
+            title: post?.title,
+            text: post?.summary,
+            url: shareUrl,
+        }
+
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+                return;
+            } catch (e) {
+                if (e.name !== 'AbortError') {
+                    console.error('Lỗi khi chia sẻ:', e);
+                }
+            }
+        }
+
+        try {
+            await navigator.clipboard.writeText(shareUrl);
+            showSuccessAlert('Đã sao chép liên kết!', 'Bạn có thể dán link để chia sẻ cho bạn bè.');
+        } catch (error) {
+            console.error('Lỗi khi sao chép:', error);
+            showErrorAlert('Thất bại', 'Không thể sao chép liên kết.');
+        }
+    }
+
     if (loading) {
         return (
             <div className="p-8 text-center text-gray-500 dark:text-gray-400">
@@ -91,6 +119,7 @@ function PostDetail() {
                 setIsLiked={setIsLiked}
                 isBookmarked={isBookmarked}
                 handleBookmark={handleBookmark}
+                handleShare={handleShare}
             />
 
             <HeaderTitlePost post={post} />
