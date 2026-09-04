@@ -157,11 +157,11 @@ namespace Backend_Blog.Controllers
 
             try
             {
-                var isBookmarked = await postService.ToggleBookmarkAsync(id, userId);
+                var result = await postService.ToggleBookmarkAsync(id, userId);
                 return Ok(new
                 {
-                    isBookmarked,
-                    message = isBookmarked ? "Lưu bài viết thành công!" : "Đã bỏ lưu bài viết!"
+                    isBookmarked = result.isBookmark,
+                    message = result.isBookmark ? "Lưu bài viết thành công!" : "Đã bỏ lưu bài viết!"
                 });
             }
             catch (KeyNotFoundException ex)

@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faComment, faBookmark } from '@fortawesome/free-regular-svg-icons'
 import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons'
-import { showSuccessAlert, showErrorAlert } from '../utils/alert'
+import { showErrorAlert } from '../utils/alert'
 import * as action from '../context/Actions'
 import Blog_context from '../context/Blog_Context'
 import { toggleBookmarkPost } from '../api/post'
@@ -34,10 +34,13 @@ function PostCard({ post }) {
     }
 
     const handleBookmark = async () => {
+        if (!state.currentUser) {
+            showErrorAlert('Lỗi', 'Bạn cần đăng nhập để lưu bài viết!');
+            return;
+        }
         try {
-            const result = await toggleBookmarkPost(post.id)
+            await toggleBookmarkPost(post.id)
             dispatch(action.bookmarksAction(post))
-            showSuccessAlert('Thông báo', result.message)
         } catch (error) {
             showErrorAlert('Lỗi', error.message)
         }

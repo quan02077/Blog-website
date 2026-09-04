@@ -34,7 +34,6 @@ namespace Backend_Blog.Entities
         public Category? Category { get; set; }
         public ICollection<PostsLike> PostsLikes { get; set; } = new List<PostsLike>();
         public ICollection<PostComment> PostComment { get; set; } = new List<PostComment>();
-
-
+        public ICollection<PostBookmark> PostBookmarks { get; set; } = new List<PostBookmark>();
     }
 }

@@ -97,11 +97,14 @@ namespace Backend_Blog.Services
 
         public async Task<IEnumerable<PostDto>> GetMyBookmarksAsync(Guid userId)
         {
-            var bookmarkPost = await context.Posts
-                .Where(p => p.isBookmarked && p.AuthorId == userId)
+            var bookmarkPosts = await context.PostBookmarks
+                .Where(pb => pb.UserId == userId)
+                .Include(pb => pb.Post).ThenInclude(p => p.Author)
+                .Include(pb => pb.Post).ThenInclude(p => p.Category)
+                .Select(pb => pb.Post)
                 .ToListAsync();
 
-            return bookmarkPost.Select(d => new PostDto
+            return bookmarkPosts.Select(d => new PostDto
             {
                 Id = d.Id,
                 Title = d.Title,
@@ -117,23 +120,25 @@ namespace Backend_Blog.Services
                 AuthorAvatar = d.Author != null ? d.Author.Avatar : null,
                 Tags = d.Tags,
                 IsDraft = d.IsDraft,
-                IsBookmarked = d.isBookmarked
+                IsBookmarked = true
             });
         }
 
-        public async Task<bool> ToggleBookmarkAsync(Guid id, Guid userId)
+        public async Task<BookmarkResponseDTO> ToggleBookmarkAsync(Guid postId, Guid userId)
         {
-            var post = await context.Posts.FirstOrDefaultAsync(p => p.Id == id);
-            if (post == null)
+            var existingBookmark = await context.PostBookmarks
+                .FirstOrDefaultAsync(pb => pb.PostId == postId && pb.UserId == userId);
+            if (existingBookmark != null)
             {
-                throw new KeyNotFoundException("Không tìm thấy bài viết!");
+                context.PostBookmarks.Remove(existingBookmark);
+                await context.SaveChangesAsync();
+                return new BookmarkResponseDTO { isBookmark = false };
             }
-
-            post.isBookmarked = !post.isBookmarked;
-
+            context.PostBookmarks.Add(new PostBookmark { PostId = postId, UserId = userId });
             await context.SaveChangesAsync();
-            return post.isBookmarked;
+            return new BookmarkResponseDTO { isBookmark = true }; 
         }
+
 
 
         public async Task<IEnumerable<PostDto>> GetMyDraftsAsync(Guid userId, string? searchTerm, string? category, string? sortBy)
@@ -255,6 +260,9 @@ namespace Backend_Blog.Services
             var isLiked = currentUserId.HasValue &&
                 await context.PostsLikes.AnyAsync(pl => pl.PostId == id && pl.UserId == currentUserId.Value);
 
+            var isBookmarked = currentUserId.HasValue &&
+                await context.PostBookmarks.AnyAsync(pb => pb.PostId == id && pb.UserId == currentUserId.Value);
+
             return new PostDto
             {
                 Id = post.Id,
@@ -273,7 +281,7 @@ namespace Backend_Blog.Services
                 CategoryId = post.CategoryId,
                 CategoryName = post.Category != null ? post.Category.Name : null,
                 IsDraft = post.IsDraft,
-                IsBookmarked = post.isBookmarked,
+                IsBookmarked = isBookmarked,
                 LikesCount = likesCount,
                 CommentsCount = await context.PostComments.CountAsync(c => c.PostId == id),
                 IsLiked = isLiked

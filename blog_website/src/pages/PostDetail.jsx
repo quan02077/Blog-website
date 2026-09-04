@@ -75,15 +75,14 @@ function PostDetail() {
     const isBookmarked = bookmarks?.some(b => String(b.id) === String(post?.id))
 
     const handleBookmark = async () => {
-        if (!post) return
+        if (!currentUser) {
+            showErrorAlert('Lỗi', 'Bạn cần đăng nhập để lưu bài viết!');
+            return;
+        }
+        if (!post) return;
         try {
             await toggleBookmarkPost(post.id);
             dispatch(action.bookmarksAction(post));
-            if (isBookmarked) {
-                showSuccessAlert('Thông báo', 'Đã bỏ lưu bài viết!')
-            } else {
-                showSuccessAlert('Thông báo', 'Lưu bài viết thành công!')
-            }
         } catch (error) {
             showErrorAlert('Lỗi', error.message);
         }
