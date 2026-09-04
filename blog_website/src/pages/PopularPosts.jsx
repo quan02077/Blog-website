@@ -31,8 +31,8 @@ function PopularPosts() {
                     date: item.createdAt
                         ? new Date(item.createdAt.endsWith('Z') || item.createdAt.includes('+') ? item.createdAt : item.createdAt + 'Z').toLocaleDateString('vi-VN')
                         : (item.date || 'Mới đây'),
-                    likes: item.likes ?? 0,
-                    comments: item.comments ?? 0
+                    likes: item.likesCount ?? item.likes ?? 0,
+                    comments: item.commentsCount ?? item.comments ?? 0
                 }));
 
                 setPosts(mappedData);

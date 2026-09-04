@@ -252,5 +252,28 @@ namespace Backend_Blog.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}/comments")]
+        public async Task<IActionResult> GetComments(Guid id)
+        {
+            var comments = await postService.GetCommentAsync(id);
+            return Ok(comments);
+        }
+
+        [HttpPost("{id}/comments")]
+        [Authorize]
+        public async Task<IActionResult> CreateComment(Guid id, [FromBody] WriteCommentDTO request)
+        {
+            if (string.IsNullOrWhiteSpace(request.Content))
+            {
+                return BadRequest(new { message = "Nội dung bình luận không được để trống!" });
+            }
+
+            var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var result = await postService.CreateCommentAsync(id, request, userId);
+
+            return Ok(result);
+        }
+
+
     }
 }

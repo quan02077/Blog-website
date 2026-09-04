@@ -20,7 +20,8 @@ namespace Backend_Blog.Models
         public bool IsBookmarked { get; set; }
         public int ViewCount { get; set; } = 0;
         public int LikesCount { get; set; } = 0; 
-        public bool IsLiked { get; set; } = false; 
+        public bool IsLiked { get; set; } = false;
+        public int CommentsCount { get; set; } = 0; 
 
     }
 }

@@ -36,10 +36,10 @@ export function CompactPopularPost({ post, handleGoDetail }) {
 
                     {/* Stats text with icons */}
                     <span className="flex items-center gap-1 font-medium">
-                        <FontAwesomeIcon icon={faHeart} className="text-gray-400 text-[10px]" /> {post.likes}
+                        <FontAwesomeIcon icon={faHeart} className="text-gray-400 text-[10px]" /> {post.likesCount ?? post.likes ?? 0}
                     </span>
                     <span className="flex items-center gap-1 font-medium">
-                        <FontAwesomeIcon icon={faComment} className="text-gray-400 text-[10px]" /> {post.comments}
+                        <FontAwesomeIcon icon={faComment} className="text-gray-400 text-[10px]" /> {post.commentsCount ?? post.comments ?? 0}
                     </span>
                     <span className="flex items-center gap-1 font-medium">
                         <FontAwesomeIcon icon={faEye} className="text-gray-400 text-[10px]" /> {viewsCount} lượt xem

@@ -115,11 +115,11 @@ function PostCard({ post }) {
                     <div className="flex items-center gap-1">
                         <button className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors px-2 py-1.5 rounded-md text-sm">
                             <FontAwesomeIcon icon={faHeart} />
-                            <span>{Number(post.likesCount) || 0} Reactions</span>
+                            <span>{Number(post.likesCount ?? post.likes) || 0} Reactions</span>
                         </button>
                         <button className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 hover:bg-gray-100 dark:hover:text-blue-500 dark:hover:bg-blue-950/30 transition-colors px-2 py-1.5 rounded-md text-sm">
                             <FontAwesomeIcon icon={faComment} />
-                            <span>{post.comments ?? 0} Comments</span>
+                            <span>{Number(post.commentsCount ?? post.comments) || 0} Comments</span>
                         </button>
                     </div>
                     <div className="flex items-center gap-1">

@@ -33,6 +33,7 @@ namespace Backend_Blog.Entities
         public int? CategoryId { get; set; }
         public Category? Category { get; set; }
         public ICollection<PostsLike> PostsLikes { get; set; } = new List<PostsLike>();
+        public ICollection<PostComment> PostComment { get; set; } = new List<PostComment>();
 
 
     }

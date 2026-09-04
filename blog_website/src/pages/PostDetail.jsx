@@ -7,8 +7,7 @@ import PostComment from '../components/PostComment'
 import Blog_context from '../context/Blog_Context'
 import * as action from '../context/Actions'
 import { showSuccessAlert, showErrorAlert } from '../utils/alert'
-import { getPostByID, toggleBookmarkPost } from '../api/post'
-import { toggleLikePost } from '../api/post'
+import { getPostByID, toggleBookmarkPost, toggleLikePost, getCommentsByPost, createComment } from '../api/post';
 
 function PostDetail() {
     const [state, dispatch] = useContext(Blog_context)
@@ -18,22 +17,7 @@ function PostDetail() {
     const [loading, setLoading] = useState(true)
     const [isLiked, setIsLiked] = useState(false)
     const [commentText, setCommentText] = useState('')
-    const [commentsList] = useState([
-        {
-            id: 1,
-            author: "Hoàng Nam",
-            avatar: "https://ui-avatars.com/api/?name=Hoang+Nam&background=6366F1&color=fff",
-            date: "Vừa xong",
-            content: "Bài viết rất chi tiết và dễ hiểu! Mong tác giả ra thêm nhiều bài viết chất lượng về React nữa."
-        },
-        {
-            id: 2,
-            author: "Thanh Hằng",
-            avatar: "https://ui-avatars.com/api/?name=Thanh+Hang&background=EC4899&color=fff",
-            date: "2 giờ trước",
-            content: "Phần giải thích về Context API rất trực quan. Cảm ơn bạn nhé!"
-        }
-    ])
+    const [commentsList, setCommentsList] = useState([])
 
     useEffect(() => {
         const fetchPostDetail = async () => {
@@ -42,6 +26,10 @@ function PostDetail() {
                 const data = await getPostByID(id);
                 setPost(data);
                 setIsLiked(data.isLiked || false);
+
+                const comments = await getCommentsByPost(id);
+                setCommentsList(comments || []);
+
             } catch (error) {
                 console.error("Lỗi khi tải chi tiết bài viết:", error);
             } finally {
@@ -50,6 +38,21 @@ function PostDetail() {
         };
         fetchPostDetail();
     }, [id]);
+
+    const handleAddComment = async () => {
+        if (!currentUser) {
+            showErrorAlert('Lỗi', 'Bạn cần đăng nhập để bình luận bài viết!');
+            return;
+        }
+        if (!commentText.trim()) return;
+        try {
+            const newComment = await createComment(post.id, commentText.trim());
+            setCommentsList(prev => [newComment, ...prev]);
+            setCommentText('');
+        } catch (error) {
+            showErrorAlert('Lỗi', error.message);
+        }
+    };
 
 
     const handleLike = async () => {
@@ -150,6 +153,7 @@ function PostDetail() {
                 commentsList={commentsList}
                 commentText={commentText}
                 setCommentText={setCommentText}
+                handleAddComment={handleAddComment}
             />
 
         </article>

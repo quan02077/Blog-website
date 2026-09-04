@@ -111,3 +111,20 @@ export const toggleLikePost = async (id) => {
     }
     return res.json();
 }
+
+export const getCommentsByPost = async (postId) => {
+    const res = await request(`/post/${postId}/comments`, { method: 'GET' });
+    return res.json();
+};
+
+export const createComment = async (postId, content) => {
+    const res = await request(`/post/${postId}/comments`, {
+        method: 'POST',
+        body: JSON.stringify({ content })
+    });
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || 'Không thể gửi bình luận!');
+    }
+    return res.json();
+};

@@ -235,7 +235,8 @@ namespace Backend_Blog.Services
                 CategoryName = post.Category != null ? post.Category.Name : null,
                 IsDraft = post.IsDraft,
                 IsBookmarked = post.isBookmarked,
-                LikesCount = post.PostsLikes.Count
+                LikesCount = post.PostsLikes.Count,
+                CommentsCount = post.PostComment.Count
             }).ToListAsync();
         }
 
@@ -274,6 +275,7 @@ namespace Backend_Blog.Services
                 IsDraft = post.IsDraft,
                 IsBookmarked = post.isBookmarked,
                 LikesCount = likesCount,
+                CommentsCount = await context.PostComments.CountAsync(c => c.PostId == id),
                 IsLiked = isLiked
             };
         }
@@ -390,7 +392,9 @@ namespace Backend_Blog.Services
                     CategoryName = post.Category != null ? post.Category.Name : null,
                     IsDraft = post.IsDraft,
                     IsBookmarked = post.isBookmarked,
-                    ViewCount = post.ViewCount
+                    ViewCount = post.ViewCount,
+                    LikesCount = post.PostsLikes.Count,
+                    CommentsCount = post.PostComment.Count
                 }).ToListAsync();
             return popularPosts;
         }
@@ -428,5 +432,50 @@ namespace Backend_Blog.Services
             };
         }
 
+        public async Task<IEnumerable<CommentDTO>> GetCommentAsync(Guid postId)
+        {
+            return await context.PostComments
+                .Where(c => c.PostId == postId) 
+                .OrderByDescending(c => c.CreatedAt) 
+                .Select(c => new CommentDTO
+                {
+                    Id = c.Id,
+                    Content = c.Content,
+                    CreatedAt = c.CreatedAt,
+                    UserId = c.UserId,
+                    AuthorName = c.User != null ? c.User.Username : "Tác giả",
+                    AuthorAvatar = c.User != null ? c.User.Avatar : null
+                })
+                .ToListAsync(); 
+        }
+
+        public async Task<CommentDTO> CreateCommentAsync(Guid postId, WriteCommentDTO request, Guid userId)
+        {
+            var post = await context.Posts.FindAsync(postId);
+            if (post == null) throw new KeyNotFoundException("Không tìm thấy bài viết!");
+
+            var comment = new PostComment
+            {
+                PostId = postId,
+                UserId = userId,
+                Content = request.Content,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            context.PostComments.Add(comment);
+            await context.SaveChangesAsync();
+
+            var user = await context.Users.FindAsync(userId);
+
+            return new CommentDTO
+            {
+                Id = comment.Id,
+                Content = comment.Content,
+                CreatedAt = comment.CreatedAt,
+                UserId = userId,
+                AuthorName = user != null ? user.Username : "Ẩn danh",
+                AuthorAvatar = user?.Avatar
+            };
+        }
     }
 }

@@ -16,5 +16,7 @@ namespace Backend_Blog.Services
         Task<PostDto> UpdatePostAsync(Guid id, WritePostDTO request, Guid userId);
         Task DeletePostAsync(Guid id, Guid userId);
         Task<LikeResponseDTO> ToggleLikeAsync(Guid postId, Guid userId);
+        Task<IEnumerable<CommentDTO>> GetCommentAsync(Guid userId);
+        Task<CommentDTO> CreateCommentAsync(Guid postId, WriteCommentDTO request, Guid userId);
     }
 }

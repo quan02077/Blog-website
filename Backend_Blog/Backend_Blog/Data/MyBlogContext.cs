@@ -34,10 +34,25 @@ namespace Backend_Blog.Data
                 .WithMany(u => u.LikedPosts)
                 .HasForeignKey(pl => pl.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PostComment>().HasKey(c => new { c.PostId, c.UserId });
+
+            modelBuilder.Entity<PostComment>()
+                .HasOne(c => c.Post)
+                .WithMany(p => p.PostComment)
+                .HasForeignKey(c => c.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<PostComment>()
+                .HasOne(c => c.User)
+                .WithMany(p => p.CommentPost)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Post> Posts { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<PostsLike> PostsLikes { get; set; } = null!;
+        public DbSet<PostComment> PostComments { get; set; } = null!;
     }
 }

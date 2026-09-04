@@ -18,6 +18,6 @@ namespace Backend_Blog.Entities
 
         public ICollection<Post> Posts { get; set; } = new List<Post>();
         public ICollection<PostsLike> LikedPosts { get; set; } = new List<PostsLike>();
-
+        public ICollection<PostComment> CommentPost { get; set; } = new List<PostComment>();
     }
 }
