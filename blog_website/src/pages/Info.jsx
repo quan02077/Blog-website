@@ -11,11 +11,20 @@ import { deleteDraft_Post } from '../api/post'
 
 function Info() {
     const [state, dispatch] = useContext(Blog_context)
-    const { btnInfo, currentUser, posts = [] } = state
+    const { btnInfo, currentUser, posts = [], selectedAuthor } = state
     const [isEditing, setIsEditing] = useState(false)
     const [loading, setLoading] = useState(false)
 
     if (!btnInfo) return null
+
+    // Xác định xem có phải đang xem tài khoản của chính mình hay của người khác
+    const targetAuthorId = selectedAuthor?.authorId || selectedAuthor?.id || selectedAuthor?.userId
+    const currentUserId = currentUser?.id || currentUser?.Id
+
+    const isOwner = !selectedAuthor || Boolean(
+        (currentUserId && targetAuthorId && String(currentUserId).toLowerCase() === String(targetAuthorId).toLowerCase()) ||
+        (currentUser?.username && selectedAuthor?.authorName && String(currentUser.username).toLowerCase() === String(selectedAuthor.authorName).toLowerCase())
+    )
 
     const handleDelete = async (postId) => {
         const result = await showConfirmAlert('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa bài viết này không?')
@@ -33,16 +42,42 @@ function Info() {
         }
     }
 
-    // Danh sách bài viết của User
+    // Danh sách bài viết của tác giả đang xem
     const userPosts = posts.filter(p => {
-        const isAuthorIdMatch = p.authorId && currentUser && String(p.authorId).toLowerCase() === String(currentUser.id || currentUser.Id || '').toLowerCase();
-        const isEmailMatch = p.authorEmail && p.authorEmail === currentUser?.email;
-        const isNameMatch = (p.authorName || p.author) && String(p.authorName || p.author).toLowerCase() === String(currentUser?.username || '').toLowerCase();
-        return isAuthorIdMatch || isEmailMatch || isNameMatch;
+        if (isOwner) {
+            const isAuthorIdMatch = p.authorId && currentUserId && String(p.authorId).toLowerCase() === String(currentUserId).toLowerCase();
+            const isEmailMatch = p.authorEmail && p.authorEmail === currentUser?.email;
+            const isNameMatch = (p.authorName || p.author) && String(p.authorName || p.author).toLowerCase() === String(currentUser?.username || '').toLowerCase();
+            return isAuthorIdMatch || isEmailMatch || isNameMatch;
+        } else {
+            const isAuthorIdMatch = targetAuthorId && (
+                (p.authorId && String(p.authorId).toLowerCase() === String(targetAuthorId).toLowerCase()) ||
+                (p.userId && String(p.userId).toLowerCase() === String(targetAuthorId).toLowerCase())
+            );
+            const isNameMatch = selectedAuthor?.authorName && (
+                (p.authorName || p.author) && String(p.authorName || p.author).toLowerCase() === String(selectedAuthor.authorName).toLowerCase()
+            );
+            return isAuthorIdMatch || isNameMatch;
+        }
     })
     const userPostsCount = userPosts.length
 
-    const joinedDate = currentUser?.createdAt || currentUser?.joinedDate || "Jul 22, 2026"
+    // Thông tin hiển thị (Avatar, Tên, Bio, Ngày tham gia)
+    const displayName = isOwner
+        ? (currentUser?.username || "Tác giả")
+        : (selectedAuthor?.authorName || selectedAuthor?.author || "Tác giả")
+
+    const displayAvatar = isOwner
+        ? currentUser?.avatar
+        : (selectedAuthor?.authorAvatar || selectedAuthor?.avatar)
+
+    const displayBio = isOwner
+        ? (currentUser?.bio || "404 bio not found")
+        : (selectedAuthor?.authorBio || selectedAuthor?.bio || "404 bio not found")
+
+    const joinedDate = isOwner
+        ? (currentUser?.createdAt || currentUser?.joinedDate || "Jul 22, 2026")
+        : (selectedAuthor?.date || (selectedAuthor?.createdAt ? new Date(selectedAuthor.createdAt).toLocaleDateString('vi-VN') : "Jul 22, 2026"))
 
     return (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-gray-100 dark:bg-dark-bg animate-in fade-in duration-200">
@@ -66,30 +101,32 @@ function Info() {
 
                     {/* Avatar */}
                     <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-white dark:border-dark-surface overflow-hidden absolute -top-12 sm:-top-14 left-1/2 -translate-x-1/2 shadow-md object-cover bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                        {currentUser?.avatar ? (
-                            <img src={currentUser.avatar} alt={currentUser.username} className="w-full h-full object-cover" />
+                        {displayAvatar ? (
+                            <img src={displayAvatar} alt={displayName} className="w-full h-full object-cover" />
                         ) : (
                             <FontAwesomeIcon icon={faUser} className="text-gray-400 text-4xl" />
                         )}
                     </div>
 
-                    {/* Edit Profile Button */}
-                    <button
-                        onClick={() => setIsEditing(true)}
-                        className="absolute top-6 right-6 bg-[#4f46e5] hover:bg-[#4338ca] text-white font-semibold text-sm px-4 sm:px-5 py-2 rounded-xl transition-colors cursor-pointer shadow-sm flex items-center gap-2"
-                    >
-                        <FontAwesomeIcon icon={faUserPen} className="text-xs hidden sm:inline" />
-                        <span>Edit profile</span>
-                    </button>
+                    {/* Edit Profile Button (Chỉ hiển thị cho chính chủ) */}
+                    {isOwner && (
+                        <button
+                            onClick={() => setIsEditing(true)}
+                            className="absolute top-6 right-6 bg-[#4f46e5] hover:bg-[#4338ca] text-white font-semibold text-sm px-4 sm:px-5 py-2 rounded-xl transition-colors cursor-pointer shadow-sm flex items-center gap-2"
+                        >
+                            <FontAwesomeIcon icon={faUserPen} className="text-xs hidden sm:inline" />
+                            <span>Edit profile</span>
+                        </button>
+                    )}
 
                     {/* Name */}
                     <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white mb-1.5">
-                        {currentUser?.username || "Nguyễn Nhật Minh Quân"}
+                        {displayName}
                     </h1>
 
                     {/* Bio */}
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 max-w-md mx-auto">
-                        {currentUser?.bio || "404 bio not found"}
+                        {displayBio}
                     </p>
 
                     {/* Joined Date */}
@@ -116,41 +153,45 @@ function Info() {
                             <span>6 tags followed</span>
                         </div>
                     </div>
-                    {/* Right Box - Danh sách bài viết của tôi */}
+
+                    {/* Right Box - Danh sách bài viết */}
                     <div className="flex-1 w-full bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-5 shadow-sm flex flex-col gap-4">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white border-b border-gray-100 dark:border-gray-800 pb-3">
-                            Bài viết của tôi ({userPostsCount})
+                            {isOwner ? `Bài viết của tôi (${userPostsCount})` : `Bài viết của ${displayName} (${userPostsCount})`}
                         </h3>
                         {userPosts.length === 0 ? (
-                            <p className="text-center text-gray-500 py-8 text-sm">Bạn chưa xuất bản bài viết nào.</p>
+                            <p className="text-center text-gray-500 py-8 text-sm">
+                                {isOwner ? "Bạn chưa xuất bản bài viết nào." : "Tác giả chưa xuất bản bài viết nào."}
+                            </p>
                         ) : (
                             userPosts.map(post => (
                                 <div key={post.id} className="relative group cursor-pointer" >
                                     <PostCard post={post} />
-                                    <button
-                                        type="button"
-                                        onClick={() => handleDelete(post.id)}
-                                        disabled={loading}
-                                        className="absolute top-3 right-3 z-10 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                                    >
-                                        {loading ? (
-                                            <>
-                                                <FontAwesomeIcon icon={faSpinner} className="animate-spin" />
-                                                Đang xóa...
-                                            </>
-                                        ) : (
-                                            <>
-                                                <FontAwesomeIcon icon={faTrashCan} />
-                                                Xóa bài
-                                            </>
-                                        )}
-                                    </button>
+                                    {isOwner && (
+                                        <button
+                                            type="button"
+                                            onClick={() => handleDelete(post.id)}
+                                            disabled={loading}
+                                            className="absolute top-3 right-3 z-10 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                        >
+                                            {loading ? (
+                                                <>
+                                                    <FontAwesomeIcon icon={faSpinner} className="animate-spin" />
+                                                    Đang xóa...
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <FontAwesomeIcon icon={faTrashCan} />
+                                                    Xóa bài
+                                                </>
+                                            )}
+                                        </button>
+                                    )}
                                 </div>
                             ))
                         )}
                     </div>
                 </div>
-
 
             </div>
 

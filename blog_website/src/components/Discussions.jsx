@@ -9,7 +9,9 @@ function Discussions({ hotDiscussions = [] }) {
     const confirmNavigation = useDirtyCheck()
 
     const handleGoDetail = (id) => {
-        confirmNavigation(() => navigate(`/post/${id}`))
+        if (id) {
+            confirmNavigation(() => navigate(`/post/${id}`))
+        }
     }
 
     return (
@@ -19,23 +21,35 @@ function Discussions({ hotDiscussions = [] }) {
             </h3>
             <hr className='border-gray-200 dark:border-gray-800 mt-2' />
             <div className='flex flex-col gap-2 mt-2'>
-                {hotDiscussions?.map((discussion, index) => (
-                    <React.Fragment key={index}>
-                        <div
-                            onClick={() => handleGoDetail(discussion.id)}
-                            className='flex flex-col p-4 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 hover:rounded-2xl hover:-translate-y-1.5 duration-200 hover:transition-all'
-                        >
-                            <h4 className='font-bold text-gray-900 dark:text-gray-200'>{discussion.title}</h4>
-                            <div className='flex justify-between items-center mt-2'>
-                                <p className='text-xs text-gray-400'><span>by </span>{discussion.author}</p>
-                                <p className='text-xs text-gray-400'><FontAwesomeIcon icon={faComments} className='mr-1' />{discussion.comments} comments</p>
+                {(!hotDiscussions || hotDiscussions.length === 0) ? (
+                    <p className='text-xs text-gray-400 py-3 text-center'>Chưa có bài thảo luận nào.</p>
+                ) : (
+                    hotDiscussions.map((discussion, index) => (
+                        <React.Fragment key={discussion.id || index}>
+                            <div
+                                onClick={() => handleGoDetail(discussion.id)}
+                                className='flex flex-col p-3 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 hover:rounded-2xl hover:-translate-y-1 duration-200 hover:transition-all'
+                            >
+                                <h4 className='font-bold text-gray-900 dark:text-gray-200 text-sm line-clamp-2'>
+                                    {discussion.title}
+                                </h4>
+                                <div className='flex justify-between items-center mt-2'>
+                                    <p className='text-xs text-gray-400'>
+                                        <span>by </span>{discussion.authorName || discussion.author || 'Tác giả'}
+                                    </p>
+                                    <p className='text-xs text-gray-400'>
+                                        <FontAwesomeIcon icon={faComments} className='mr-1' />
+                                        {discussion.commentsCount ?? discussion.comments ?? 0} comments
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        {index !== hotDiscussions.length - 1 && <hr className='border-gray-200 dark:border-gray-800' />}
-                    </React.Fragment>
-                ))}
+                            {index !== hotDiscussions.length - 1 && <hr className='border-gray-100 dark:border-gray-800' />}
+                        </React.Fragment>
+                    ))
+                )}
             </div>
         </div>
     )
 }
+
 export default Discussions

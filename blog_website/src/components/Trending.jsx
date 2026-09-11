@@ -18,12 +18,23 @@ function Trending({ trendingTags }) {
                 </h3>
                 <hr className='border-gray-200 dark:border-gray-800 mt-2' />
                 <div className='flex flex-wrap gap-4 mt-2'>
-                    {trendingTags?.map((tag, index) => (
-                        <div key={index} onClick={() => handleGoPosts(tag.name)} className='flex items-center gap-2 hover:cursor-pointer hover:-translate-y-1.5 duration-200 hover:transition-all text-gray-900 dark:text-gray-300'>
-                            <span className='font-bold'>#{index + 1}</span>
-                            <span className='text-sm text-gray-600 dark:text-gray-400'>{tag.name}</span>
-                        </div>
-                    ))}
+                    {(!trendingTags || trendingTags.length === 0) ? (
+                        <p className='text-xs text-gray-400 py-2'>Chưa có chủ đề thịnh hành.</p>
+                    ) : (
+                        trendingTags.map((tag, index) => {
+                            const tagName = typeof tag === 'string' ? tag : tag.name;
+                            return (
+                                <div
+                                    key={index}
+                                    onClick={() => handleGoPosts(tagName)}
+                                    className='flex items-center gap-2 hover:cursor-pointer hover:-translate-y-1.5 duration-200 hover:transition-all text-gray-900 dark:text-gray-300'
+                                >
+                                    <span className='font-bold'>#{index + 1}</span>
+                                    <span className='text-sm text-gray-600 dark:text-gray-400'>{tagName}</span>
+                                </div>
+                            );
+                        })
+                    )}
                 </div>
             </div>
         </div>

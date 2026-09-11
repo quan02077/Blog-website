@@ -1,4 +1,5 @@
 import { useContext } from "react"
+import { useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser } from "@fortawesome/free-regular-svg-icons"
 import { faCircleInfo, faGear, faBookBookmark, faBell } from "@fortawesome/free-solid-svg-icons"
@@ -10,6 +11,7 @@ import useDirtyCheck from "../hooks/useDirtyCheck"
 function AccountTool() {
     const [state, dispatch] = useContext(Blog_context)
     const { currentUser } = state
+    const navigate = useNavigate()
     const confirmNavigation = useDirtyCheck()
 
     if (!state.btnAccount) return null
@@ -18,6 +20,18 @@ function AccountTool() {
         confirmNavigation(() => {
             dispatch(toggleActionFn(true))
             dispatch(action.toggleAccountAction(false))
+        })
+    }
+
+    const handleGoProfile = () => {
+        confirmNavigation(() => {
+            dispatch(action.toggleAccountAction(false))
+            const userId = currentUser?.id || currentUser?.Id
+            if (userId) {
+                navigate(`/user/${userId}`)
+            } else {
+                dispatch(action.toggleInfoAction(true))
+            }
         })
     }
 

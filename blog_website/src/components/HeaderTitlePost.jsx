@@ -1,15 +1,25 @@
+import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faClock,
     faCalendar,
     faUserCheck
 } from '@fortawesome/free-solid-svg-icons'
+import Blog_context from '../context/Blog_Context'
+import * as action from '../context/Actions'
 
 function HeaderTitlePost({ post }) {
+    const [, dispatch] = useContext(Blog_context)
+
     const displayAuthor = post?.authorName || 'Tác giả'
     const displayDate = post?.date || (post?.createdAt ? new Date(post.createdAt.endsWith('Z') || post.createdAt.includes('+') ? post.createdAt : post.createdAt + 'Z').toLocaleDateString('vi-VN') : 'Mới đây')
     const displayReadTime = post?.readTime ? `${post.readTime} phút đọc` : '1 phút đọc'
     const displayAvatar = post?.authorAvatar || post?.avatar || `https://ui-avatars.com/api/?name=${displayAuthor}`
+
+    const handleAuthorClick = (e) => {
+        if (e) e.stopPropagation()
+        dispatch(action.toggleInfoAction(post))
+    }
 
     return (
         <>
@@ -29,11 +39,19 @@ function HeaderTitlePost({ post }) {
                         <img
                             src={displayAvatar}
                             alt={displayAuthor}
-                            className="w-12 h-12 rounded-full ring-2 ring-blue-500/30 object-cover"
+                            className="w-12 h-12 rounded-full ring-2 ring-blue-500/30 object-cover cursor-pointer hover:opacity-80 hover:scale-105 transition-all shadow-sm"
+                            onClick={handleAuthorClick}
+                            title={`Xem trang cá nhân của ${displayAuthor}`}
                         />
                         <div>
                             <div className="flex items-center gap-2">
-                                <h3 className="font-bold text-gray-900 dark:text-white">{displayAuthor}</h3>
+                                <h3
+                                    className="font-bold text-gray-900 dark:text-white cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                                    onClick={handleAuthorClick}
+                                    title={`Xem trang cá nhân của ${displayAuthor}`}
+                                >
+                                    {displayAuthor}
+                                </h3>
                                 <span className="text-blue-500 text-xs">
                                     <FontAwesomeIcon icon={faUserCheck} />
                                 </span>

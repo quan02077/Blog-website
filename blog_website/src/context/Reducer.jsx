@@ -33,6 +33,7 @@ export const initialState = {
     btnSignInUp: false,
     btnAccount: false,
     btnInfo: false,
+    selectedAuthor: null,
     btnBookmarks: false,
     btnNotifications: false,
     btnSettings: false,
@@ -119,7 +120,8 @@ function reducer(state, action) {
         case TOGGLE_INFO:
             return {
                 ...state,
-                btnInfo: action.payload
+                btnInfo: Boolean(action.payload),
+                selectedAuthor: (typeof action.payload === 'object' && action.payload !== null) ? action.payload : null
             }
         case TOGGLE_BOOKMARKS:
             return {

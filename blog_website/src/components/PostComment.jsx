@@ -4,9 +4,10 @@ import {
     faPaperPlane
 } from '@fortawesome/free-solid-svg-icons'
 import Blog_context from '../context/Blog_Context'
+import * as action from '../context/Actions'
 
 function PostComment({ commentText, setCommentText, commentsList, handleAddComment }) {
-    const [state] = useContext(Blog_context)
+    const [state, dispatch] = useContext(Blog_context)
     const { currentUser } = state || {}
 
     return (
@@ -62,26 +63,46 @@ function PostComment({ commentText, setCommentText, commentsList, handleAddComme
                 {commentsList.length === 0 ? (
                     <p className="text-center text-gray-400 text-sm py-4">Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p>
                 ) : (
-                    commentsList.map((cmt) => (
-                        <div key={cmt.id} className="p-4 rounded-2xl bg-gray-50 dark:bg-dark-bg/60 border border-gray-100 dark:border-gray-800/80 flex gap-3.5">
-                            <img
-                                src={cmt.authorAvatar || `https://ui-avatars.com/api/?name=${cmt.authorName || 'User'}`}
-                                alt={cmt.authorName}
-                                className="w-9 h-9 rounded-full shrink-0 object-cover"
-                            />
-                            <div className="flex-1">
-                                <div className="flex items-center justify-between mb-1">
-                                    <h4 className="text-sm font-bold text-gray-900 dark:text-white">{cmt.authorName}</h4>
-                                    <span className="text-xs text-gray-400">
-                                        {cmt.createdAt ? new Date(cmt.createdAt).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' }) : ''}
-                                    </span>
+                    commentsList.map((cmt) => {
+                        const commenterId = cmt.userId || cmt.authorId;
+                        const handleCommenterClick = () => {
+                            dispatch(action.toggleInfoAction({
+                                authorId: commenterId,
+                                authorName: cmt.authorName,
+                                authorAvatar: cmt.authorAvatar,
+                                createdAt: cmt.createdAt
+                            }));
+                        };
+
+                        return (
+                            <div key={cmt.id} className="p-4 rounded-2xl bg-gray-50 dark:bg-dark-bg/60 border border-gray-100 dark:border-gray-800/80 flex gap-3.5">
+                                <img
+                                    src={cmt.authorAvatar || `https://ui-avatars.com/api/?name=${cmt.authorName || 'User'}`}
+                                    alt={cmt.authorName}
+                                    className={`w-9 h-9 rounded-full shrink-0 object-cover ${commenterId ? 'cursor-pointer hover:opacity-80 transition-opacity' : ''}`}
+                                    onClick={handleCommenterClick}
+                                    title={commenterId ? `Xem trang cá nhân của ${cmt.authorName}` : ''}
+                                />
+                                <div className="flex-1">
+                                    <div className="flex items-center justify-between mb-1">
+                                        <h4
+                                            className={`text-sm font-bold text-gray-900 dark:text-white ${commenterId ? 'cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors' : ''}`}
+                                            onClick={handleCommenterClick}
+                                            title={commenterId ? `Xem trang cá nhân của ${cmt.authorName}` : ''}
+                                        >
+                                            {cmt.authorName}
+                                        </h4>
+                                        <span className="text-xs text-gray-400">
+                                            {cmt.createdAt ? new Date(cmt.createdAt).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' }) : ''}
+                                        </span>
+                                    </div>
+                                    <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                        {cmt.content}
+                                    </p>
                                 </div>
-                                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                                    {cmt.content}
-                                </p>
                             </div>
-                        </div>
-                    ))
+                        );
+                    })
                 )}
 
             </div>

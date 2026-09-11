@@ -18,5 +18,8 @@ namespace Backend_Blog.Services
         Task<LikeResponseDTO> ToggleLikeAsync(Guid postId, Guid userId);
         Task<IEnumerable<CommentDTO>> GetCommentAsync(Guid userId);
         Task<CommentDTO> CreateCommentAsync(Guid postId, WriteCommentDTO request, Guid userId);
+        Task<IEnumerable<PostDto>> GetHotDiscussionsAsync();
+        Task<IEnumerable<string>> GetTrendingTagsAsync();
+
     }
 }

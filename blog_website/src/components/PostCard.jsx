@@ -46,6 +46,12 @@ function PostCard({ post }) {
         }
     }
 
+    const handleAuthorClick = (e) => {
+        if (e) e.stopPropagation()
+        dispatch(action.toggleAccountAction(false))
+        dispatch(action.toggleInfoAction(post))
+    }
+
     const dateStr = post.date || (post.createdAt
         ? new Date(post.createdAt.endsWith('Z') || post.createdAt.includes('+') ? post.createdAt : post.createdAt + 'Z').toLocaleDateString('vi-VN')
         : 'Mới đây')
@@ -83,10 +89,18 @@ function PostCard({ post }) {
                     <img
                         src={displayAvatar}
                         alt={displayAuthor}
-                        className="w-8 h-8 rounded-full object-cover border border-gray-100 dark:border-gray-700"
+                        className="w-8 h-8 rounded-full object-cover border border-gray-100 dark:border-gray-700 cursor-pointer hover:opacity-80 transition-opacity"
+                        onClick={handleAuthorClick}
+                        title={`Xem trang cá nhân của ${displayAuthor}`}
                     />
                     <div>
-                        <p className="text-sm font-semibold text-gray-800 dark:text-gray-200 leading-none">{displayAuthor}</p>
+                        <p
+                            className="text-sm font-semibold text-gray-800 dark:text-gray-200 leading-none cursor-pointer hover:text-gray-600 dark:hover:text-blue-400 transition-colors"
+                            onClick={handleAuthorClick}
+                            title={`Xem trang cá nhân của ${displayAuthor}`}
+                        >
+                            {displayAuthor}
+                        </p>
                         <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{dateStr} · {readTime}</p>
                     </div>
                 </div>
