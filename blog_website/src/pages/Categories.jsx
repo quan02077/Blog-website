@@ -4,7 +4,7 @@ import Blog_context from '../context/Blog_Context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import PopularCategoryCard from '../components/PopularCategoryCard'
-// import { popularCategories } from '../data/categoriesData'
+// import { popularcategories } from '../data/categoriesdata'
 
 function Categories() {
     const navigate = useNavigate()
@@ -18,7 +18,7 @@ function Categories() {
     return (
         <div className="flex flex-col gap-6 pb-10">
 
-            {/* Page Header */}
+            {/* page header */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
                 <div>
                     <h1 className="text-xl font-extrabold text-gray-900 dark:text-white leading-none mb-1">Chuyên mục</h1>
@@ -26,7 +26,7 @@ function Categories() {
                 </div>
             </div>
 
-            {/* Search */}
+            {/* search */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-4">
                 <div className="relative">
                     <FontAwesomeIcon icon={faSearch} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -39,7 +39,7 @@ function Categories() {
                 </div>
             </div>
 
-            {/* All Categories */}
+            {/* all categories */}
             <div>
                 <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 px-1">Tất cả chuyên mục</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

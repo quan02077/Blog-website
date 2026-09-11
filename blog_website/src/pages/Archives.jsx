@@ -20,7 +20,7 @@ function Archives() {
         navigate(`/post/${id}`)
     }
 
-    // Tự động tải lại bài viết khi có tìm kiếm hoặc đổi bộ lọc năm
+    // tự động tải lại bài viết khi có tìm kiếm hoặc đổi bộ lọc năm
     useEffect(() => {
         const fetchArchived = async () => {
             setArchiveLoading(true);
@@ -37,7 +37,7 @@ function Archives() {
         fetchArchived();
     }, [searchTerm, selectedYear]);
 
-    // Tạo danh sách các năm không trùng lặp từ danh sách bài viết gốc
+    // tạo danh sách các năm không trùng lặp từ danh sách bài viết gốc
     const uniqueYears = useMemo(() => {
         const years = posts.map(post => {
             const dateVal = post.date || post.createdAt
@@ -52,7 +52,7 @@ function Archives() {
         return [...new Set(years)].sort((a, b) => b - a)
     }, [posts])
 
-    // 🔄 Nhóm bài viết theo NĂM và THÁNG động từ danh sách bài viết đã lọc từ API
+    // 🔄 nhóm bài viết theo năm và tháng động từ danh sách bài viết đã lọc từ api
     const archiveData = useMemo(() => Object.values(
         archivedPosts.reduce((acc, post) => {
             let year = new Date().getFullYear()
@@ -90,7 +90,7 @@ function Archives() {
         months: Object.values(yearBlock.monthsMap)
     })).sort((a, b) => b.year - a.year), [archivedPosts])
 
-    // 📊 Thống kê động
+    // 📊 thống kê động
     const totalPosts = posts.length
     const yearsCount = archiveData.length || 1
     const categoriesCount = new Set(posts.map(p => p.category)).size || 1
@@ -106,7 +106,7 @@ function Archives() {
     return (
         <div className="flex flex-col gap-6 pb-10">
 
-            {/* Page Header */}
+            {/* page header */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
                 <div>
                     <h1 className="text-xl font-extrabold text-gray-900 dark:text-white leading-none mb-1">Lưu trữ</h1>
@@ -114,7 +114,7 @@ function Archives() {
                 </div>
             </div>
 
-            {/* Stats */}
+            {/* stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {dynamicStats.map((stat) => (
                     <div key={stat.label} className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-4 text-center hover:shadow-md transition-shadow">
@@ -124,7 +124,7 @@ function Archives() {
                 ))}
             </div>
 
-            {/* Filter Bar */}
+            {/* filter bar */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-4 flex flex-wrap gap-3 items-center">
                 <div className="relative flex-1 min-w-48">
                     <FontAwesomeIcon icon={faSearch} className="absolute left-3 top-3 text-gray-400 text-sm" />
@@ -151,7 +151,7 @@ function Archives() {
                 </div>
             </div>
 
-            {/* Timeline */}
+            {/* timeline */}
             {archiveLoading ? (
                 <div className="bg-white dark:bg-dark-surface rounded-2xl p-8 text-center text-gray-500">
                     Đang tải dữ liệu lưu trữ...
@@ -163,7 +163,7 @@ function Archives() {
             ) : (
                 archiveData.map((yearBlock) => (
                     <div key={yearBlock.year} className="flex flex-col gap-4">
-                        {/* Year Heading */}
+                        {/* year heading */}
                         <div className="flex items-center gap-3">
                             <span className="text-3xl font-black text-gray-900 dark:text-white">{yearBlock.year}</span>
                             <div className="flex-1 h-px bg-gray-200 dark:bg-gray-800" />

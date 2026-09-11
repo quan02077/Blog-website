@@ -30,7 +30,7 @@ function Drafts() {
     return (
         <div className="flex flex-col gap-6 pb-10">
 
-            {/* Page Header */}
+            {/* page header */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400">
                     <FontAwesomeIcon icon={faFileLines} />
@@ -41,7 +41,7 @@ function Drafts() {
                 </div>
             </div>
 
-            {/* Filter Bar */}
+            {/* filter bar */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-4 flex flex-wrap gap-3 items-center">
                 <div className="relative flex-1 min-w-48">
                     <FontAwesomeIcon icon={faSearch} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
@@ -87,7 +87,7 @@ function Drafts() {
                 </div>
             </div>
 
-            {/* Draft List or Empty State */}
+            {/* draft list or empty state */}
             {isEmpty ? (
                 <DraftEmptyState />
             ) : (

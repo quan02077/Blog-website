@@ -18,7 +18,7 @@ function PostComment({ commentText, setCommentText, commentsList, handleAddComme
                 </h3>
             </div>
 
-            {/* Form gửi bình luận mẫu */}
+            {/* form gửi bình luận mẫu */}
             <div className="flex gap-3 items-start">
                 <img
                     src={currentUser?.avatar || `https://ui-avatars.com/api/?name=${currentUser?.username || 'User'}`}
@@ -58,7 +58,7 @@ function PostComment({ commentText, setCommentText, commentsList, handleAddComme
                 </div>
             </div>
 
-            {/* Danh sách các bình luận mẫu */}
+            {/* danh sách các bình luận mẫu */}
             <div className="flex flex-col gap-4 mt-2">
                 {commentsList.length === 0 ? (
                     <p className="text-center text-gray-400 text-sm py-4">Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p>

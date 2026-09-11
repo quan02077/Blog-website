@@ -55,7 +55,7 @@ function DraftCard({ draft }) {
 
     return (
         <article className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden flex flex-col sm:flex-row hover:shadow-lg hover:shadow-gray-100 dark:hover:shadow-dark-bg/50 transition-all duration-300">
-            {/* Cover Image */}
+            {/* cover image */}
             <div className="sm:w-52 sm:shrink-0 overflow-hidden">
                 <img
                     src={draft.coverImage || draft.image || 'https://picsum.photos/seed/draft/400/200'}
@@ -64,10 +64,10 @@ function DraftCard({ draft }) {
                 />
             </div>
 
-            {/* Card Body */}
+            {/* card body */}
             <div className="flex-1 p-5 flex flex-col justify-between gap-3">
                 <div>
-                    {/* Category + Tags */}
+                    {/* category + tags */}
                     <div className="flex flex-wrap items-center gap-2 mb-2">
                         <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400">
                             {draft.categoryName || draft.category || 'Chưa phân loại'}
@@ -79,16 +79,16 @@ function DraftCard({ draft }) {
                         ))}
                     </div>
 
-                    {/* Title */}
+                    {/* title */}
                     <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-1.5 line-clamp-1 group-hover:text-gray-600 dark:group-hover:text-blue-400 transition-colors">
                         {draft.title || 'Bài viết chưa có tiêu đề'}
                     </h2>
 
-                    {/* Excerpt */}
+                    {/* excerpt */}
                     <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{excerptText}</p>
                 </div>
 
-                {/* Meta + Actions */}
+                {/* meta + actions */}
                 <div className="flex items-center justify-between flex-wrap gap-3 pt-3 border-t border-gray-100 dark:border-gray-800">
                     <div className="flex items-center gap-4 text-xs text-gray-400">
                         <span className="flex items-center gap-1.5">

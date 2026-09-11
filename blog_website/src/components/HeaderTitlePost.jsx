@@ -66,7 +66,7 @@ function HeaderTitlePost({ post }) {
                 </div>
             </header>
 
-            {/* --- HERO COVER IMAGE --- */}
+            {/* hero cover image */}
             <div className="rounded-3xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-800">
                 <img
                     src={post.coverImage || post.image}

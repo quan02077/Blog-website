@@ -63,7 +63,7 @@ function WritePostContent({ currentDraft, id }) {
 
             <CoverUpload image={image} setImage={setImage} />
 
-            {/* Post Title */}
+            {/* post title */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Tiêu đề</label>
                 <div className="relative">
@@ -83,7 +83,7 @@ function WritePostContent({ currentDraft, id }) {
                 </div>
             </div>
 
-            {/* Excerpt */}
+            {/* excerpt */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
                 <div className="flex justify-between items-center mb-3">
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Mô tả ngắn</label>

@@ -8,7 +8,7 @@ function Sidebar() {
     const { pathname } = location
     const confirmNavigation = useDirtyCheck()
 
-    // Logic kiểm tra Active thông minh cho từng mục:
+    // logic kiểm tra active thông minh cho từng mục:
     const isAllPostsActive = pathname === '/posts' || pathname.startsWith('/post/')
     const isPopularActive = pathname === '/popular'
     const isCategoriesActive = pathname === '/categories'
@@ -28,7 +28,7 @@ function Sidebar() {
     return (
         <div className="w-full h-full bg-white dark:bg-dark-surface border border-gray-200 dark:border-gray-800 rounded-xl p-4 custom-scrollbar">
             <nav className="flex flex-col gap-1">
-                {/* DISCOVER SECTION */}
+                {/* discover section */}
                 <div className="titleSideBar">Discover</div>
                 <NavLink to="/posts" className={getBtnClass(isAllPostsActive)} onClick={handleNavClick}>
                     All Posts
@@ -37,7 +37,7 @@ function Sidebar() {
                     Popular Posts
                 </NavLink>
 
-                {/* ORGANIZE SECTION */}
+                {/* organize section */}
                 <div className="titleSideBar">Organize</div>
                 <NavLink to="/categories" className={getBtnClass(isCategoriesActive)} onClick={handleNavClick}>
                     Categories
@@ -46,7 +46,7 @@ function Sidebar() {
                     Archives
                 </NavLink>
 
-                {/* AUTHOR SECTION */}
+                {/* author section */}
                 <div className="titleSideBar">AUTHOR</div>
                 <NavLink to="/write" className={getBtnClass(isWriteActive)} onClick={handleNavClick}>
                     Write a New Post
@@ -55,7 +55,7 @@ function Sidebar() {
                     Drafts
                 </NavLink>
 
-                {/* INFO SECTION */}
+                {/* info section */}
                 <div className="titleSideBar">Info</div>
                 <div className="flex flex-wrap gap-3">
                     <a href="https://www.facebook.com/nguyen.quan.930371/" target="_blank" rel="noopener noreferrer" className="hoverButton">

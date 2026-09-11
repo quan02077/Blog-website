@@ -4,7 +4,7 @@ import { faBell, faComment, faHeart, faXmark, faCheckDouble, faBullhorn } from "
 import Blog_context from "../context/Blog_Context"
 import * as action from "../context/Actions"
 
-// Danh sách thông báo mẫu
+// danh sách thông báo mẫu
 const initialNotifications = [
     {
         id: 1,
@@ -51,12 +51,12 @@ function Notifications() {
 
     if (!btnNotifications) return null
 
-    // Hàm đánh dấu 1 thông báo là đã đọc
+    // hàm đánh dấu 1 thông báo là đã đọc
     const markAsRead = (id) => {
         setList(list.map(item => item.id === id ? { ...item, isRead: true } : item))
     }
 
-    // Hàm đánh dấu tất cả là đã đọc
+    // hàm đánh dấu tất cả là đã đọc
     const markAllAsRead = () => {
         setList(list.map(item => ({ ...item, isRead: true })))
     }
@@ -72,7 +72,7 @@ function Notifications() {
                 className="bg-white dark:bg-dark-surface rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 w-full max-w-md p-6 animate-in slide-in-from-top-2 fade-in duration-200 flex flex-col max-h-[80vh]"
                 onClick={(e) => e.stopPropagation()}
             >
-                {/* --- HEADER --- */}
+                {/* header */}
                 <div className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-700">
                     <div className="flex items-center gap-2">
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white">Thông báo</h3>
@@ -101,7 +101,7 @@ function Notifications() {
                     </div>
                 </div>
 
-                {/* --- DANH SÁCH THÔNG BÁO --- */}
+                {/* danh sách thông báo */}
                 <div className="flex-1 overflow-y-auto my-4 space-y-3 pr-1">
                     {list.length === 0 ? (
                         <p className="text-center text-gray-500 py-8">Không có thông báo nào</p>
@@ -116,12 +116,12 @@ function Notifications() {
                                         : "bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700 shadow-sm hover:bg-gray-100/70"
                                 }`}
                             >
-                                {/* Icon thể loại thông báo */}
+                                {/* icon thể loại thông báo */}
                                 <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${item.iconColor}`}>
                                     <FontAwesomeIcon icon={item.icon} className="text-base" />
                                 </div>
 
-                                {/* Nội dung */}
+                                {/* nội dung */}
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center justify-between gap-2">
                                         <h4 className={`text-sm font-bold truncate ${item.isRead ? "text-gray-700 dark:text-gray-300" : "text-gray-900 dark:text-white"}`}>
@@ -134,7 +134,7 @@ function Notifications() {
                                     </p>
                                 </div>
 
-                                {/* Chấm xanh đánh dấu CHƯA ĐỌC */}
+                                {/* chấm xanh đánh dấu chưa đọc */}
                                 {!item.isRead && (
                                     <span className="w-2.5 h-2.5 bg-gray-900 dark:bg-white rounded-full shrink-0 mt-1.5 animate-pulse"></span>
                                 )}
@@ -143,7 +143,7 @@ function Notifications() {
                     )}
                 </div>
 
-                {/* --- FOOTER --- */}
+                {/* footer */}
                 <div className="pt-3 border-t border-gray-200 dark:border-gray-700 text-center">
                     <button
                         onClick={() => dispatch(action.toggleNotificationsAction(false))}

@@ -20,10 +20,10 @@ function PopularPosts() {
             try {
                 const data = await getPopularPost();
 
-                // Đồng bộ cấu trúc DTO từ C# Backend sang các thuộc tính giao diện yêu cầu
+                // đồng bộ cấu trúc dto từ c# backend sang các thuộc tính giao diện yêu cầu
                 const mappedData = data.map((item, index) => ({
                     ...item,
-                    rank: index + 1, // Thứ hạng tự động theo vị trí mảng
+                    rank: index + 1, // thứ hạng tự động theo vị trí mảng
                     category: item.categoryName || item.category,
                     description: item.summary || item.description,
                     author: item.authorName || item.author,
@@ -63,7 +63,7 @@ function PopularPosts() {
 
     return (
         <div className="flex flex-col gap-6 pb-8">
-            {/* Page Header */}
+            {/* page header */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
                 <div>
                     <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white leading-none mb-1">Phổ biến</h1>
@@ -71,13 +71,13 @@ function PopularPosts() {
                 </div>
             </div>
 
-            {/* Danh sách bài viết tối giản */}
+            {/* danh sách bài viết tối giản */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-2 sm:p-4">
                 {posts.map((post, index) => (
                     <div key={post.id} className="relative">
                         <CompactPopularPost post={post} handleGoDetail={() => handleGoDetail(post.id)} />
 
-                        {/* Divider */}
+                        {/* divider */}
                         {index < posts.length - 1 && (
                             <div className="h-px bg-gray-100 dark:bg-gray-800 mx-4 sm:mx-20" />
                         )}

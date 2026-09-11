@@ -28,7 +28,7 @@ function SignIn_Up() {
             <div
                 className='bg-light-bg dark:bg-dark-bg rounded-2xl shadow-2xl w-full max-w-md mx-auto relative flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 border border-gray-200 dark:border-gray-800'
                 onClick={(e) => e.stopPropagation()}>
-                {/* Phần Header (Tabs hoặc Tiêu đề) */}
+                {/* phần header (tabs hoặc tiêu đề) */}
                 {view === 'forgot' ? (
                     <div className="px-8 pt-8 pb-0">
                         <button
@@ -61,7 +61,7 @@ function SignIn_Up() {
                     </div>
                 )}
 
-                {/* Render Component tương ứng */}
+                {/* render component tương ứng */}
                 <div>
                     {view === 'login' && <Login setView={setView} />}
                     {view === 'register' && <Register setView={setView} />}

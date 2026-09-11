@@ -15,7 +15,7 @@ function PostMeta({ newCategory, setNewCategory, selectedCategory, setSelectedCa
         if (newCategory.trim() !== '') {
             const trimmed = newCategory.trim()
 
-            // Vì categories là mảng Object [{id, name}] nên dùng .some để kiểm tra trùng tên
+            // vì categories là mảng object [{id, name}] nên dùng .some để kiểm tra trùng tên
             const isExist = categories.some(cat => (cat?.name || cat).toLowerCase() === trimmed.toLowerCase())
 
             if (!isExist) {
@@ -23,13 +23,13 @@ function PostMeta({ newCategory, setNewCategory, selectedCategory, setSelectedCa
                     const data = await createCategory(trimmed)
                     dispatch(action.createCategoryAction(data))
                     showSuccessAlert('Thêm chuyên mục thành công')
-                    setSelectedCategory(data.id) // Gán bằng ID của danh mục vừa tạo
+                    setSelectedCategory(data.id) // gán bằng id của danh mục vừa tạo
                 } catch (error) {
                     showErrorAlert(error.message || 'Không thể tạo chuyên mục')
                 }
             } else {
                 showErrorAlert('Chuyên mục đã tồn tại')
-                // Nếu đã tồn tại, tìm lại ID của danh mục cũ để tự động chọn
+                // nếu đã tồn tại, tìm lại id của danh mục cũ để tự động chọn
                 const existingCat = categories.find(cat => (cat?.name || cat).toLowerCase() === trimmed.toLowerCase())
                 if (existingCat) {
                     setSelectedCategory(existingCat?.id || existingCat)
@@ -42,7 +42,7 @@ function PostMeta({ newCategory, setNewCategory, selectedCategory, setSelectedCa
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {/* Category */}
+            {/* category */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-5">
                 <div className="flex items-center justify-between mb-3">
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Chuyên mục</label>
@@ -100,7 +100,7 @@ function PostMeta({ newCategory, setNewCategory, selectedCategory, setSelectedCa
                 )}
             </div>
 
-            {/* Tags */}
+            {/* tags */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-5">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 items-center gap-2">
                     <FontAwesomeIcon icon={faTag} className="text-gray-400 dark:text-gray-500" />
@@ -120,7 +120,7 @@ function PostMeta({ newCategory, setNewCategory, selectedCategory, setSelectedCa
                 <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">Phân cách bằng dấu phẩy, tối đa 5 tags</p>
             </div>
 
-            {/* Reading time preview */}
+            {/* reading time preview */}
             <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-5">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 items-center gap-2">
                     <FontAwesomeIcon icon={faClock} className="text-gray-400 dark:text-gray-500" />

@@ -9,7 +9,7 @@ export function CompactPopularPost({ post, handleGoDetail }) {
             onClick={handleGoDetail}
             className="flex items-center gap-4 sm:gap-6 py-5 border-b border-gray-100 dark:border-gray-800/80 last:border-b-0 hover:bg-gray-50/40 dark:hover:bg-dark-surface-elevated/20 px-4 transition-colors group cursor-pointer"
         >
-            {/* Content */}
+            {/* content */}
             <div className="flex-1 min-w-0 flex flex-col gap-1.5">
                 <div className="flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-400">
                     <span className="uppercase tracking-wider">
@@ -26,7 +26,7 @@ export function CompactPopularPost({ post, handleGoDetail }) {
                     {post.title}
                 </h3>
 
-                {/* Meta Row: Author, Likes, Comments, Views */}
+                {/* meta row: author, likes, comments, views */}
                 <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500 dark:text-gray-400 mt-1">
                     <div className="flex items-center gap-1.5">
                         <span className="font-semibold text-gray-700 dark:text-gray-300">{post.author}</span>
@@ -34,7 +34,7 @@ export function CompactPopularPost({ post, handleGoDetail }) {
 
                     <span className="text-gray-300 dark:text-gray-700">|</span>
 
-                    {/* Stats text with icons */}
+                    {/* stats text with icons */}
                     <span className="flex items-center gap-1 font-medium">
                         <FontAwesomeIcon icon={faHeart} className="text-gray-400 text-[10px]" /> {post.likesCount ?? post.likes ?? 0}
                     </span>
@@ -47,7 +47,7 @@ export function CompactPopularPost({ post, handleGoDetail }) {
                 </div>
             </div>
 
-            {/* Thumbnail: Sharp Rectangle (no rounded corners) */}
+            {/* thumbnail: sharp rectangle (no rounded corners) */}
             <div className="hidden sm:block shrink-0 border border-gray-100 dark:border-gray-800 w-32 h-20">
                 <img
                     src={post.coverImage || post.image || 'https://picsum.photos/seed/post/400/200'}

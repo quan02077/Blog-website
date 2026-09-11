@@ -53,10 +53,10 @@ function reducer(state, action) {
             const newDarkMode = action.payload;
             let newCurrentUser = state.currentUser;
 
-            // Lưu chung vào trình duyệt
+            // lưu chung vào trình duyệt
             localStorage.setItem('darkMode', newDarkMode);
 
-            // Nếu đang đăng nhập, lưu luôn cấu hình cho tài khoản của người đó
+            // nếu đang đăng nhập, lưu luôn cấu hình cho tài khoản của người đó
             if (state.currentUser) {
                 newCurrentUser = { ...state.currentUser, darkMode: newDarkMode };
                 localStorage.setItem('currentUser', JSON.stringify(newCurrentUser));
@@ -75,7 +75,7 @@ function reducer(state, action) {
             }
 
         case LOGIN: {
-            if (action.payload === false) { // Trường hợp Đăng xuất cũ
+            if (action.payload === false) { // trường hợp đăng xuất cũ
                 localStorage.removeItem('currentUser');
                 localStorage.setItem('isSignIn', 'false');
                 return {
@@ -85,11 +85,11 @@ function reducer(state, action) {
                 }
             }
 
-            // Trường hợp Đăng nhập
+            // trường hợp đăng nhập
             const loggedUser = action.payload;
             const userDarkMode = loggedUser.darkMode !== undefined ? loggedUser.darkMode : state.darkMode;
 
-            // Cập nhật lại giao diện và lưu trạng thái đăng nhập
+            // cập nhật lại giao diện và lưu trạng thái đăng nhập
             localStorage.setItem('darkMode', userDarkMode);
             localStorage.setItem('currentUser', JSON.stringify(loggedUser));
             localStorage.setItem('isSignIn', 'true');
@@ -99,7 +99,7 @@ function reducer(state, action) {
                 isSignIn: true,
                 currentUser: loggedUser,
                 darkMode: userDarkMode,
-                btnSignInUp: false // Tắt modal form đi
+                btnSignInUp: false // tắt modal form đi
             }
         }
         case TOGGLE_ACCOUNT:
@@ -109,13 +109,13 @@ function reducer(state, action) {
             }
         case LOG_OUT:
             localStorage.removeItem('currentUser');
-            localStorage.removeItem('token'); // Xóa token JWT khi đăng xuất
+            localStorage.removeItem('token'); // xóa token jwt khi đăng xuất
             localStorage.setItem('isSignIn', 'false');
             return {
                 ...state,
                 isSignIn: false,
                 currentUser: null,
-                btnAccount: false // Ẩn luôn menu account
+                btnAccount: false // ẩn luôn menu account
             }
         case TOGGLE_INFO:
             return {
@@ -141,7 +141,7 @@ function reducer(state, action) {
         case UPDATE_INFO:
             {
                 const updatedUser = action.payload;
-                // Lưu thông tin mới vào Local Storage
+                // lưu thông tin mới vào local storage
                 localStorage.setItem('currentUser', JSON.stringify(updatedUser));
                 return {
                     ...state,
@@ -283,7 +283,7 @@ function reducer(state, action) {
                 const targetPost = action.payload
                 if (!targetPost || (!targetPost.id && !targetPost.title)) return state;
 
-                // Kiểm tra trùng lặp theo cả ID lẫn Tiêu đề bài viết
+                // kiểm tra trùng lặp theo cả id lẫn tiêu đề bài viết
                 const isAlreadyBookmarked = state.bookmarks.some(b =>
                     (targetPost.id && String(b.id) === String(targetPost.id)) ||
                     (targetPost.title && b.title === targetPost.title)

@@ -20,7 +20,7 @@ function Bookmarks() {
                 className="bg-white dark:bg-dark-surface rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 w-full max-w-2xl p-6 animate-in slide-in-from-top-2 fade-in duration-200 flex flex-col max-h-[85vh]"
                 onClick={(e) => e.stopPropagation()}
             >
-                {/* --- HEADER --- */}
+                {/* header */}
                 <div className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-700">
                     <div className="flex items-center gap-2">
                         <FontAwesomeIcon icon={faBookmark} className="text-yellow-500 text-xl" />
@@ -37,7 +37,7 @@ function Bookmarks() {
                     </button>
                 </div>
 
-                {/* --- DANH SÁCH BÀI VIẾT ĐÃ LƯU --- */}
+                {/* danh sách bài viết đã lưu */}
                 <div className="flex-1 overflow-y-auto my-4 space-y-6 pr-1">
                     {(!bookmarks || bookmarks.length === 0) ? (
                         <p className="text-center text-gray-500 py-8">Chưa có bài viết nào được lưu.</p>
@@ -48,7 +48,7 @@ function Bookmarks() {
                     )}
                 </div>
 
-                {/* --- FOOTER --- */}
+                {/* footer */}
                 <div className="pt-3 border-t border-gray-200 dark:border-gray-700 text-center">
                     <button
                         onClick={() => dispatch(action.toggleBookmarksAction(false))}

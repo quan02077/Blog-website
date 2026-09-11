@@ -10,7 +10,7 @@ function PostContent({ post }) {
                 {post?.content}
             </div>
 
-            {/* --- TAGS LIST --- */}
+            {/* tags list */}
             {tagsList.length > 0 && (
                 <div className="mt-10 pt-6 border-t border-gray-100 dark:border-gray-800 flex flex-wrap items-center gap-2">
                     <span className="text-xs font-semibold text-gray-400 mr-2 flex items-center gap-1">

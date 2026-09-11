@@ -70,7 +70,7 @@ function PostCard({ post }) {
     return (
         <article className="bg-white dark:bg-dark-surface rounded-md border border-gray-200 dark:border-gray-700/60 overflow-hidden hover:shadow-md hover:border-gray-400 dark:hover:border-blue-600/60 transition-all duration-200">
 
-            {/* Cover image — full width, no horizontal padding */}
+            {/* cover image — full width, no horizontal padding */}
             {(post.coverImage || post.image) && (
                 <div className="cursor-pointer overflow-hidden" onClick={handleGoDetail}>
                     <img
@@ -81,10 +81,10 @@ function PostCard({ post }) {
                 </div>
             )}
 
-            {/* Card body */}
+            {/* card body */}
             <div className="px-5 pt-4 pb-3">
 
-                {/* Author row */}
+                {/* author row */}
                 <div className="flex items-center gap-2.5 mb-3">
                     <img
                         src={displayAvatar}
@@ -105,7 +105,7 @@ function PostCard({ post }) {
                     </div>
                 </div>
 
-                {/* Title */}
+                {/* title */}
                 <h2
                     onClick={handleGoDetail}
                     className="text-xl font-bold text-gray-900 dark:text-white mb-3 leading-snug cursor-pointer hover:text-gray-600 dark:hover:text-blue-400 transition-colors line-clamp-2"
@@ -113,7 +113,7 @@ function PostCard({ post }) {
                     {post.title}
                 </h2>
 
-                {/* Tags — dev.to style: no background, colored on hover */}
+                {/* tags — dev.to style: no background, colored on hover */}
                 {tagsList.length > 0 && (
                     <div className="flex flex-wrap gap-0.5 mb-3">
                         {tagsList.map((tag, idx) => (
@@ -127,7 +127,7 @@ function PostCard({ post }) {
                     </div>
                 )}
 
-                {/* Action bar */}
+                {/* action bar */}
                 <div className="flex items-center justify-between pt-2">
                     <div className="flex items-center gap-1">
                         <button className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors px-2 py-1.5 rounded-md text-sm">

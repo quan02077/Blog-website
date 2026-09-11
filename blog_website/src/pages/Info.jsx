@@ -17,7 +17,7 @@ function Info() {
 
     if (!btnInfo) return null
 
-    // Xác định xem có phải đang xem tài khoản của chính mình hay của người khác
+    // xác định xem có phải đang xem tài khoản của chính mình hay của người khác
     const targetAuthorId = selectedAuthor?.authorId || selectedAuthor?.id || selectedAuthor?.userId
     const currentUserId = currentUser?.id || currentUser?.Id
 
@@ -42,7 +42,7 @@ function Info() {
         }
     }
 
-    // Danh sách bài viết của tác giả đang xem
+    // danh sách bài viết của tác giả đang xem
     const userPosts = posts.filter(p => {
         if (isOwner) {
             const isAuthorIdMatch = p.authorId && currentUserId && String(p.authorId).toLowerCase() === String(currentUserId).toLowerCase();
@@ -62,7 +62,7 @@ function Info() {
     })
     const userPostsCount = userPosts.length
 
-    // Thông tin hiển thị (Avatar, Tên, Bio, Ngày tham gia)
+    // thông tin hiển thị (avatar, tên, bio, ngày tham gia)
     const displayName = isOwner
         ? (currentUser?.username || "Tác giả")
         : (selectedAuthor?.authorName || selectedAuthor?.author || "Tác giả")
@@ -82,7 +82,7 @@ function Info() {
     return (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-gray-100 dark:bg-dark-bg animate-in fade-in duration-200">
 
-            {/* Top Black Banner */}
+            {/* top black banner */}
             <div className="h-44 bg-black w-full relative flex items-start justify-end p-4 sm:p-6 border-b border-gray-800">
                 <button
                     onClick={() => dispatch(action.toggleInfoAction(false))}
@@ -93,13 +93,13 @@ function Info() {
                 </button>
             </div>
 
-            {/* Main Profile Area */}
+            {/* main profile area */}
             <div className="w-full max-w-4xl mx-auto px-4 pb-16 -mt-16 relative z-10">
 
-                {/* Profile Card Header */}
+                {/* profile card header */}
                 <div className="bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-6 sm:p-8 pt-16 sm:pt-16 relative text-center shadow-lg">
 
-                    {/* Avatar */}
+                    {/* avatar */}
                     <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-white dark:border-dark-surface overflow-hidden absolute -top-12 sm:-top-14 left-1/2 -translate-x-1/2 shadow-md object-cover bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                         {displayAvatar ? (
                             <img src={displayAvatar} alt={displayName} className="w-full h-full object-cover" />
@@ -108,7 +108,7 @@ function Info() {
                         )}
                     </div>
 
-                    {/* Edit Profile Button (Chỉ hiển thị cho chính chủ) */}
+                    {/* edit profile button (chỉ hiển thị cho chính chủ) */}
                     {isOwner && (
                         <button
                             onClick={() => setIsEditing(true)}
@@ -119,17 +119,17 @@ function Info() {
                         </button>
                     )}
 
-                    {/* Name */}
+                    {/* name */}
                     <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white mb-1.5">
                         {displayName}
                     </h1>
 
-                    {/* Bio */}
+                    {/* bio */}
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 max-w-md mx-auto">
                         {displayBio}
                     </p>
 
-                    {/* Joined Date */}
+                    {/* joined date */}
                     <div className="text-xs text-gray-400 dark:text-gray-500 flex items-center justify-center gap-1.5 font-medium">
                         <FontAwesomeIcon icon={faCakeCandles} className="text-gray-400" />
                         <span>Joined on {joinedDate}</span>
@@ -138,7 +138,7 @@ function Info() {
                 </div>
 
                 <div className="mt-6 flex flex-col sm:flex-row gap-6 items-start">
-                    {/* Left Box */}
+                    {/* left box */}
                     <div className="w-full sm:w-72 bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col gap-3.5 shadow-sm shrink-0">
                         <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-300 font-medium">
                             <FontAwesomeIcon icon={faFileLines} className="text-gray-400 text-base w-5 text-center" />
@@ -154,7 +154,7 @@ function Info() {
                         </div>
                     </div>
 
-                    {/* Right Box - Danh sách bài viết */}
+                    {/* right box - danh sách bài viết */}
                     <div className="flex-1 w-full bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-800 p-5 shadow-sm flex flex-col gap-4">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white border-b border-gray-100 dark:border-gray-800 pb-3">
                             {isOwner ? `Bài viết của tôi (${userPostsCount})` : `Bài viết của ${displayName} (${userPostsCount})`}
@@ -195,7 +195,7 @@ function Info() {
 
             </div>
 
-            {/* Edit Profile Modal */}
+            {/* edit profile modal */}
             {isEditing && (
                 <EditForm
                     currentUser={currentUser}

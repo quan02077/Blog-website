@@ -7,7 +7,7 @@ import Blog_context from '../context/Blog_Context'
 import useInfiniteScroll from '../hooks/useInfiniteScroll'
 import Loader from '../animation/Loader'
 
-// Sub-component hiển thị Banner lọc bài viết (Áp dụng nguyên lý DRY - Don't Repeat Yourself)
+// sub-component hiển thị banner lọc bài viết (áp dụng nguyên lý dry - don't repeat yourself)
 function FilterBanner({ title, type, count }) {
     return (
         <div className="info-badge">
@@ -26,10 +26,10 @@ function Posts() {
     const { currentUser, posts = [] } = state || {}
     const { category, tag } = useParams()
 
-    // Số lượng bài viết hiển thị ban đầu
+    // số lượng bài viết hiển thị ban đầu
     const [visibleCount, setVisibleCount] = useState(2)
 
-    // 1. Tối ưu phép lọc bài viết bằng useMemo (Tránh lọc lại mảng khi chỉ đổi số bài đang xem)
+    // 1. tối ưu phép lọc bài viết bằng usememo (tránh lọc lại mảng khi chỉ đổi số bài đang xem)
     const displayPosts = useMemo(() => {
         const safePosts = posts || []
 
@@ -49,12 +49,12 @@ function Posts() {
 
     const hasMore = visibleCount < displayPosts.length
 
-    // 2. Cố định tham chiếu hàm bằng useCallback (Tránh re-create function instance)
+    // 2. cố định tham chiếu hàm bằng usecallback (tránh re-create function instance)
     const handleLoadMore = useCallback(() => {
         setVisibleCount(prev => prev + 2)
     }, [])
 
-    // 3. Sử dụng custom hook Infinite Scroll đã tối ưu
+    // 3. sử dụng custom hook infinite scroll đã tối ưu
     const observerRef = useInfiniteScroll(handleLoadMore, hasMore)
 
     return (
@@ -69,7 +69,7 @@ function Posts() {
                 </Link>
             )}
 
-            {/* Render Banner bằng Component tái sử dụng (DRY) */}
+            {/* render banner bằng component tái sử dụng (dry) */}
             {category && <FilterBanner type="chuyên mục" title={category} count={displayPosts.length} />}
             {tag && <FilterBanner type="thẻ" title={tag} count={displayPosts.length} />}
 
@@ -83,7 +83,7 @@ function Posts() {
                         <PostCard key={post.id} post={post} />
                     ))}
 
-                    {/* Vùng cảm biến cuộn trang Infinite Scroll */}
+                    {/* vùng cảm biến cuộn trang infinite scroll */}
                     <div ref={observerRef} className="py-6 flex flex-col items-center justify-center gap-2">
                         {hasMore ? (
                             <Loader />

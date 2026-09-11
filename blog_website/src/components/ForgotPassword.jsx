@@ -6,13 +6,13 @@ import ClearInputButton from './ClearInputButton';
 import { forgotPasswordApi, resetPasswordApi } from '../api/auth';
 
 function ForgotPassword({ setView }) {
-    const [step, setStep] = useState(1); // 1: Nhập email, 2: Nhập mật khẩu mới
+    const [step, setStep] = useState(1); // 1: nhập email, 2: nhập mật khẩu mới
     const [email, setEmail] = useState('');
-    const [token, setToken] = useState(''); // Lưu Reset Token nhận từ API
+    const [token, setToken] = useState(''); // lưu reset token nhận từ api
     const [newPassword, setNewPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
-    // Bước 1: Gửi email xin token
+    // bước 1: gửi email xin token
     const handleSendEmail = async (e) => {
         e.preventDefault();
         if (!email) {
@@ -23,8 +23,8 @@ function ForgotPassword({ setView }) {
         try {
             const data = await forgotPasswordApi(email);
             showSuccessAlert("Thành công", data.message);
-            setToken(data.resetToken); // Nhận token trực tiếp từ API (Chế độ Dev)
-            setStep(2); // Chuyển sang bước 2
+            setToken(data.resetToken); // nhận token trực tiếp từ api (chế độ dev)
+            setStep(2); // chuyển sang bước 2
         } catch (error) {
             showErrorAlert("Lỗi", error.message);
         } finally {
@@ -32,7 +32,7 @@ function ForgotPassword({ setView }) {
         }
     };
 
-    // Bước 2: Gửi mật khẩu mới kèm token lên đổi
+    // bước 2: gửi mật khẩu mới kèm token lên đổi
     const handleResetPassword = async (e) => {
         e.preventDefault();
         if (!newPassword) {
@@ -43,7 +43,7 @@ function ForgotPassword({ setView }) {
         try {
             await resetPasswordApi(email, token, newPassword);
             showSuccessAlert("Thành công", "Đặt lại mật khẩu thành công!");
-            setView('login'); // Đổi thành công quay lại trang đăng nhập
+            setView('login'); // đổi thành công quay lại trang đăng nhập
         } catch (error) {
             showErrorAlert("Lỗi", error.message);
         } finally {
@@ -54,7 +54,7 @@ function ForgotPassword({ setView }) {
     return (
         <div className="p-8">
             {step === 1 ? (
-                // FORM BƯỚC 1: NHẬP EMAIL
+                // form bước 1: nhập email
                 <form className="space-y-4" onSubmit={handleSendEmail}>
                     <div className="space-y-1.5 animate-in slide-in-from-right-4 duration-300">
                         <label className="auth-label">Email tài khoản</label>
@@ -76,7 +76,7 @@ function ForgotPassword({ setView }) {
                     </button>
                 </form>
             ) : (
-                // FORM BƯỚC 2: NHẬP MẬT KHẨU MỚI
+                // form bước 2: nhập mật khẩu mới
                 <form className="space-y-4" onSubmit={handleResetPassword}>
                     <div className="space-y-1.5 animate-in slide-in-from-right-4 duration-300">
                         <label className="auth-label">Mật khẩu mới</label>
