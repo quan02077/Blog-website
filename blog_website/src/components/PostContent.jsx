@@ -1,12 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-    faTag
-} from '@fortawesome/free-solid-svg-icons'
+import { faTag } from '@fortawesome/free-solid-svg-icons'
 function PostContent({ post }) {
     const rawTags = post?.tag || post?.tags || ''
-    const tagsList = Array.isArray(rawTags)
-        ? rawTags
-        : String(rawTags).split(',').map(t => t.trim()).filter(Boolean)
+    const tagsList = Array.isArray(rawTags) ? rawTags : String(rawTags).split(',').map(t => t.trim()).filter(Boolean)
 
     return (
         <div className="bg-white dark:bg-dark-surface rounded-3xl border border-gray-200 dark:border-gray-800 p-6 sm:p-10 shadow-sm">
