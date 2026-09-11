@@ -219,9 +219,3 @@ Blog-website/
 **Nguyễn Nhật Minh Quân**
 * Vai trò: Fullstack Developer (.NET & React)
 * GitHub: [@quan02077](https://github.com/quan02077)
-
----
-
-## 📄 Giấy Phép (License)
-
-Dự án được phân phối dưới giấy phép [MIT License](LICENSE).
