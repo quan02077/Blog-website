@@ -1,7 +1,7 @@
-# 🌐 Modern Fullstack Blog Platform
+# 🌐 Nền Tảng Blog Đa Năng (Modern Fullstack Blog Platform)
 
 <p align="center">
-  <strong>A modern, responsive, and minimalist fullstack blogging platform built with ASP.NET Core Web API and React 19.</strong>
+  <strong>Ứng dụng Blog hiện đại, tối giản và responsive được xây dựng với kiến trúc Fullstack: ASP.NET Core Web API và React 19.</strong>
 </p>
 
 <p align="center">
@@ -15,71 +15,71 @@
 
 ---
 
-## 📖 Overview
+## 📖 Tổng Quan Dự Án
 
-This project is an end-to-end Fullstack Web Application designed for publishing, discovering, and interacting with high-quality tech blogs and articles. Built with a focus on **clean architecture, database integrity, and a minimalist reading experience** inspired by Medium and Dev.to.
-
----
-
-## ✨ Key Features
-
-### 1. 🔐 Authentication & Authorization
-* **JWT (JSON Web Token) Security:** Short-lived access token with cryptographic signature.
-* **HttpOnly Cookie Refresh Tokens:** Secure sliding-session token rotation preventing XSS attacks.
-* **Password Hashing:** Secure password verification via `PasswordHasher<User>`.
-* **Account Recovery:** Self-service Forgot Password and Reset Token verification workflow.
-
-### 2. 📝 Post & Content Management
-* **Full CRUD Lifecycle:** Create, edit, delete, and publish articles with categories and tags.
-* **Cover Photo Uploads:** Seamless cloud image integration via **Cloudinary API**.
-* **Live Reading Time Calculator:** Dynamic word-count estimation computed in real-time.
-* **Drafts System:** Dedicated personal draft workspace for unfinished articles.
-
-### 3. ❤️ Social Interactions (Database Normalized)
-* **Likes / Thả tim:** Many-to-Many relationship governed by composite primary keys `(PostId, UserId)` to eliminate duplicate likes at the database layer.
-* **Bookmarks / Lưu bài viết:** Persistent saved posts collection with instant optimistic updates.
-* **Interactive Comments:** Hierarchical comments with timestamps, author avatars, and profile navigation.
-* **Native Share API:** Native mobile sharing (`navigator.share`) with automatic clipboard copy fallback.
-
-### 4. 👤 Author Profiles & Minimalist UX
-* **Interactive Author Modals:** Click any author's avatar or name on post cards or comment sections to view their profile, bio, statistics, and published stories.
-* **Responsive 2-Column Minimalist Layout:** Clean layout maximizing focus on readable content without distracting sidebars.
-* **Dark / Light Mode:** Persistent theme toggle with immediate CSS token switches.
-* **Global Reactive State:** Centralized state management via **React Context + Reducer** for instantaneous cross-component data synchronization without page refreshes.
+Dự án là một ứng dụng Web Fullstack hoàn chỉnh phục vụ nhu cầu xuất bản, khám phá và tương tác với các bài viết công nghệ chất lượng cao. Dự án chú trọng vào **Clean Architecture, tính toàn vẹn của Cơ sở dữ liệu và trải nghiệm đọc tối giản (Minimalist Reading Experience)** lấy cảm hứng từ Medium và Dev.to.
 
 ---
 
-## 🛠️ Tech Stack
+## ✨ Các Tính Năng Nổi Bật
 
-| Layer | Technology | Description |
+### 1. 🔐 Xác Thực & Bảo Mật (Authentication & Security)
+* **JWT (JSON Web Token):** Mã hóa và cấp phát Access Token an toàn cho các request yêu cầu ủy quyền.
+* **Cơ chế Refresh Token qua Cookie HttpOnly:** Tự động duy trì phiên đăng nhập và cấp mới Access Token, ngăn chặn triệt để tấn công XSS.
+* **Mã hóa mật khẩu:** Mật khẩu người dùng được băm an toàn thông qua `PasswordHasher<User>`.
+* **Khôi phục tài khoản:** Quy trình Quên mật khẩu & Đặt lại mật khẩu dựa trên Reset Token có thời hạn xác thực.
+
+### 2. 📝 Quản Lý Bài Viết & Nội Dung (Post Management)
+* **Vòng đời CRUD hoàn chỉnh:** Tạo mới, chỉnh sửa, xóa và xuất bản bài viết theo Chuyên mục (Categories) và Thẻ (Tags).
+* **Upload ảnh bìa qua Cloud:** Tích hợp tải ảnh trực tiếp lên **Cloudinary API**.
+* **Tính toán thời gian đọc tự động (Read Time):** Tự động phân tích số lượng từ ngữ của nội dung để ước lượng thời gian đọc theo phút.
+* **Hệ thống Bản nháp (Drafts):** Không gian lưu trữ bài viết đang soạn dở trước khi công khai.
+
+### 3. ❤️ Tương Tác Mạng Xã Hội (Chuẩn Hóa CSDL Quan Hệ)
+* **Thả tim (Likes):** Thiết kế quan hệ **Nhiều - Nhiều (N-N)** giữa `User` và `Post` với **Khóa chính phức hợp `(PostId, UserId)`**, giúp ngăn chặn trùng lặp like ngay từ tầng Database.
+* **Lưu bài viết (Bookmarks):** Lưu trữ danh sách bài viết yêu thích với cơ chế cập nhật giao diện tức thì (Optimistic UI).
+* **Bình luận (Comments):** Hiển thị danh sách bình luận kèm avatar, ngày giờ đăng bài và điều hướng tác giả.
+* **Chia sẻ bài viết:** Hỗ trợ Web Share API trên thiết bị di động và tự động copy link bài viết vào Clipboard trên máy tính.
+
+### 4. 👤 Hồ Sơ Tác Giả & Trải Nghiệm Tối Giản (Minimalist UX)
+* **Popup Hồ sơ Tác giả tương tác:** Nhấp vào Avatar hoặc Tên tác giả ở bất kỳ đâu (PostCard, PostDetail, Bình luận) để xem hồ sơ, tiểu sử, số liệu thống kê và toàn bộ bài viết đã đăng của người đó.
+* **Bố cục 2 cột tối giản (Minimalist Layout):** Loại bỏ thanh sidebar phụ rườm rà, tập trung tối đa không gian cho nội dung bài đọc.
+* **Chế độ Sáng / Tối (Dark & Light Mode):** Chuyển đổi giao diện mượt mà và lưu lại cấu hình trên trình duyệt.
+* **Quản lý State tập trung:** Sử dụng **React Context + Reducer** để đồng bộ trạng thái (Thả tim, Lưu bài) giữa các trang mà không cần tải lại (F5).
+
+---
+
+## 🛠️ Công Nghệ Sử Dụng (Tech Stack)
+
+| Tầng (Layer) | Công nghệ | Vai trò & Mô tả |
 | :--- | :--- | :--- |
-| **Frontend** | React 19, Vite | Fast Single-Page Application (SPA) with Hooks & Context API |
-| **Styling** | Tailwind CSS v4 | Modern, utility-first CSS design system |
-| **Icons & UI** | FontAwesome, SweetAlert2 | Interactive iconography and polished modal alerts |
-| **Backend** | ASP.NET Core Web API (.NET 10) | RESTful API with Dependency Injection and Clean Controller/Service pattern |
-| **ORM / Data** | Entity Framework Core 10 | Code-First database modeling with migrations |
-| **Database** | Microsoft SQL Server | Relational Database Management System (RDBMS) |
-| **Media Storage**| Cloudinary | Cloud-based media storage and image transformations |
-| **Auth** | JWT Bearer, Cookie Authentication | Secure token management and authorization policies |
+| **Frontend** | React 19, Vite | Xây dựng Single Page Application (SPA) tốc độ cao |
+| **Styling** | Tailwind CSS v4 | Hệ thống giao diện hiện đại, tối ưu CSS |
+| **Icons & Alerts** | FontAwesome, SweetAlert2 | Bộ icon phong phú và popup thông báo đẹp mắt |
+| **Backend** | ASP.NET Core Web API (.NET 10) | RESTful API hiệu năng cao với Clean Architecture |
+| **ORM** | Entity Framework Core 10 | Tiếp cận Code-First với Migrations tự động |
+| **Cơ sở dữ liệu** | Microsoft SQL Server | Hệ quản trị CSDL quan hệ chuẩn hóa |
+| **Lưu trữ ảnh** | Cloudinary | Dịch vụ lưu trữ và tối ưu hóa hình ảnh đám mây |
+| **Bảo mật** | JWT, Cookie Authentication | Phân quyền và xác thực người dùng an toàn |
 
 ---
 
-## 🗄️ Database Architecture Highlights
+## 🗄️ Thiết Kế Cơ Sở Dữ Liệu (Database Architecture)
 
-The database is designed with strict relational constraints and normalization:
+Cơ sở dữ liệu được thiết kế với ràng buộc toàn vẹn và chuẩn hóa:
 
 ```mermaid
 erDiagram
-    User ||--o{ Post : "authors"
-    User ||--o{ PostsLike : "likes"
-    User ||--o{ PostBookmark : "bookmarks"
-    User ||--o{ PostComment : "writes"
+    User ||--o{ Post : "sở hữu"
+    User ||--o{ PostsLike : "thả tim"
+    User ||--o{ PostBookmark : "lưu bài"
+    User ||--o{ PostComment : "bình luận"
     
-    Category ||--o{ Post : "classifies"
+    Category ||--o{ Post : "phân loại"
     
-    Post ||--o{ PostsLike : "receives"
-    Post ||--o{ PostBookmark : "saved_in"
-    Post ||--o{ PostComment : "has"
+    Post ||--o{ PostsLike : "nhận lượt tim"
+    Post ||--o{ PostBookmark : "được lưu"
+    Post ||--o{ PostComment : "chứa"
 
     PostsLike {
         Guid PostId PK, FK
@@ -94,134 +94,134 @@ erDiagram
     }
 ```
 
-> **Engineering Note:** Both `PostsLike` and `PostBookmark` utilize **Composite Primary Keys** `(PostId, UserId)` in EF Core, guaranteeing idempotency and data consistency at the hardware/database level.
+> **Điểm sáng kỹ thuật:** Bảng `PostsLike` và `PostBookmark` sử dụng **Khóa chính phức hợp (Composite Primary Key)** gồm `(PostId, UserId)`, đảm bảo tính toàn vẹn dữ liệu (1 người dùng chỉ có thể Like/Bookmark 1 bài viết duy nhất 1 lần).
 
 ---
 
-## 📂 Project Structure
+## 📂 Cấu Trúc Thư Mục Dự Án
 
 ```text
 Blog-website/
-├── Backend_Blog/                 # ASP.NET Core Web API Backend
+├── Backend_Blog/                 # Backend ASP.NET Core Web API
 │   └── Backend_Blog/
-│       ├── Controllers/          # API Controllers (Auth, Post, EditProfile)
-│       ├── Data/                 # DbContext and database seed configurations
-│       ├── Entities/             # EF Core Entities (User, Post, Category, etc.)
-│       ├── Models/               # Request/Response DTOs
-│       ├── Services/             # Business Logic & Services Layer
-│       ├── Migrations/           # EF Core Code-First database migrations
-│       └── appsettings.json      # Connection strings and JWT credentials
+│       ├── Controllers/          # Các Controller tiếp nhận API (Auth, Post, EditProfile)
+│       ├── Data/                 # MyBlogContext và cấu hình ánh xạ CSDL
+│       ├── Entities/             # Các bảng Database (User, Post, Category, Like, Bookmark...)
+│       ├── Models/               # Các lớp DTO gửi/nhận dữ liệu
+│       ├── Services/             # Tầng xử lý nghiệp vụ chính (Business Logic)
+│       ├── Migrations/           # Lịch sử Migration của Entity Framework Core
+│       └── appsettings.json      # Chuỗi kết nối Database và cấu hình JWT/Cloudinary
 │
-├── blog_website/                 # React SPA Frontend
+├── blog_website/                 # Frontend React SPA
 │   └── src/
-│       ├── api/                  # API client fetch wrappers (Auth, Post, Client)
-│       ├── components/           # Reusable components (PostCard, Header, PostComment...)
-│       ├── context/              # Centralized State (Actions, Reducer, Provider, Context)
-│       ├── pages/                # Views (Posts, PostDetail, Categories, Info, WritePost...)
-│       ├── hooks/                # Custom React Hooks (useDirtyCheck, useInfiniteScroll)
-│       └── utils/                # Utility helpers (alerts, date formatters)
+│       ├── api/                  # Các hàm gọi API tới Backend (Auth, Post, Client)
+│       ├── components/           # Các component tái sử dụng (PostCard, Header, PostComment...)
+│       ├── context/              # Quản lý State toàn cục (Actions, Reducer, Provider, Context)
+│       ├── pages/                # Các trang hiển thị (Posts, PostDetail, Categories, Info...)
+│       ├── hooks/                # Custom Hooks (useDirtyCheck, useInfiniteScroll)
+│       └── utils/                # Tiện ích bổ trợ (alert, date formatter)
 │
-└── README.md                     # Project documentation
+└── README.md                     # Tài liệu hướng dẫn dự án
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Hướng Dẫn Cài Đặt & Chạy Trên Máy (Getting Started)
 
-### Prerequisites
+### Yêu cầu môi trường
 * [.NET 10.0 SDK](https://dotnet.microsoft.com/)
-* [Node.js](https://nodejs.org/) (v18 or newer)
-* [SQL Server](https://www.microsoft.com/en-us/sql-server) (LocalDB, Express, or Developer Edition)
+* [Node.js](https://nodejs.org/) (phiên bản 18 trở lên)
+* [SQL Server](https://www.microsoft.com/en-us/sql-server) (LocalDB, Express hoặc Developer)
 * [Git](https://git-scm.com/)
 
 ---
 
-### 1. Backend Setup
+### 1. Khởi động Backend (.NET Web API)
 
-1. **Navigate to the Backend project:**
+1. **Di chuyển vào thư mục Backend:**
    ```bash
    cd Backend_Blog/Backend_Blog
    ```
 
-2. **Configure Database Connection:**
-   Open `appsettings.json` and adjust the connection string to match your SQL Server instance:
+2. **Cấu hình chuỗi kết nối CSDL:**
+   Mở file `appsettings.json` và điều chỉnh chuỗi kết nối phù hợp với SQL Server của bạn:
    ```json
    "ConnectionStrings": {
      "DefaultConnection": "Data Source=localhost;Initial Catalog=DB_Blog;Integrated Security=True;Trust Server Certificate=True"
    }
    ```
 
-3. **Apply Database Migrations:**
+3. **Tạo CSDL và áp dụng Migrations:**
    ```bash
    dotnet ef database update
    ```
 
-4. **Run the API Server:**
+4. **Chạy server Backend:**
    ```bash
    dotnet run
    ```
-   *The backend will start at `https://localhost:7198` (or `http://localhost:5264`).*
+   *Backend sẽ khởi chạy tại cổng `https://localhost:7198` (hoặc `http://localhost:5264`).*
 
 ---
 
-### 2. Frontend Setup
+### 2. Khởi động Frontend (React + Vite)
 
-1. **Navigate to the Frontend directory:**
+1. **Di chuyển vào thư mục Frontend:**
    ```bash
    cd blog_website
    ```
 
-2. **Install dependencies:**
+2. **Cài đặt các thư viện cần thiết:**
    ```bash
    npm install
    ```
 
-3. **Launch the development server:**
+3. **Chạy server phát triển:**
    ```bash
    npm run dev
    ```
-   *The frontend will be accessible at `http://localhost:5173`.*
+   *Frontend sẽ hiển thị tại địa chỉ: `http://localhost:5173`.*
 
 ---
 
-## 📡 RESTful API Endpoints
+## 📡 Danh Sách API Chính (RESTful Endpoints)
 
-### 🔐 Authentication (`/api/auth`)
-| Method | Endpoint | Description | Auth Required |
+### 🔐 Xác Thực Người Dùng (`/api/auth`)
+| Phương thức | Endpoint | Chức năng | Yêu cầu Đăng nhập |
 | :--- | :--- | :--- | :---: |
-| `POST` | `/api/auth/register` | Register a new user account | ❌ |
-| `POST` | `/api/auth/login` | Log in and receive JWT token + Refresh Cookie | ❌ |
-| `GET` | `/api/auth/me` | Fetch authenticated user profile data | ✅ |
-| `POST` | `/api/auth/refresh` | Exchange Refresh Token for a new Access Token | ❌ |
-| `POST` | `/api/auth/forgot-password` | Request password reset token | ❌ |
-| `POST` | `/api/auth/reset-password` | Reset password using verified token | ❌ |
+| `POST` | `/api/auth/register` | Đăng ký tài khoản người dùng mới | ❌ |
+| `POST` | `/api/auth/login` | Đăng nhập hệ thống (nhận JWT Token & Cookie Refresh) | ❌ |
+| `GET` | `/api/auth/me` | Lấy thông tin tài khoản hiện tại | ✅ |
+| `POST` | `/api/auth/refresh` | Cấp mới Access Token khi hết hạn | ❌ |
+| `POST` | `/api/auth/forgot-password` | Gửi yêu cầu lấy mã đặt lại mật khẩu | ❌ |
+| `POST` | `/api/auth/reset-password` | Xác thực token và đổi mật khẩu mới | ❌ |
 
-### 📰 Posts & Interactions (`/api/post`)
-| Method | Endpoint | Description | Auth Required |
+### 📰 Bài Viết & Tương Tác (`/api/post`)
+| Phương thức | Endpoint | Chức năng | Yêu cầu Đăng nhập |
 | :--- | :--- | :--- | :---: |
-| `GET` | `/api/post` | Get published posts with search & year filtering | ❌ |
-| `GET` | `/api/post/{id}` | Get detailed post content by ID | ❌ |
-| `POST` | `/api/post` | Create a new blog post | ✅ |
-| `PUT` | `/api/post/{id}` | Update an existing post | ✅ |
-| `DELETE` | `/api/post/{id}` | Delete a post | ✅ |
-| `POST` | `/api/post/{id}/like` | Toggle like status on a post | ✅ |
-| `GET` | `/api/post/{id}/comments`| Fetch comments for a post | ❌ |
-| `POST` | `/api/post/{id}/comments`| Post a new comment | ✅ |
-| `POST` | `/api/post/{id}/bookmark`| Toggle bookmark status | ✅ |
-| `GET` | `/api/post/my-bookmarks` | Fetch user's bookmarked posts | ✅ |
-| `GET` | `/api/post/my-drafts` | Fetch user's unpublished drafts | ✅ |
-| `GET` | `/api/post/popular-posts`| Get top trending posts | ❌ |
+| `GET` | `/api/post` | Lấy danh sách bài viết (có tìm kiếm & lọc năm) | ❌ |
+| `GET` | `/api/post/{id}` | Lấy chi tiết bài viết theo ID | ❌ |
+| `POST` | `/api/post` | Đăng bài viết mới (kèm upload ảnh bìa) | ✅ |
+| `PUT` | `/api/post/{id}` | Chỉnh sửa nội dung bài viết | ✅ |
+| `DELETE` | `/api/post/{id}` | Xóa bài viết | ✅ |
+| `POST` | `/api/post/{id}/like` | Bật/tắt thả tim bài viết | ✅ |
+| `GET` | `/api/post/{id}/comments`| Xem danh sách bình luận của bài viết | ❌ |
+| `POST` | `/api/post/{id}/comments`| Gửi bình luận mới vào bài viết | ✅ |
+| `POST` | `/api/post/{id}/bookmark`| Bật/tắt lưu bài viết (Bookmark) | ✅ |
+| `GET` | `/api/post/my-bookmarks` | Lấy danh sách các bài viết bản thân đã lưu | ✅ |
+| `GET` | `/api/post/my-drafts` | Lấy danh sách các bản nháp chưa công khai | ✅ |
+| `GET` | `/api/post/popular-posts`| Lấy danh sách bài viết nổi bật / phổ biến | ❌ |
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 Tác Giả (Author)
 
 **Nguyễn Nhật Minh Quân**
-* Role: Fullstack Developer (.NET & React)
+* Vai trò: Fullstack Developer (.NET & React)
 * GitHub: [@quan02077](https://github.com/quan02077)
 
 ---
 
-## 📄 License
+## 📄 Giấy Phép (License)
 
-This project is licensed under the [MIT License](LICENSE).
+Dự án được phân phối dưới giấy phép [MIT License](LICENSE).
