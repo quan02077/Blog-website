@@ -128,13 +128,3 @@ export const createComment = async (postId, content) => {
     }
     return res.json();
 };
-
-export const getHotDiscussions = async () => {
-    const res = await request('/post/hot-discussions', { method: 'GET' });
-    return res.json();
-};
-
-export const getTrendingTags = async () => {
-    const res = await request('/post/trending-tags', { method: 'GET' });
-    return res.json();
-};

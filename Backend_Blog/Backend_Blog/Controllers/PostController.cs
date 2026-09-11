@@ -273,20 +273,5 @@ namespace Backend_Blog.Controllers
 
             return Ok(result);
         }
-
-        [HttpGet("hot-discussions")]
-        public async Task<IActionResult> GetHotDiscussions()
-        {
-            var result = await postService.GetHotDiscussionsAsync();
-            return Ok(result);
-        }
-
-        [HttpGet("trending-tags")]
-        public async Task<IActionResult> GetTrendingTags()
-        {
-            var result = await postService.GetTrendingTagsAsync();
-            return Ok(result);
-        }
-
     }
 }

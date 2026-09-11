@@ -485,42 +485,5 @@ namespace Backend_Blog.Services
                 AuthorAvatar = user?.Avatar
             };
         }
-
-        public async Task<IEnumerable<PostDto>> GetHotDiscussionsAsync()
-        {
-            return await context.Posts
-                .Where(p => !p.IsDraft)
-                .OrderByDescending(p => p.PostComment.Count) 
-                .Take(4)
-                .Select(p => new PostDto
-                {
-                    Id = p.Id,
-                    Title = p.Title,
-                    AuthorName = p.Author != null ? p.Author.Username : "Tác giả",
-                    CommentsCount = p.PostComment.Count
-                })
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<string>> GetTrendingTagsAsync()
-        {
-            var rawTags = await context.Posts
-                .Where(p => !p.IsDraft && !string.IsNullOrEmpty(p.Tags))
-                .Select(p => p.Tags!)
-                .ToListAsync();
-
-            var trendingTags = rawTags
-                .SelectMany(t => t.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries))
-                .Select(t => t.Trim().TrimStart('#'))
-                .Where(t => !string.IsNullOrWhiteSpace(t))
-                .GroupBy(t => t, StringComparer.OrdinalIgnoreCase)
-                .OrderByDescending(g => g.Count())
-                .Take(6)
-                .Select(g => g.Key)
-                .ToList();
-
-            return trendingTags;
-        }
-
     }
 }
